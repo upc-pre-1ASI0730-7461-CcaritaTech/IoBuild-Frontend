@@ -6,12 +6,22 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "json-server --watch server/db.json --route server/routes.json"
   },
   "dependencies": {
-    "vue": "^3.5.21"
+    "vue": "^3.5.21",
+    "@primeuix/themes": "^1.2.3",
+    "axios": "^1.12.2",
+    "pinia": "^3.0.3",
+    "primeflex": "^4.0.0",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.3.9",
+    "vue-i18n": "^11.1.12",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "json-server": "^0.17.4",
     "@vitejs/plugin-vue": "^6.0.1",
     "vite": "^7.1.7"
   }

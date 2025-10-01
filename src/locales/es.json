@@ -1,0 +1,10 @@
+{
+  "option": {
+    "dashboard": "Inicio",
+    "device-management": "Control de Dispositivos",
+    "profile": "Mi perfil",
+    "projects-management": "Proyectos",
+    "payments": "Pagos",
+    "configuration": "Configuración"
+  }
+}
