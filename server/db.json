@@ -7,11 +7,11 @@
     { "id": 5, "email": "ana.t@email.com", "password": "hashed_password_5", "role": "propietario" }
   ],
   "user_details": [
-    { "id": 11, "userId": 1, "nombre": "Constructora Solari", "username": "solari_construct", "edad": null, "telefono": "+5112345678" },
-    { "id": 12, "userId": 2, "nombre": "Inmobiliaria Futuro", "username": "inmo_futuro", "edad": null, "telefono": "+5118765432" },
-    { "id": 13, "userId": 3, "nombre": "Carla Flores", "username": "cflores", "edad": 34, "telefono": "+51987654321" },
-    { "id": 14, "userId": 4, "nombre": "Miguel Veramendi", "username": "mveramendi", "edad": 45, "telefono": "+51912345678" },
-    { "id": 15, "userId": 5, "nombre": "Ana Torres", "username": "atorres", "edad": 29, "telefono": "+51955544333" }
+    { "id": 11, "userId": 1, "name": "Constructora Solari", "username": "solari_construct", "age": 27, "phoneNumber": "+5112345678" },
+    { "id": 12, "userId": 2, "name": "Inmobiliaria Futuro", "username": "inmo_futuro", "age": 30, "phoneNumber": "+5118765432" },
+    { "id": 13, "userId": 3, "name": "Carla Flores", "username": "cflores", "age": 34, "phoneNumber": "+51987654321" },
+    { "id": 14, "userId": 4, "name": "Miguel Veramendi", "username": "mveramendi", "age": 45, "phoneNumber": "+51912345678" },
+    { "id": 15, "userId": 5, "name": "Ana Torres", "username": "atorres", "age": 29, "phoneNumber": "+51955544333" }
   ],
   "subscriptions": [
     { "id": 1, "constructoraId": 1, "plan": "Professional", "status": "active" },
