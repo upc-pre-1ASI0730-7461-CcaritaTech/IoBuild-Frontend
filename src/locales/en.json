@@ -1,0 +1,10 @@
+{
+  "option": {
+    "dashboard": "Dashboard",
+    "device-management": "Device Management",
+    "profile": "Profile",
+    "projects-management": "Projects",
+    "payments": "Payments",
+    "configuration": "Configuration"
+  }
+}
