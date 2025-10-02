@@ -1,10 +1,10 @@
 {
   "users": [
-    { "id": 1, "email": "contacto@solari.com", "password": "hashed_password_1", "role": "constructora" },
-    { "id": 2, "email": "proyectos@futuro.com", "password": "hashed_password_2", "role": "constructora" },
-    { "id": 3, "email": "carla.f@email.com", "password": "hashed_password_3", "role": "propietario" },
-    { "id": 4, "email": "miguel.v@email.com", "password": "hashed_password_4", "role": "propietario" },
-    { "id": 5, "email": "ana.t@email.com", "password": "hashed_password_5", "role": "propietario" }
+    { "id": 1, "email": "contacto@solari.com", "password": "hashed_password_1", "role": "builder" },
+    { "id": 2, "email": "proyectos@futuro.com", "password": "hashed_password_2", "role": "builder" },
+    { "id": 3, "email": "carla.f@email.com", "password": "hashed_password_3", "role": "owner" },
+    { "id": 4, "email": "miguel.v@email.com", "password": "hashed_password_4", "role": "owner" },
+    { "id": 5, "email": "ana.t@email.com", "password": "hashed_password_5", "role": "owner" }
   ],
   "user_details": [
     { "id": 11, "userId": 1, "name": "Constructora Solari", "username": "solari_construct", "age": 27, "phoneNumber": "+5112345678" },
@@ -14,17 +14,29 @@
     { "id": 15, "userId": 5, "name": "Ana Torres", "username": "atorres", "age": 29, "phoneNumber": "+51955544333" }
   ],
   "subscriptions": [
-    { "id": 1, "constructoraId": 1, "plan": "Professional", "status": "active" },
-    { "id": 2, "constructoraId": 2, "plan": "Enterprise", "status": "active" }
+    { "id": 1, "builderId": 1, "plan": "Professional", "status": "active" },
+    { "id": 2, "builderId": 2, "plan": "Enterprise", "status": "active" }
   ],
   "projects": [
-    { "id": 101, "name": "Edificio Innova", "constructoraId": 1 },
-    { "id": 102, "name": "Residencial El Roble", "constructoraId": 2 }
+    { "id": 101, "name": "Edificio Innova", "builderId": 1 },
+    { "id": 102, "name": "Residencial El Roble", "builderId": 2 },
+    { "id": 103, "name": "Zen Tower", "builderId": 1 }
+  ],
+  "external_clients": [
+    { "id": 1, "fullName": "Carla Flores", "projectId": 103, "accountStatement": "Active" },
+    { "id": 2, "fullName": "Juan Pérez", "projectId": 103, "accountStatement": "Active" },
+    { "id": 3, "fullName": "María García", "projectId": 103, "accountStatement": "Suspended" },
+    { "id": 4, "fullName": "José Rodríguez", "projectId": 103, "accountStatement": "Active" },
+    { "id": 5, "fullName": "Ana Martínez", "projectId": 103, "accountStatement": "Active" },
+    { "id": 6, "fullName": "Carlos López", "projectId": 103, "accountStatement": "Stand by" },
+    { "id": 7, "fullName": "Laura Fernández", "projectId": 102, "accountStatement": "Active" },
+    { "id": 8, "fullName": "David González", "projectId": 102, "accountStatement": "Active" },
+    { "id": 9, "fullName": "Isabel Sánchez", "projectId": 102, "accountStatement": "Active" }
   ],
   "units": [
-    { "id": 201, "projectId": 101, "unitNumber": "101", "propietarioId": 3 },
-    { "id": 202, "projectId": 101, "unitNumber": "102", "propietarioId": 4 },
-    { "id": 203, "projectId": 102, "unitNumber": "A-201", "propietarioId": 5 }
+    { "id": 201, "projectId": 101, "unitNumber": "101", "ownerId": 3 },
+    { "id": 202, "projectId": 101, "unitNumber": "102", "ownerId": 4 },
+    { "id": 203, "projectId": 102, "unitNumber": "A-201", "ownerId": 5 }
   ],
   "devices": [
     { "id": 301, "name": "Luz de Sala", "type": "lighting", "model": "Philips Hue A19" },
