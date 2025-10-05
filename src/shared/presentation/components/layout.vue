@@ -11,6 +11,7 @@ const toggleDrawer = () => {
 
 const items = [
   { label: 'option.dashboard', to: '/monitoring/dashboard', use_role: '*', type: '*', icon: 'pi pi-chart-line' },
+  { label: 'option.projects-management', to: '/projects/projects-management', use_role: '*', type: '*', icon: 'pi pi-folder' },
   { label: 'option.device-management', to: '/automation/device-management', use_role: '*', type: '*', icon: 'pi pi-microchip' },
   { label: 'option.profile', to: '/profiles/profile', use_role: '*', type: '*', icon: 'pi pi-user' },
   { label: 'option.projects-management', to: '/projects/projects-management', use_role: 'admin', type: 'admin', icon: 'pi pi-folder' },
