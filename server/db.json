@@ -7,11 +7,11 @@
     { "id": 5, "email": "ana.t@email.com", "password": "hashed_password_5", "role": "owner" }
   ],
   "user_details": [
-    { "id": 11, "userId": 1, "name": "Constructora Solari", "username": "solari_construct", "age": 27, "phoneNumber": "+5112345678" },
-    { "id": 12, "userId": 2, "name": "Inmobiliaria Futuro", "username": "inmo_futuro", "age": 30, "phoneNumber": "+5118765432" },
-    { "id": 13, "userId": 3, "name": "Carla Flores", "username": "cflores", "age": 34, "phoneNumber": "+51987654321" },
-    { "id": 14, "userId": 4, "name": "Miguel Veramendi", "username": "mveramendi", "age": 45, "phoneNumber": "+51912345678" },
-    { "id": 15, "userId": 5, "name": "Ana Torres", "username": "atorres", "age": 29, "phoneNumber": "+51955544333" }
+    { "id": 11, "userId": 1, "photoUrl": "https://i.postimg.cc/9F2q1NXt/553366536-1143323887945502-5643860392844066094-n.jpg","name": "Constructora Solari", "username": "solari_construct", "address": "Av. Gral. Salaverry 2255, San Isidro 15076", "age": 27, "phoneNumber": "+5112345678" },
+    { "id": 12, "userId": 2,"photoUrl": "https://i.postimg.cc/kXCtwhMx/552688656-828722512917727-7439552490625363640-n.jpg", "name": "Inmobiliaria Futuro", "username": "inmo_futuro", "address": "Av. Primavera 2390, Santiago de Surco 15023","age": 30, "phoneNumber": "+5118765432" },
+    { "id": 13, "userId": 3, "photoUrl": "https://i.postimg.cc/RVTJYQNW/552273561-2408625929534275-3724908057476296514-n.jpg","name": "Carla Flores", "username": "cflores", "address": "Av. de la Marina 2810, San Miguel 15087","age": 34, "phoneNumber": "+51987654321" },
+    { "id": 14, "userId": 4,"photoUrl": "https://i.postimg.cc/ncxQTwVR/554104969-1139802880932196-2782217160233569959-n.jpg", "name": "Miguel Veramendi", "username": "mveramendi","address": "Av Alameda San Marcos 11, Chorrillos 15067", "age": 45, "phoneNumber": "+51912345678" },
+    { "id": 15, "userId": 5,"photoUrl": "https://i.postimg.cc/L4L1tMSk/553581596-1866270757580157-2414420205808536363-n.jpg", "name": "Ana Torres", "username": "atorres", "age": 29, "address": "Santiago de Surco 15023","phoneNumber": "+51955544333" }
   ],
   "subscriptions": [
     { "id": 1, "builderId": 1, "plan": "Professional", "status": "active" },
@@ -70,7 +70,28 @@
       "id": 401,
       "unitId": 201,
       "name": "Modo Cine"
+    },
+    {
+      "id": 405,
+      "unitId": 204,
+      "name": "Energy Saving Mode"
+    },
+    {
+      "id": 406,
+      "unitId": 206,
+      "name": "Away"
+    },
+    {
+      "id": 407,
+      "unitId": 207,
+      "name": "Dinner"
+    },
+    {
+      "id": 408,
+      "unitId": 208,
+      "name": "Sunrise"
     }
+
   ],
   "scene_actions": [
     {
