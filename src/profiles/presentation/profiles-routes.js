@@ -1,12 +1,15 @@
+import ProfileRouterView from './views/profile-router.vue';
 
-
-const profilesRoutes= [
+const profileRoutes = [
     {
         path: 'profile',
-        name: 'Profile',
-        component: () => import('./views/profile.vue'),
-        meta: { title: 'Dashboard' }
+        name: 'profile',
+        component: ProfileRouterView,
+        meta: {
+            title: 'My Profile',
+            requiresAuth: true
+        }
     }
-]
+];
 
-export default profilesRoutes;
+export default profileRoutes;
