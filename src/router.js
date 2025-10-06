@@ -19,6 +19,7 @@ const routes = [
     {
         path: '/profiles',
         name: 'profiles',
+        redirect: '/profiles/profile',
         children: profilesRoutes
     },
     {
@@ -36,10 +37,12 @@ const routes = [
         name: 'configuration',
         component: () => import('./shared/presentation/views/configuration.vue'),
     },
+
     {
         path: '/',
         redirect: '/monitoring/dashboard'
     },
+
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
