@@ -1,4 +1,7 @@
 {
+  "header": {
+    "welcome": "Bienvenido"
+  },
   "option": {
     "dashboard": "Panel",
     "home": "Inicio",
