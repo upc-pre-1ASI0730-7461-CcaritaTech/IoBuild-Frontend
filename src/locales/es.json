@@ -88,5 +88,55 @@
       "Dinner": "Cena",
       "Sunrise": "Amanecer"
     }
+  },
+
+  "clients": {
+    "title": "Mis Clientes",
+    "profile": {
+      "title": "Perfil del Cliente",
+      "personalInfo": "Información Personal",
+      "projectInfo": "Información del Proyecto"
+    },
+    "fields": {
+      "fullName": "Nombre Completo",
+      "project": "Proyecto Asociado",
+      "accountStatement": "Estado de Cuenta",
+      "email": "Correo Electrónico",
+      "phoneNumber": "Número de Teléfono",
+      "address": "Dirección"
+    },
+    "status": {
+      "active": "Activo",
+      "standBy": "En Espera",
+      "suspended": "Suspendido"
+    },
+    "actions": {
+      "title": "Acciones",
+      "add": "Agregar Cliente",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "viewProfile": "Ver Perfil",
+      "goBack": "Volver a Clientes",
+      "editClient": "Editar Cliente",
+      "deleteClient": "Eliminar Cliente"
+    },
+    "messages": {
+      "noClients": "No se encontraron clientes",
+      "noClientsDescription": "Comienza agregando tu primer cliente al sistema",
+      "clientNotFound": "Cliente no encontrado",
+      "noProject": "Sin Proyecto",
+      "addClientPlaceholder": "Funcionalidad para agregar cliente próximamente",
+      "addSuccess": "Cliente agregado exitosamente",
+      "addError": "Error al agregar cliente",
+      "updateSuccess": "Cliente actualizado exitosamente",
+      "updateError": "Error al actualizar cliente",
+      "deleteSuccess": "Cliente eliminado exitosamente",
+      "deleteError": "Error al eliminar cliente",
+      "deleteConfirmTitle": "Confirmar Eliminación",
+      "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar a {name}?",
+      "paginationSummary": "{first} a {last} de {totalRecords}"
+    }
   }
 }
