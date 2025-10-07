@@ -1,13 +1,36 @@
 <script setup lang="js">
 import {useI18n} from "vue-i18n";
-import {ref} from "vue";
+import {ref, computed, onMounted} from "vue";
 import LanguageSwitcher from "./language-switcher.vue";
+import { useProfileStore } from "../../../profiles/application/profile.store.js";
 
 const { t } = useI18n();
 const drawer = ref(false);
+const profileStore = useProfileStore();
+
 const toggleDrawer = () => {
   drawer.value = !drawer.value;
 };
+
+// Obtener información del usuario desde las variables de entorno
+const userId = import.meta.env.VITE_USER_ID;
+const userRole = import.meta.env.VITE_USER_ROLE || 'builder';
+
+// Cargar perfil del usuario al montar el componente
+onMounted(async () => {
+  if (userId && !profileStore.profileLoaded) {
+    await profileStore.fetchProfile(userId);
+  }
+});
+
+// Computed para obtener el nombre del usuario y su foto
+const userName = computed(() => {
+  return profileStore.profile?.name || 'Usuario';
+});
+
+const userPhoto = computed(() => {
+  return profileStore.profile?.photoUrl || 'https://via.placeholder.com/40x40';
+});
 
 const items = [
   // Opciones para Builder
@@ -26,11 +49,11 @@ const items = [
 ];
 
 const rawRole = import.meta.env.VITE_USER_ROLE || 'builder';
-let userRole = String(rawRole).trim().toLowerCase();
+let currentUserRole = String(rawRole).trim().toLowerCase();
 
 const filteredItems = items.filter(item => {
   const itemRole = String(item.use_role || 'builder').trim().toLowerCase();
-  return itemRole === userRole;
+  return itemRole === currentUserRole;
 });
 </script>
 
@@ -50,13 +73,53 @@ const filteredItems = items.filter(item => {
                 rounded
                 @click="toggleDrawer"
             />
-            <div class="brand">
-              <h2 class="brand-name">IoBuild</h2>
-            </div>
+            <img
+              src="/IoBuild-Logo.png"
+              alt="IoBuild Logo"
+              class="header-logo"
+            />
           </div>
         </template>
+
+        <template #center>
+          <div class="welcome-message">
+            <span class="welcome-text">{{ t('header.welcome') }}, {{ userName }}</span>
+          </div>
+        </template>
+
         <template #end>
-          <language-switcher/>
+          <div class="header-end">
+            <!-- Notificaciones -->
+            <pv-button
+              class="notification-button"
+              icon="pi pi-bell"
+              text
+              rounded
+              severity="secondary"
+            />
+
+            <!-- Información del usuario - Ahora clickeable -->
+            <router-link
+              to="/profiles/profile"
+              class="user-info-link"
+              @click="drawer = false"
+            >
+              <div class="user-info">
+                <img
+                  :src="userPhoto"
+                  :alt="userName"
+                  class="user-avatar"
+                />
+                <div class="user-details">
+                  <span class="user-name">{{ userName }}</span>
+                  <span class="user-role">{{ t(`profile.${userRole}Role`) }}</span>
+                </div>
+              </div>
+            </router-link>
+
+            <!-- Selector de idioma -->
+            <language-switcher/>
+          </div>
         </template>
       </pv-toolbar>
     </header>
@@ -105,9 +168,11 @@ const filteredItems = items.filter(item => {
 <style scoped>
 .app-container {
   min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
   background: linear-gradient(135deg, #f0fdf4 0%, #e6fffa 100%);
 }
-
 
 .app-header {
   position: sticky;
@@ -117,9 +182,10 @@ const filteredItems = items.filter(item => {
 }
 
 .custom-toolbar {
-  background: linear-gradient(135deg, #34d399 0%, #2dd4bf 100%) !important;
+  background: white !important;
   border: none;
   padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .header-start {
@@ -129,29 +195,102 @@ const filteredItems = items.filter(item => {
 }
 
 .menu-button {
-  color: white !important;
+  color: #374151 !important;
   transition: transform 0.2s ease;
 }
 
 .menu-button:hover {
   transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(0, 0, 0, 0.05) !important;
 }
 
-.brand {
+.header-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.welcome-message {
+  display: flex;
+  align-items: center;
+}
+
+.welcome-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.header-end {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.notification-button {
+  color: #6b7280 !important;
+  position: relative;
+}
+
+.notification-button:hover {
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.user-info-link {
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.user-info-link:hover {
+  background: rgba(16, 185, 129, 0.05);
+  transform: translateY(-1px);
+}
+
+.user-info-link:active {
+  transform: translateY(0);
+}
+
+.user-info {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
 }
 
+.user-info:hover {
+  background: transparent;
+}
 
-.brand-name {
-  color: white;
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.2;
 }
 
 
@@ -306,16 +445,30 @@ const filteredItems = items.filter(item => {
 }
 
 @media (max-width: 768px) {
-  .brand-name {
-    font-size: 1.25rem;
+  .welcome-message {
+    display: none;
   }
 
-  :deep(.custom-drawer .p-drawer) {
-    width: 280px !important;
+  .user-details {
+    display: none;
   }
 
-  .main-content {
-    padding: 1rem;
+  .header-end {
+    gap: 0.5rem;
+  }
+
+  .header-logo {
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-toolbar {
+    padding: 0.5rem 1rem;
+  }
+
+  .header-start {
+    gap: 0.5rem;
   }
 }
 </style>
