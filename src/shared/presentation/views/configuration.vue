@@ -1,53 +1,48 @@
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ToggleSwitch from 'primevue/toggleswitch';
 import Button from 'primevue/button';
 
-// Datos para cada sección
-const notificationItems = ref([
-  { label: 'Expiration Alerts', enabled: true },
-  { label: 'System Updates', enabled: true },
-  { label: 'Customer Notifications', enabled: true },
-  { label: 'Push Notifications', enabled: true }
-]);
+const { t } = useI18n();
 
-const securityItems = ref([
-  { label: 'Change Password' },
-  { label: '2FA Authentication' },
-  { label: 'Sessions Management' },
-  { label: 'Add Alternate mail address' }
-]);
+// Listas de claves (sin objetos)
+const notificationKeys = ['expiration', 'system', 'customer', 'push'];
+const securityKeys = ['password', '2fa', 'sessions', 'alternate'];
+const supportKeys = ['faqs', 'contact', 'tutorials'];
 
-const supportItems = ref([
-  { label: 'FAQs' },
-  { label: 'Contact Support' },
-  { label: 'Tutorials and Guides' }
-]);
+// Estado reactivo para los toggles (solo notificaciones)
+const notificationStates = ref({
+  expiration: true,
+  system: true,
+  customer: true,
+  push: true
+});
 </script>
 
 <template>
   <div class="configuration-container">
-    <h1 class="title">Configuration</h1>
+    <h1 class="title">{{ $t('configuration.title') }}</h1>
 
     <!-- Notifications and Security Sections -->
     <div class="flex-container">
       <!-- Notifications Section -->
       <div class="section-card">
-        <h2 class="section-title">Notifications</h2>
+        <h2 class="section-title">{{ $t('configuration.notifications.title') }}</h2>
         <div class="items-list">
-          <div v-for="item in notificationItems" :key="item.label" class="item-row">
-            <span>{{ item.label }}</span>
-            <ToggleSwitch v-model="item.enabled" />
+          <div v-for="item in notificationKeys" :key="item" class="item-row">
+            <span>{{ $t(`configuration.notifications.${item}`) }}</span>
+            <ToggleSwitch v-model="notificationStates[item]" />
           </div>
         </div>
       </div>
 
       <!-- Security and Privacy Section -->
       <div class="section-card">
-        <h2 class="section-title">Security and Privacy</h2>
+        <h2 class="section-title">{{ $t('configuration.security.title') }}</h2>
         <div class="items-list">
-          <div v-for="item in securityItems" :key="item.label" class="item-row">
-            <span>{{ item.label }}</span>
+          <div v-for="item in securityKeys" :key="item" class="item-row">
+            <span>{{ $t(`configuration.security.${item}`) }}</span>
             <Button icon="pi pi-cog" text class="icon-button" />
           </div>
         </div>
@@ -56,10 +51,10 @@ const supportItems = ref([
 
     <!-- Support and Help Section -->
     <div class="section-card">
-      <h2 class="section-title">Support and Help</h2>
+      <h2 class="section-title">{{ $t('configuration.support.title') }}</h2>
       <div class="items-list">
-        <div v-for="item in supportItems" :key="item.label" class="item-row">
-          <span>{{ item.label }}</span>
+        <div v-for="item in supportKeys" :key="item" class="item-row">
+          <span>{{ $t(`configuration.support.${item}`) }}</span>
           <Button icon="pi pi-chevron-right" text class="icon-button" />
         </div>
       </div>
