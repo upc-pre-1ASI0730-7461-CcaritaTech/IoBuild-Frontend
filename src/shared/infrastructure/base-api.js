@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const platformApi = import.meta.env.VITE_IOBUILD_API_URL;
+const platformApi = import.meta.env.VITE_API_URL;
 
 export class BaseApi {
     #http;
