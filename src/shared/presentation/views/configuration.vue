@@ -18,6 +18,12 @@ const notificationStates = ref({
   customer: true,
   push: true
 });
+
+const supportUrls = {
+  faqs: 'https://upc-pre-1asi0730-7461-ccaritatech.github.io/landing-page-CcaritaTech/faq.html',
+  contact: 'https://upc-pre-1asi0730-7461-ccaritatech.github.io/landing-page-CcaritaTech/index.html',
+  tutorials: 'https://upc-pre-1asi0730-7461-ccaritatech.github.io/landing-page-CcaritaTech/index.html'
+};
 </script>
 
 <template>
@@ -53,10 +59,17 @@ const notificationStates = ref({
     <div class="section-card">
       <h2 class="section-title">{{ $t('configuration.support.title') }}</h2>
       <div class="items-list">
-        <div v-for="item in supportKeys" :key="item" class="item-row">
+        <a
+            v-for="item in supportKeys"
+            :key="item"
+            :href="supportUrls[item]"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="support-link"
+        >
           <span>{{ $t(`configuration.support.${item}`) }}</span>
           <Button icon="pi pi-chevron-right" text class="icon-button" />
-        </div>
+        </a>
       </div>
     </div>
   </div>
@@ -84,11 +97,10 @@ const notificationStates = ref({
   margin-bottom: 16px;
 }
 
-/* Flex container for the two main sections */
 .flex-container {
   display: flex;
   gap: 20px;
-  margin-bottom: 55px;
+  margin-bottom: 32px;
 }
 
 .section-card {
@@ -102,7 +114,9 @@ const notificationStates = ref({
   gap: 12px;
 }
 
-.item-row {
+/* Estilo común para filas interactivas */
+.item-row,
+.support-link {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -115,12 +129,14 @@ const notificationStates = ref({
   box-sizing: border-box;
 }
 
-.item-row:hover {
+.item-row:hover,
+.support-link:hover {
   background-color: #ecfdf5;
   border-color: #9ca3af;
 }
 
-.item-row span {
+.item-row span,
+.support-link span {
   font-size: 14px;
   color: #1e293b;
   font-weight: 500;
@@ -129,6 +145,12 @@ const notificationStates = ref({
   text-overflow: ellipsis;
   flex: 1;
   margin-right: 12px;
+}
+
+.support-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .icon-button {
@@ -146,7 +168,7 @@ const notificationStates = ref({
   background-color: #e5e7eb;
 }
 
-/* Estilos personalizados para el ToggleSwitch */
+/* Estilos para ToggleSwitch */
 .p-toggleswitch {
   width: 40px;
   height: 20px;
@@ -180,7 +202,7 @@ const notificationStates = ref({
   transform: translateX(20px);
 }
 
-/* Responsive: en móviles, apilar las secciones */
+/* Responsive */
 @media (max-width: 768px) {
   .flex-container {
     flex-direction: column;
