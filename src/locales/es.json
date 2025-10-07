@@ -1,9 +1,13 @@
 {
   "option": {
     "dashboard": "Panel",
+    "home": "Inicio",
     "device-management": "Gestión de dispositivos",
     "profile": "Perfil",
+    "projects": "Proyectos",
     "projects-management": "Proyectos",
+    "clients": "Clientes",
+    "subscription": "Suscripción",
     "payments": "Pagos",
     "configuration": "Configuración"
   },
@@ -15,7 +19,6 @@
     "details-title": "Detalles del Proyecto",
     "delete-header": "Eliminar Proyecto",
     "confirm-delete": "¿Está seguro de que desea eliminar el proyecto '{name}'?",
-
     "fields": {
       "name": "Nombre del Proyecto",
       "progress": "Progreso (%)",
@@ -25,14 +28,12 @@
       "description": "Descripción",
       "budget": "Presupuesto"
     },
-
     "status": {
       "planned": "Planeado",
       "in_progress": "En Progreso",
       "completed": "Completado",
       "halted": "En Pausa"
     },
-
     "actions": {
       "view-details": "Ver Detalles",
       "edit": "Editar",
@@ -41,18 +42,17 @@
       "cancel": "Cancelar",
       "go-back": "Regresar"
     },
-
     "messages": {
       "no-projects": "No se encontraron proyectos.",
       "saved": "Proyecto guardado exitosamente.",
       "deleted": "Proyecto eliminado exitosamente."
     },
-
     "labels": {
       "progress-display": "{progress}% Completado",
       "last-update-display": "Última Actualización: {date}",
       "in-progress-display": "En Progreso ({progress}%)"
-
+    }
+  },
 
   "profile": {
     "title": "Perfil",

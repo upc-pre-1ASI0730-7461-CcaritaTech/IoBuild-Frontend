@@ -1,9 +1,13 @@
 {
   "option": {
     "dashboard": "Dashboard",
+    "home": "Home",
     "device-management": "Device Management",
     "profile": "Profile",
+    "projects": "Projects",
     "projects-management": "Projects",
+    "clients": "Clients",
+    "subscription": "Subscription",
     "payments": "Payments",
     "configuration": "Configuration"
   },
@@ -15,7 +19,6 @@
     "details-title": "Project Details",
     "delete-header": "Delete Project",
     "confirm-delete": "Are you sure you want to delete project '{name}'?",
-
     "fields": {
       "name": "Project Name",
       "progress": "Progress (%)",
@@ -25,14 +28,12 @@
       "description": "Description",
       "budget": "Budget"
     },
-
     "status": {
       "planned": "Planned",
       "in_progress": "In Progress",
       "completed": "Completed",
       "halted": "Halted"
     },
-
     "actions": {
       "view-details": "View Details",
       "edit": "Edit",
@@ -41,17 +42,17 @@
       "cancel": "Cancel",
       "go-back": "Go Back"
     },
-
     "messages": {
       "no-projects": "No projects found.",
       "saved": "Project saved successfully.",
       "deleted": "Project deleted successfully."
     },
-
     "labels": {
       "progress-display": "{progress}% Completed",
       "last-update-display": "Last Update: {date}",
       "in-progress-display": "In Progress ({progress}%)"
+    }
+  },
 
   "profile": {
     "title": "Profile",
