@@ -88,5 +88,54 @@
       "Cena": "Dinner",
       "Amanecer": "Sunrise"
     }
+  },
+  "clients": {
+    "title": "My Clients",
+    "profile": {
+      "title": "Client Profile",
+      "personalInfo": "Personal Information",
+      "projectInfo": "Project Information"
+    },
+    "fields": {
+      "fullName": "Full Name",
+      "project": "Associated Project",
+      "accountStatement": "Account Statement",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "address": "Address"
+    },
+    "status": {
+      "active": "Active",
+      "standBy": "Stand by",
+      "suspended": "Suspended"
+    },
+    "actions": {
+      "title": "Actions",
+      "add": "Add Client",
+      "edit": "Edit",
+      "delete": "Delete",
+      "save": "Save",
+      "cancel": "Cancel",
+      "viewProfile": "View Profile",
+      "goBack": "Back to Clients",
+      "editClient": "Edit Client",
+      "deleteClient": "Delete Client"
+    },
+    "messages": {
+      "noClients": "No clients found",
+      "noClientsDescription": "Start by adding your first client to the system",
+      "clientNotFound": "Client not found",
+      "noProject": "No Project",
+      "addClientPlaceholder": "Add client functionality coming soon",
+      "addSuccess": "Client added successfully",
+      "addError": "Failed to add client",
+      "updateSuccess": "Client updated successfully",
+      "updateError": "Failed to update client",
+      "deleteSuccess": "Client deleted successfully",
+      "deleteError": "Failed to delete client",
+      "deleteConfirmTitle": "Delete Confirmation",
+      "deleteConfirmMessage": "Are you sure you want to delete {name}?",
+      "paginationSummary": "{first} to {last} of {totalRecords}"
+    }
   }
 }

@@ -1,46 +1,246 @@
 {
   "users": [
-    { "id": 1, "email": "contacto@solari.com", "password": "hashed_password_1", "role": "builder" },
-    { "id": 2, "email": "proyectos@futuro.com", "password": "hashed_password_2", "role": "builder" },
-    { "id": 3, "email": "carla.f@email.com", "password": "hashed_password_3", "role": "owner" },
-    { "id": 4, "email": "miguel.v@email.com", "password": "hashed_password_4", "role": "owner" },
-    { "id": 5, "email": "ana.t@email.com", "password": "hashed_password_5", "role": "owner" }
+    {
+      "id": 1,
+      "email": "contacto@solari.com",
+      "password": "hashed_password_1",
+      "role": "builder"
+    },
+    {
+      "id": 2,
+      "email": "proyectos@futuro.com",
+      "password": "hashed_password_2",
+      "role": "builder"
+    },
+    {
+      "id": 3,
+      "email": "carla.f@email.com",
+      "password": "hashed_password_3",
+      "role": "owner"
+    },
+    {
+      "id": 4,
+      "email": "miguel.v@email.com",
+      "password": "hashed_password_4",
+      "role": "owner"
+    },
+    {
+      "id": 5,
+      "email": "ana.t@email.com",
+      "password": "hashed_password_5",
+      "role": "owner"
+    }
   ],
   "user_details": [
-    { "id": 11, "userId": 1, "photoUrl": "https://i.postimg.cc/9F2q1NXt/553366536-1143323887945502-5643860392844066094-n.jpg","name": "Constructora Solari", "username": "solari_construct", "address": "Av. Gral. Salaverry 2255, San Isidro 15076", "age": 27, "phoneNumber": "+5112345678" },
-    { "id": 12, "userId": 2,"photoUrl": "https://i.postimg.cc/kXCtwhMx/552688656-828722512917727-7439552490625363640-n.jpg", "name": "Inmobiliaria Futuro", "username": "inmo_futuro", "address": "Av. Primavera 2390, Santiago de Surco 15023","age": 30, "phoneNumber": "+5118765432" },
-    { "id": 13, "userId": 3, "photoUrl": "https://i.postimg.cc/RVTJYQNW/552273561-2408625929534275-3724908057476296514-n.jpg","name": "Carla Flores", "username": "cflores", "address": "Av. de la Marina 2810, San Miguel 15087","age": 34, "phoneNumber": "+51987654321" },
-    { "id": 14, "userId": 4,"photoUrl": "https://i.postimg.cc/ncxQTwVR/554104969-1139802880932196-2782217160233569959-n.jpg", "name": "Miguel Veramendi", "username": "mveramendi","address": "Av Alameda San Marcos 11, Chorrillos 15067", "age": 45, "phoneNumber": "+51912345678" },
-    { "id": 15, "userId": 5,"photoUrl": "https://i.postimg.cc/L4L1tMSk/553581596-1866270757580157-2414420205808536363-n.jpg", "name": "Ana Torres", "username": "atorres", "age": 29, "address": "Santiago de Surco 15023","phoneNumber": "+51955544333" }
+    {
+      "id": 11,
+      "userId": 1,
+      "photoUrl": "https://i.postimg.cc/9F2q1NXt/553366536-1143323887945502-5643860392844066094-n.jpg",
+      "name": "Constructora Solari",
+      "username": "solari_construct",
+      "address": "Av. Gral. Salaverry 2255, San Isidro 15076",
+      "age": 27,
+      "phoneNumber": "+5112345678"
+    },
+    {
+      "id": 12,
+      "userId": 2,
+      "photoUrl": "https://i.postimg.cc/kXCtwhMx/552688656-828722512917727-7439552490625363640-n.jpg",
+      "name": "Inmobiliaria Futuro",
+      "username": "inmo_futuro",
+      "address": "Av. Primavera 2390, Santiago de Surco 15023",
+      "age": 30,
+      "phoneNumber": "+5118765432"
+    },
+    {
+      "id": 13,
+      "userId": 3,
+      "photoUrl": "https://i.postimg.cc/RVTJYQNW/552273561-2408625929534275-3724908057476296514-n.jpg",
+      "name": "Carla Flores",
+      "username": "cflores",
+      "address": "Av. de la Marina 2810, San Miguel 15087",
+      "age": 34,
+      "phoneNumber": "+51987654321"
+    },
+    {
+      "id": 14,
+      "userId": 4,
+      "photoUrl": "https://i.postimg.cc/ncxQTwVR/554104969-1139802880932196-2782217160233569959-n.jpg",
+      "name": "Miguel Veramendi",
+      "username": "mveramendi",
+      "address": "Av Alameda San Marcos 11, Chorrillos 15067",
+      "age": 45,
+      "phoneNumber": "+51912345678"
+    },
+    {
+      "id": 15,
+      "userId": 5,
+      "photoUrl": "https://i.postimg.cc/L4L1tMSk/553581596-1866270757580157-2414420205808536363-n.jpg",
+      "name": "Ana Torres",
+      "username": "atorres",
+      "age": 29,
+      "address": "Santiago de Surco 15023",
+      "phoneNumber": "+51955544333"
+    }
   ],
   "subscriptions": [
-    { "id": 1, "builderId": 1, "plan": "Professional", "status": "active" },
-    { "id": 2, "builderId": 2, "plan": "Enterprise", "status": "active" }
+    {
+      "id": 1,
+      "builderId": 1,
+      "plan": "Professional",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "builderId": 2,
+      "plan": "Enterprise",
+      "status": "active"
+    }
   ],
   "projects": [
-    { "id": 101, "name": "Edificio Innova", "builderId": 1 },
-    { "id": 102, "name": "Residencial El Roble", "builderId": 2 },
-    { "id": 103, "name": "Zen Tower", "builderId": 1 }
+    {
+      "id": 101,
+      "name": "Edificio Innova",
+      "builderId": 1
+    },
+    {
+      "id": 102,
+      "name": "Residencial El Roble",
+      "builderId": 2
+    },
+    {
+      "id": 103,
+      "name": "Zen Tower",
+      "builderId": 1
+    }
   ],
   "external_clients": [
-    { "id": 1, "fullName": "Carla Flores", "projectId": 103, "accountStatement": "Active" },
-    { "id": 2, "fullName": "Juan Pérez", "projectId": 103, "accountStatement": "Active" },
-    { "id": 3, "fullName": "María García", "projectId": 103, "accountStatement": "Suspended" },
-    { "id": 4, "fullName": "José Rodríguez", "projectId": 103, "accountStatement": "Active" },
-    { "id": 5, "fullName": "Ana Martínez", "projectId": 103, "accountStatement": "Active" },
-    { "id": 6, "fullName": "Carlos López", "projectId": 103, "accountStatement": "Stand by" },
-    { "id": 7, "fullName": "Laura Fernández", "projectId": 102, "accountStatement": "Active" },
-    { "id": 8, "fullName": "David González", "projectId": 102, "accountStatement": "Active" },
-    { "id": 9, "fullName": "Isabel Sánchez", "projectId": 102, "accountStatement": "Active" }
+    {
+      "id": 1,
+      "fullName": "Carla Alvarez",
+      "projectId": 102,
+      "projectName": "Sin Proyecto Asignado",
+      "accountStatement": "Active",
+      "email": "carla.flores@email.com",
+      "phoneNumber": "+51987654321",
+      "address": "Av. de la Marina 2810, San Miguel 15087"
+    },
+    {
+      "id": 2,
+      "fullName": "Alonso Pérez ",
+      "projectId": 102,
+      "projectName": "Zen Tower",
+      "accountStatement": "Active",
+      "email": "juan.perez@email.com",
+      "phoneNumber": "+51912345678",
+      "address": ""
+    },
+    {
+      "id": 3,
+      "fullName": "María García",
+      "projectId": 103,
+      "accountStatement": "Suspended",
+      "email": "maria.garcia@email.com",
+      "phoneNumber": "+51998877665"
+    },
+    {
+      "id": 4,
+      "fullName": "José Rodríguez",
+      "projectId": 103,
+      "accountStatement": "Active",
+      "email": "jose.rodriguez@email.com",
+      "phoneNumber": "+51955544333"
+    },
+    {
+      "id": 5,
+      "fullName": "Ana Martínez",
+      "projectId": 103,
+      "accountStatement": "Active",
+      "email": "ana.martinez@email.com",
+      "phoneNumber": "+51977788899"
+    },
+    {
+      "id": 6,
+      "fullName": "Carlos López",
+      "projectId": 103,
+      "accountStatement": "Stand by",
+      "email": "carlos.lopez@email.com",
+      "phoneNumber": "+51966655544"
+    },
+    {
+      "id": 7,
+      "fullName": "Laura Fernández",
+      "projectId": 102,
+      "accountStatement": "Active",
+      "email": "laura.fernandez@email.com",
+      "phoneNumber": "+51944433322"
+    },
+    {
+      "id": 8,
+      "fullName": "David González",
+      "projectId": 102,
+      "accountStatement": "Active",
+      "email": "david.gonzalez@email.com",
+      "phoneNumber": "+51933322211"
+    },
+    {
+      "id": 9,
+      "fullName": "Isabel Sánchez",
+      "projectId": 102,
+      "accountStatement": "Active",
+      "email": "isabel.sanchez@email.com",
+      "phoneNumber": "+51922211100"
+    },
+    {
+      "id": 10,
+      "fullName": "Roberto Silva",
+      "projectId": 101,
+      "accountStatement": "Active",
+      "email": "roberto.silva@email.com",
+      "phoneNumber": "+51911100099"
+    },
+    {
+      "id": 11,
+      "fullName": "Patricia Torres",
+      "projectId": 101,
+      "accountStatement": "Stand by",
+      "email": "patricia.torres@email.com",
+      "phoneNumber": "+51900099088"
+    }
   ],
   "units": [
-    { "id": 201, "projectId": 101, "unitNumber": "101", "ownerId": 3 },
-    { "id": 202, "projectId": 101, "unitNumber": "102", "ownerId": 4 },
-    { "id": 203, "projectId": 102, "unitNumber": "A-201", "ownerId": 5 }
+    {
+      "id": 201,
+      "projectId": 101,
+      "unitNumber": "101",
+      "ownerId": 3
+    },
+    {
+      "id": 202,
+      "projectId": 101,
+      "unitNumber": "102",
+      "ownerId": 4
+    },
+    {
+      "id": 203,
+      "projectId": 102,
+      "unitNumber": "A-201",
+      "ownerId": 5
+    }
   ],
   "devices": [
-    { "id": 301, "name": "Luz de Sala", "type": "lighting", "model": "Philips Hue A19" },
-    { "id": 302, "name": "Termostato Central", "type": "climate", "model": "Nest Thermostat E" }
+    {
+      "id": 301,
+      "name": "Luz de Sala",
+      "type": "lighting",
+      "model": "Philips Hue A19"
+    },
+    {
+      "id": 302,
+      "name": "Termostato Central",
+      "type": "climate",
+      "model": "Nest Thermostat E"
+    }
   ],
   "device_configurations": [
     {
@@ -48,21 +248,33 @@
       "deviceId": 301,
       "unitId": 201,
       "status": "online",
-      "settings": { "on": true, "brightness": 80, "color": "#FFDDC4" }
+      "settings": {
+        "on": true,
+        "brightness": 80,
+        "color": "#FFDDC4"
+      }
     },
     {
       "id": 2,
       "deviceId": 302,
       "unitId": 201,
       "status": "online",
-      "settings": { "on": true, "temperature": 22, "mode": "cool" }
+      "settings": {
+        "on": true,
+        "temperature": 22,
+        "mode": "cool"
+      }
     },
     {
       "id": 3,
       "deviceId": 301,
       "unitId": 202,
       "status": "offline",
-      "settings": { "on": false, "brightness": 100, "color": "#FFFFFF" }
+      "settings": {
+        "on": false,
+        "brightness": 100,
+        "color": "#FFFFFF"
+      }
     }
   ],
   "scenes": [
@@ -70,41 +282,26 @@
       "id": 401,
       "unitId": 201,
       "name": "Modo Cine"
-    },
-    {
-      "id": 405,
-      "unitId": 204,
-      "name": "Energy Saving Mode"
-    },
-    {
-      "id": 406,
-      "unitId": 206,
-      "name": "Away"
-    },
-    {
-      "id": 407,
-      "unitId": 207,
-      "name": "Dinner"
-    },
-    {
-      "id": 408,
-      "unitId": 208,
-      "name": "Sunrise"
     }
-
   ],
   "scene_actions": [
     {
       "id": 1,
       "sceneId": 401,
       "device_configuration_id": 1,
-      "target_settings": { "on": true, "brightness": 20, "color": "#5C67FF" }
+      "target_settings": {
+        "on": true,
+        "brightness": 20,
+        "color": "#5C67FF"
+      }
     },
     {
       "id": 2,
       "sceneId": 401,
       "device_configuration_id": 2,
-      "target_settings": { "temperature": 21 }
+      "target_settings": {
+        "temperature": 21
+      }
     }
   ],
   "alerts": [
