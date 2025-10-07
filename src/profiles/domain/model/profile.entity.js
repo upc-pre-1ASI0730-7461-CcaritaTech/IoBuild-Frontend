@@ -2,6 +2,7 @@ export class Profile {
   constructor({
     id = 0,
     name = '',
+    email = '',
     username = '',
     address = '',
     age = 0,
@@ -11,6 +12,7 @@ export class Profile {
   } = {}) {
     this.id = id;
     this.name = name;
+    this.email = email;
     this.username = username;
     this.address = address;
     this.age = age;
