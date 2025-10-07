@@ -10,33 +10,26 @@ const toggleDrawer = () => {
 };
 
 const items = [
-  { label: 'option.dashboard', to: '/monitoring/dashboard', use_role: '*', type: '*', icon: 'pi pi-chart-line' },
-  { label: 'option.projects-management', to: '/projects/projects-management', use_role: '*', type: '*', icon: 'pi pi-folder' },
-  { label: 'option.device-management', to: '/automation/device-management', use_role: '*', type: '*', icon: 'pi pi-microchip' },
-  { label: 'option.profile', to: '/profiles/profile', use_role: '*', type: '*', icon: 'pi pi-user' },
+  // Opciones para Builder
+  { label: 'option.home', to: '/monitoring/dashboard', use_role: 'builder', type: 'builder', icon: 'pi pi-home' },
+  { label: 'option.profile', to: '/profiles/profile', use_role: 'builder', type: 'builder', icon: 'pi pi-user' },
+  { label: 'option.projects', to: '/projects/projects-management', use_role: 'builder', type: 'builder', icon: 'pi pi-folder' },
+  { label: 'option.clients', to: '/clients', use_role: 'builder', type: 'builder', icon: 'pi pi-users' },
+  { label: 'option.subscription', to: '/subscriptions/payments', use_role: 'builder', type: 'builder', icon: 'pi pi-credit-card' },
+  { label: 'option.configuration', to: '/configuration', use_role: 'builder', type: 'builder', icon: 'pi pi-cog' },
 
-  { label: 'option.projects-management', to: '/projects/projects-management', use_role: 'owner', type: 'owner', icon: 'pi pi-folder' },
-  { label: 'option.payments', to: '/subscriptions/payments', use_role: 'owner', type: 'owner', icon: 'pi pi-credit-card' },
-
-  { label: 'option.configuration', to: '/configuration', use_role: '*', type: '*', icon: 'pi pi-cog' },
+  // Opciones para Owner
+  { label: 'option.home', to: '/monitoring/dashboard', use_role: 'owner', type: 'owner', icon: 'pi pi-home' },
+  { label: 'option.profile', to: '/profiles/profile', use_role: 'owner', type: 'owner', icon: 'pi pi-user' },
+  { label: 'option.device-management', to: '/automation/device-management', use_role: 'owner', type: 'owner', icon: 'pi pi-microchip' },
+  { label: 'option.configuration', to: '/configuration', use_role: 'owner', type: 'owner', icon: 'pi pi-cog' },
 ];
 
-const rawRole = import.meta.env.VITE_USER_ROLE || '*';
+const rawRole = import.meta.env.VITE_USER_ROLE || 'builder';
 let userRole = String(rawRole).trim().toLowerCase();
 
-if (userRole === 'owner') {
-    userRole = 'builder';
-} else if (userRole === 'builder') {
-    userRole = 'owner';
-}
-
 const filteredItems = items.filter(item => {
-  const itemRole = String(item.use_role || '*').trim().toLowerCase();
-
-  if (itemRole === '*') {
-    return true;
-  }
-
+  const itemRole = String(item.use_role || 'builder').trim().toLowerCase();
   return itemRole === userRole;
 });
 </script>
