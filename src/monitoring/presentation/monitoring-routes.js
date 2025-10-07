@@ -1,10 +1,15 @@
-import Dashboard from "./views/dashboard.vue";
+// Lazy-loaded components
+const Dashboard = () => import('./views/dashboard.vue');
 
 const monitoringRoutes = [
     {
-        path:'dashboard',
-        name:'Dashboard',
+        path: 'dashboard',
+        name: 'Dashboard',
         component: Dashboard,
+        meta: { 
+            title: 'Dashboard IoBuilt',
+            requiresAuth: true
+        }
     }
 ]
 

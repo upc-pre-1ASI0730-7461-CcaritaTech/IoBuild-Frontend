@@ -89,6 +89,72 @@
       "Amanecer": "Sunrise"
     }
   },
+
+  "dashboard": {
+    "title": "IoBuilt Dashboard",
+    "loading": "Loading dashboard data...",
+    "error_header": "Error loading data",
+    "retry": "Retry",
+    "role": {
+      "builder": "Builder",
+      "owner": "Owner"
+    },
+    "owner": {
+      "stats": {
+        "active_devices": {
+          "title": "Active Devices",
+          "subtitle": "{count} offline"
+        },
+        "avg_temperature": {
+          "title": "Average Temperature",
+          "subtitle": "Last 24 hours"
+        },
+        "energy_consumption": {
+          "title": "Energy Consumption",
+          "subtitle": "Today"
+        }
+      }
+    },
+    "stats": {
+      "active_projects": {
+        "title": "Active Projects",
+        "subtitle": "{count} total"
+      },
+      "connected_devices": {
+        "title": "Connected Devices",
+        "subtitle": "{count} total"
+      },
+      "occupied_units": {
+        "title": "Occupied Units",
+        "subtitle": "{percentage}% occupancy"
+      }
+    },
+    "sections": {
+      "projects_overview": "Projects Overview",
+      "device_distribution": "Devices Distribution by Type",
+      "charts": {
+        "energy_hourly": "Hourly Energy Consumption (kWh)",
+        "occupancy_monthly": "Monthly Occupancy Rate (%)",
+        "temperature_24h": "Temperature History (24h)",
+        "energy_weekly": "Weekly Energy Consumption"
+      }
+    }
+    ,
+    "chart_labels": {
+      "consumption_kwh": "Consumption (kWh)",
+      "occupancy_pct": "Occupancy (%)",
+      "temperature_c": "Temperature (°C)"
+    },
+    "quick_actions": {
+      "title": "Quick Actions",
+      "energy_saving": "Energy Saving Mode",
+      "security": "Activate Security",
+      "climate": "Climate Control",
+      "lighting": "Lighting Control"
+    }
+    ,
+    "chart_loading": "Loading chart..."
+  },
   "clients": {
     "title": "My Clients",
     "profile": {

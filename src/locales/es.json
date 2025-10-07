@@ -90,6 +90,71 @@
     }
   },
 
+  "dashboard": {
+    "title": "Dashboard IoBuilt",
+    "loading": "Cargando datos del dashboard...",
+    "error_header": "Error al cargar los datos",
+    "retry": "Reintentar",
+    "role": {
+      "builder": "Constructora",
+      "owner": "Propietario"
+    },
+    "owner": {
+      "stats": {
+        "active_devices": {
+          "title": "Dispositivos Activos",
+          "subtitle": "{count} desconectados"
+        },
+        "avg_temperature": {
+          "title": "Temperatura Promedio",
+          "subtitle": "Últimas 24 horas"
+        },
+        "energy_consumption": {
+          "title": "Consumo Energético",
+          "subtitle": "Hoy"
+        }
+      }
+    },
+    "stats": {
+      "active_projects": {
+        "title": "Proyectos Activos",
+        "subtitle": "{count} en total"
+      },
+      "connected_devices": {
+        "title": "Dispositivos Conectados",
+        "subtitle": "{count} en total"
+      },
+      "occupied_units": {
+        "title": "Unidades Ocupadas",
+        "subtitle": "{percentage}% de ocupación"
+      }
+    },
+    "sections": {
+      "projects_overview": "Resumen de Proyectos",
+      "device_distribution": "Distribución de Dispositivos por Tipo",
+      "charts": {
+        "energy_hourly": "Consumo Energético por Hora (kWh)",
+        "occupancy_monthly": "Tasa de Ocupación Mensual (%)",
+          "temperature_24h": "Historial de Temperatura (24h)",
+          "energy_weekly": "Consumo Energético Semanal"
+      }
+    }
+    ,
+    "chart_labels": {
+      "consumption_kwh": "Consumo (kWh)",
+      "occupancy_pct": "Ocupación (%)",
+      "temperature_c": "Temperatura (°C)"
+    },
+    "quick_actions": {
+      "title": "Acciones Rápidas",
+      "energy_saving": "Modo Ahorro de Energía",
+      "security": "Activar Seguridad",
+      "climate": "Control Climático",
+      "lighting": "Control de Iluminación"
+    }
+    ,
+    "chart_loading": "Cargando gráfico..."
+  },
   "clients": {
     "title": "Mis Clientes",
     "profile": {
