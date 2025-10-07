@@ -138,5 +138,28 @@
       "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar a {name}?",
       "paginationSummary": "{first} a {last} de {totalRecords}"
     }
+  },
+  "configuration": {
+    "title": "Configuración",
+    "notifications": {
+      "title": "Notificaciones",
+      "expiration": "Alertas de Vencimiento",
+      "system": "Actualizaciones del Sistema",
+      "customer": "Notificaciones del Cliente",
+      "push": "Push Notifications"
+    },
+    "security": {
+      "title": "Seguridad y Privacidad",
+      "password": "Cambiar Contraseña",
+      "2fa": "Autenticación en dos pasos",
+      "sessions": "Gestión de Sesiones",
+      "alternate": "Agregar dirección de correo alternativa"
+    },
+    "support": {
+      "title": "Soporte y Ayuda",
+      "faqs": "FAQs",
+      "contact": "Contactar con Soporte",
+      "tutorials": "Tutoriales y Guías"
+    }
   }
 }

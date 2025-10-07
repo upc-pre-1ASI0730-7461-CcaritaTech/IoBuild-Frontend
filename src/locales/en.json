@@ -137,5 +137,28 @@
       "deleteConfirmMessage": "Are you sure you want to delete {name}?",
       "paginationSummary": "{first} to {last} of {totalRecords}"
     }
+  },
+  "configuration": {
+    "title": "Configuration",
+    "notifications": {
+      "title": "Notifications",
+      "expiration": "Expiration Alerts",
+      "system": "System Updates",
+      "customer": "Customer Notifications",
+      "push": "Push Notifications"
+    },
+    "security": {
+      "title": "Security and Privacy",
+      "password": "Change Password",
+      "2fa": "Two-Factor Authentication",
+      "sessions": "Session Management",
+      "alternate": "Add Alternate mail address"
+    },
+    "support": {
+      "title": "Support and Help",
+      "faqs": "FAQs",
+      "contact": "Contact Support",
+      "tutorials": "Tutorials and Guides"
+    }
   }
 }
