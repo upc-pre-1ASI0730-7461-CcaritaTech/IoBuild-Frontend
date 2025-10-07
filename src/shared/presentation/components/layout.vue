@@ -29,7 +29,7 @@ const userName = computed(() => {
 });
 
 const userPhoto = computed(() => {
-  return profileStore.profile?.photoUrl || 'https://via.placeholder.com/40x40';
+  return profileStore.profile?.photoUrl || 'https://via.placeholder.com/40x40/10B981/FFFFFF?text=U';
 });
 
 const items = [
@@ -371,15 +371,15 @@ const filteredItems = items.filter(item => {
   top: 0;
   height: 100%;
   width: 4px;
-  background: white;
+  background: black;
   transform: scaleY(0);
   transition: transform 0.3s ease;
   border-radius: 0 4px 4px 0;
 }
 
 .menu-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
+  background: rgba(0, 0, 0, 0.1);
+  color: black;
 }
 
 .menu-item:hover::before {

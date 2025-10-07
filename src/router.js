@@ -4,6 +4,7 @@ import automationRoutes from "./automation/presentation/automation-routes.js";
 import subscriptionsRoutes from "./suscriptions/presentation/subscriptions-routes.js";
 import profilesRoutes from "./profiles/presentation/profiles-routes.js";
 import projectsRoutes from "./projects/presentation/projects-routes.js";
+import { clientsRoutes } from "./clients/presentation/clients-routes.js";
 
 const routes = [
     {
@@ -26,6 +27,11 @@ const routes = [
         path: '/projects',
         name: 'projects',
         children:  projectsRoutes
+    },
+    {
+        path: '/clients',
+        name: 'clients-module',
+        children: clientsRoutes
     },
     {
         path: '/subscriptions',

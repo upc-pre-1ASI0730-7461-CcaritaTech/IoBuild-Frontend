@@ -5,7 +5,7 @@ import { ProjectAssembler } from "../infrastructure/project.assembler.js";
 
 const projectApi = new ProjectApi();
 
-const useProjectStore = defineStore("projects", () => {
+export const useProjectStore = defineStore("projects", () => {
     const projects = ref([]);
     const errors = ref([]);
     const projectsLoaded = ref(false);

@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+/* Forzar esquema de colores claro en toda la aplicación */
+:root {
+  color-scheme: light only !important;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -12,6 +17,7 @@ html, body {
   height: 100%;
   background: white;
   overflow-x: hidden;
+  color-scheme: light only !important;
 }
 
 #app {
@@ -20,25 +26,129 @@ html, body {
   width: 100%;
   min-height: 100vh;
   background: white;
+  color-scheme: light only !important;
 }
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Forzar todos los inputs a fondo blanco */
+input, textarea, select {
+  background: white !important;
+  color: black !important;
+  color-scheme: light !important;
+}
+
+/* Forzar componentes PrimeVue a fondo blanco */
+.p-inputtext, .p-textarea, .p-select {
+  background: white !important;
+  color: black !important;
+  color-scheme: light !important;
+}
+
+/* Forzar diálogos y overlays de PrimeVue a fondo blanco */
+.p-dialog,
+.p-dialog-header,
+.p-dialog-content,
+.p-dialog-footer,
+.p-overlay,
+.p-select-overlay,
+.p-select-panel,
+.p-select-list,
+.p-select-item,
+.p-dropdown-panel,
+.p-component-overlay,
+.p-menu,
+.p-menu-overlay {
+  background: white !important;
+  color: #111827 !important;
+}
+
+/* Estilos para el menú de PrimeVue */
+.p-menu .p-menu-list {
+  background: white !important;
+  padding: 0.25rem !important;
+  border-radius: 0.5rem !important;
+}
+
+.p-menu .p-menu-item {
+  background: white !important;
+}
+
+.p-menu .p-menu-item-content {
+  background: white !important;
+  color: #111827 !important;
+  border-radius: 0.375rem !important;
+  padding: 0.75rem 1rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+
+.p-menu .p-menu-item-content:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+/* Estilos específicos para Edit (success - verde) */
+.p-menu .p-menu-item:first-child .p-menu-item-content {
+  background: #d1fae5 !important;
+  color: #047857 !important;
+}
+
+/* Estilos específicos para Delete (danger - rojo) */
+.p-menu .p-menu-item:last-child .p-menu-item-content {
+  background: #fee2e2 !important;
+  color: #dc2626 !important;
+}
+
+.p-menu .p-menu-item-link {
+  background: white !important;
+  color: #111827 !important;
+}
+
+.p-menu .p-menu-item-link:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+/* Opciones del select/dropdown */
+.p-select-option,
+.p-dropdown-item {
+  background: white !important;
+  color: #111827 !important;
+}
+
+.p-select-option:hover,
+.p-dropdown-item:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+.p-select-option.p-focus,
+.p-dropdown-item.p-focus {
+  background: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+.p-select-option.p-selected,
+.p-select-option.p-highlight,
+.p-dropdown-item.p-highlight {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+/* Anular autofill del navegador */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: black !important;
 }
 
 .language-select-wrapper .language-select .p-select,
 .language-select-wrapper .custom-green-select .p-select,
 .custom-green-select.p-select {
-  background-color: #10B981 !important;
   background: #10B981 !important;
   border: 1px solid #10B981 !important;
-  border-color: #10B981 !important;
   color: white !important;
   min-width: 80px !important;
   border-radius: 6px !important;
@@ -47,7 +157,6 @@ html, body {
 .language-select-wrapper .language-select .p-select:hover,
 .language-select-wrapper .custom-green-select .p-select:hover,
 .custom-green-select.p-select:hover {
-  background-color: #059669 !important;
   background: #059669 !important;
   border-color: #059669 !important;
 }
@@ -69,7 +178,6 @@ html, body {
 .p-select-overlay,
 .p-select-list {
   background: white !important;
-  background-color: white !important;
   border: 1px solid #e5e7eb !important;
   border-radius: 6px !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
@@ -77,7 +185,6 @@ html, body {
 
 .p-select-option {
   background: white !important;
-  background-color: white !important;
   color: #374151 !important;
   padding: 0.5rem 0.75rem !important;
   border-radius: 4px !important;
@@ -89,12 +196,10 @@ html, body {
 .p-select-option:hover,
 .p-select-option.p-focus {
   background: #10B981 !important;
-  background-color: #10B981 !important;
   color: white !important;
 }
 
 .p-select-option.p-selected {
   background: #10B981 !important;
-  background-color: #10B981 !important;
   color: white !important;
 }

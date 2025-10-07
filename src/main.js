@@ -13,7 +13,8 @@ import {
     Column,
     ConfirmationService,
     ConfirmDialog, DataTable, Dialog,
-    DialogService, Drawer, FileUpload, FloatLabel, IconField, InputIcon, InputNumber, InputText, Menu,
+    DialogService, Divider, Drawer, FileUpload, FloatLabel, IconField, InputIcon, InputNumber, InputText, Menu,
+    Message, ProgressSpinner,
     Rating, Row, Select, SelectButton, Tag, Textarea, Toast,
     ToastService, Toolbar, Tooltip
 } from "primevue";
@@ -33,23 +34,26 @@ createApp(App)
     .component('pv-checkbox', Checkbox)
     .component('pv-data-table', DataTable)
     .component('pv-dialog', Dialog)
+    .component('pv-divider', Divider)
+    .component('pv-drawer', Drawer)
     .component('pv-select', Select)
     .component('pv-select-button', SelectButton)
     .component('pv-file-upload', FileUpload)
     .component('pv-float-label', FloatLabel)
     .component('pv-icon-field', IconField)
     .component('pv-input-icon', InputIcon)
-    .component('pv-input-text', InputText)
     .component('pv-input-number', InputNumber)
+    .component('pv-input-text', InputText)
     .component('pv-menu', Menu)
+    .component('pv-message', Message)
+    .component('pv-progress-spinner', ProgressSpinner)
     .component('pv-rating', Rating)
     .component('pv-row', Row)
-    .component('pv-drawer', Drawer)
     .component('pv-tag', Tag)
     .component('pv-textarea', Textarea)
-    .component('pv-toolbar', Toolbar)
     .component('pv-toast', Toast)
-    .directive('tooltip', Tooltip)
+    .component('pv-toolbar', Toolbar)
+    .component('pv-tooltip', Tooltip)
     .use(router)
     .use(pinia)
     .mount('#app')

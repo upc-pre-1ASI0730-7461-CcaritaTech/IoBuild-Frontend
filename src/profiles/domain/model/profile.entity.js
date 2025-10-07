@@ -1,23 +1,27 @@
 export class Profile {
   constructor({
-    id = null,
+    id = 0,
     name = '',
-    email = '',
-    role = 'builder',
-    photoUrl = 'https://i.postimg.cc/52gRVfdL/default-avatar.png',
+    username = '',
+    address = '',
+    age = 0,
     phoneNumber = '',
-    address = ''
+    photoUrl = 'https://via.placeholder.com/40x40/10B981/FFFFFF?text=U',
+    role = 'builder'
   } = {}) {
     this.id = id;
     this.name = name;
-    this.email = email;
-    this.role = role;
-
-    this.photoUrl = photoUrl && photoUrl !== 'undefined'
-      ? photoUrl
-      : 'https://i.postimg.cc/52gRVfdL/default-avatar.png';
-
-    this.phoneNumber = phoneNumber;
+    this.username = username;
     this.address = address;
+    this.age = age;
+    this.phoneNumber = phoneNumber;
+    this.photoUrl = photoUrl;
+    this.role = role;
+  }
+
+  get displayPhotoUrl() {
+    return this.photoUrl && this.photoUrl.trim() !== ''
+      ? this.photoUrl
+      : 'https://via.placeholder.com/40x40/10B981/FFFFFF?text=U';
   }
 }
