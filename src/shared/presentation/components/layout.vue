@@ -124,44 +124,35 @@ const filteredItems = items.filter(item => {
       </pv-toolbar>
     </header>
 
-
-    <pv-drawer v-model:visible="drawer" class="custom-drawer">
-      <template #header>
-        <div class="drawer-header">
-          <div class="drawer-brand">
-            <div>
-              <h3 class="drawer-title">IoBuild</h3>
-              <p class="drawer-subtitle">IoT Platform</p>
-            </div>
-          </div>
+    <!-- Contenedor del body que incluye sidebar y contenido -->
+    <div class="body-container">
+      <!-- Sidebar personalizado que no se sobrepone al header -->
+      <div v-if="drawer" class="custom-sidebar" @click.self="drawer = false">
+        <div class="sidebar-content">
+          <nav class="sidebar-menu">
+            <router-link
+                v-for="item in filteredItems"
+                :key="item.label"
+                :to="item.to"
+                class="menu-item"
+                @click="drawer = false"
+            >
+              <i :class="item.icon" class="menu-icon"></i>
+              <span class="menu-label">{{ t(item.label) }}</span>
+              <i class="pi pi-chevron-right menu-arrow"></i>
+            </router-link>
+          </nav>
         </div>
-      </template>
-
-      <div class="drawer-content">
-        <nav class="drawer-menu">
-          <router-link
-              v-for="item in filteredItems"
-              :key="item.label"
-              :to="item.to"
-              class="menu-item"
-              @click="drawer = false"
-          >
-            <i :class="item.icon" class="menu-icon"></i>
-            <span class="menu-label">{{ t(item.label) }}</span>
-            <i class="pi pi-chevron-right menu-arrow"></i>
-          </router-link>
-        </nav>
       </div>
-    </pv-drawer>
 
-
-    <main class="main-content">
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </main>
+      <main class="main-content" :class="{ 'with-sidebar': drawer }">
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -177,7 +168,7 @@ const filteredItems = items.filter(item => {
 .app-header {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1001;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
@@ -293,34 +284,30 @@ const filteredItems = items.filter(item => {
   line-height: 1.2;
 }
 
-
 :deep(.custom-drawer .p-drawer) {
   width: 320px !important;
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.06);
-  background: transparent;
-  border-radius: 12px;
-  overflow: hidden;
+  background: white;
+  border-radius: 0;
+  z-index: 1000; /* Menor que el header */
 }
-
 
 :deep(.custom-drawer .p-drawer .p-drawer-content) {
   padding: 0 !important;
-  background: transparent;
+  background: white;
+}
+
+/* Overlay del drawer para que no cubra el header */
+:deep(.custom-drawer .p-drawer-mask) {
+  z-index: 999; /* Menor que el header */
 }
 
 .drawer-header {
   padding: 1.5rem 1.5rem;
   background: linear-gradient(135deg, #34d399 0%, #2dd4bf 100%);
   color: white;
-  border-radius: 10px;
   width: 100%;
   box-sizing: border-box;
-}
-
-
-:deep(.custom-drawer .p-drawer) .drawer-header {
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
 }
 
 .drawer-brand {
@@ -329,6 +316,16 @@ const filteredItems = items.filter(item => {
   gap: 1rem;
 }
 
+.drawer-logo {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+}
 
 .drawer-title {
   margin: 0;
@@ -358,11 +355,13 @@ const filteredItems = items.filter(item => {
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  color: #064e3b;
+  color: black;
   text-decoration: none;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  margin: 0.25rem 1rem;
+  border-radius: 8px;
 }
 
 .menu-item::before {
@@ -372,14 +371,15 @@ const filteredItems = items.filter(item => {
   top: 0;
   height: 100%;
   width: 4px;
-  background: linear-gradient(135deg, #34d399 0%, #2dd4bf 100%);
+  background: white;
   transform: scaleY(0);
   transition: transform 0.3s ease;
+  border-radius: 0 4px 4px 0;
 }
 
 .menu-item:hover {
-  background: linear-gradient(90deg, rgba(45,212,191,0.08) 0%, transparent 100%);
-  color: #065f46;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .menu-item:hover::before {
@@ -387,13 +387,15 @@ const filteredItems = items.filter(item => {
 }
 
 .menu-item.router-link-active {
-  background: linear-gradient(90deg, rgba(45,212,191,0.12) 0%, transparent 100%);
-  color: #065f46;
+  background: black;
+  color: white;
   font-weight: 600;
+  border-radius: 8px;
 }
 
 .menu-item.router-link-active::before {
   transform: scaleY(1);
+  background: white;
 }
 
 .menu-icon {
@@ -424,9 +426,95 @@ const filteredItems = items.filter(item => {
 }
 
 
+/* Contenedor del body (sidebar + contenido principal) */
+.body-container {
+  position: relative;
+  min-height: calc(100vh - 76px);
+}
+
+/* Sidebar personalizado que no cubre el header */
+.custom-sidebar {
+  position: fixed;
+  top: 76px; /* Altura del header */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 76px);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.sidebar-content {
+  width: 320px;
+  height: 100%;
+  background: #10B981;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.06);
+  animation: slideIn 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #34d399 0%, #2dd4bf 100%);
+  color: white;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sidebar-logo {
+  height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.sidebar-subtitle {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.sidebar-menu {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-320px); }
+  to { transform: translateX(0); }
+}
+
 .main-content {
   padding: 2rem;
   min-height: calc(100vh - 76px);
+  transition: all 0.3s ease;
+}
+
+.main-content.with-sidebar {
+  margin-left: 0; /* No empujar el contenido cuando el sidebar está abierto */
 }
 
 .fade-enter-active,
