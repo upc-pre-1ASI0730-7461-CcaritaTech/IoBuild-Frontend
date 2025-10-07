@@ -14,17 +14,30 @@ const items = [
   { label: 'option.projects-management', to: '/projects/projects-management', use_role: '*', type: '*', icon: 'pi pi-folder' },
   { label: 'option.device-management', to: '/automation/device-management', use_role: '*', type: '*', icon: 'pi pi-microchip' },
   { label: 'option.profile', to: '/profiles/profile', use_role: '*', type: '*', icon: 'pi pi-user' },
-  { label: 'option.projects-management', to: '/projects/projects-management', use_role: 'admin', type: 'admin', icon: 'pi pi-folder' },
-  { label: 'option.payments', to: '/subscriptions/payments', use_role: 'admin', type: 'admin', icon: 'pi pi-credit-card' },
+
+  { label: 'option.projects-management', to: '/projects/projects-management', use_role: 'owner', type: 'owner', icon: 'pi pi-folder' },
+  { label: 'option.payments', to: '/subscriptions/payments', use_role: 'owner', type: 'owner', icon: 'pi pi-credit-card' },
+
   { label: 'option.configuration', to: '/configuration', use_role: '*', type: '*', icon: 'pi pi-cog' },
 ];
 
 const rawRole = import.meta.env.VITE_USER_ROLE || '*';
-const userRole = String(rawRole).trim().toLowerCase();
+let userRole = String(rawRole).trim().toLowerCase();
+
+if (userRole === 'owner') {
+    userRole = 'builder';
+} else if (userRole === 'builder') {
+    userRole = 'owner';
+}
 
 const filteredItems = items.filter(item => {
   const itemRole = String(item.use_role || '*').trim().toLowerCase();
-  return itemRole === '*' || itemRole === userRole;
+
+  if (itemRole === '*') {
+    return true;
+  }
+
+  return itemRole === userRole;
 });
 </script>
 
@@ -164,7 +177,7 @@ const filteredItems = items.filter(item => {
 }
 
 .drawer-header {
-  padding: 1.5rem 1.5rem; /* mantener padding interno */
+  padding: 1.5rem 1.5rem;
   background: linear-gradient(135deg, #34d399 0%, #2dd4bf 100%);
   color: white;
   border-radius: 10px;
@@ -234,7 +247,7 @@ const filteredItems = items.filter(item => {
 
 .menu-item:hover {
   background: linear-gradient(90deg, rgba(45,212,191,0.08) 0%, transparent 100%);
-  color: #065f46; /* stronger mint */
+  color: #065f46;
 }
 
 .menu-item:hover::before {
@@ -284,7 +297,6 @@ const filteredItems = items.filter(item => {
   min-height: calc(100vh - 76px);
 }
 
-/* Transitions */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease, transform 0.3s ease;

@@ -52,6 +52,37 @@
       "progress-display": "{progress}% Completed",
       "last-update-display": "Last Update: {date}",
       "in-progress-display": "In Progress ({progress}%)"
+
+  "profile": {
+    "title": "Profile",
+    "edit": "Edit Profile",
+    "accountInformation": "Account Information",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "address": "Address",
+    "appLanguage": "App Language",
+    "languageEnglish": "English",
+    "languageSpanish": "Spanish",
+    "scenes": "Scenes",
+    "loadingScenes": "Loading scenes...",
+    "noScenes": "No scenes available.",
+    "toggleOn": "Enabled",
+    "toggleOff": "Disabled",
+    "ownerRole": "Owner",
+    "builderRole": "Builder",
+
+    "sceneNames": {
+      "401": "Cinema mode",
+      "405": "Energy Saving Mode",
+      "406": "Away",
+      "407": "Dinner",
+      "408": "Sunrise",
+      "Modo Cine": "Movie Time",
+      "Ahorro de energía": "Energy Saving Mode",
+      "Fuera de casa": "Away",
+      "Cena": "Dinner",
+      "Amanecer": "Sunrise"
     }
   }
 }

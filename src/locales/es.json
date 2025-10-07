@@ -1,8 +1,8 @@
 {
   "option": {
-    "dashboard": "Inicio",
-    "device-management": "Control de Dispositivos",
-    "profile": "Mi perfil",
+    "dashboard": "Panel",
+    "device-management": "Gestión de dispositivos",
+    "profile": "Perfil",
     "projects-management": "Proyectos",
     "payments": "Pagos",
     "configuration": "Configuración"
@@ -52,6 +52,38 @@
       "progress-display": "{progress}% Completado",
       "last-update-display": "Última Actualización: {date}",
       "in-progress-display": "En Progreso ({progress}%)"
+
+
+  "profile": {
+    "title": "Perfil",
+    "edit": "Editar perfil",
+    "accountInformation": "Información de la cuenta",
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "phoneNumber": "Número de teléfono",
+    "address": "Dirección",
+    "appLanguage": "Idioma de la aplicación",
+    "languageEnglish": "Inglés",
+    "languageSpanish": "Español",
+    "scenes": "Escenas",
+    "loadingScenes": "Cargando escenas...",
+    "noScenes": "No hay escenas disponibles.",
+    "toggleOn": "Activado",
+    "toggleOff": "Desactivado",
+    "ownerRole": "Propietario",
+    "builderRole": "Constructor",
+
+    "sceneNames": {
+      "401": "Modo Cine",
+      "405": "Ahorro de energía",
+      "406": "Fuera de casa",
+      "407": "Cena",
+      "408": "Amanecer",
+      "Movie Time": "Modo Cine",
+      "Energy Saving Mode": "Ahorro de energía",
+      "Away": "Fuera de casa",
+      "Dinner": "Cena",
+      "Sunrise": "Amanecer"
     }
   }
 }

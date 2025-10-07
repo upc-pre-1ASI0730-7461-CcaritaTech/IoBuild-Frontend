@@ -7,7 +7,7 @@ const { t } = useI18n()
 </script>
 
 <template>
- <layout/>
+    <layout/>
 </template>
 
 <style scoped>
