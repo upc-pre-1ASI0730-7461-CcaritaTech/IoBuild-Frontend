@@ -238,5 +238,32 @@
       "save": "Save",
       "errorSaving": "Failed to save. Please try again."
     }
+  },
+  "subscriptions": {
+    "title": "My Subscription",
+    "current-plan": "Current Plan",
+    "change-plan": "Change Plan",
+    "month": "month",
+    "status": "Status",
+    "status-active": "Active",
+    "status-cancelled": "Cancelled",
+    "status-expired": "Expired",
+    "renew-plan": "Renew Plan",
+    "cancel-plan": "Cancel Plan",
+    "no-subscription": "You don't have an active subscription",
+    "confirm-renew": "Are you sure you want to renew your current plan?",
+    "renew-header": "Renew Subscription",
+    "confirm-cancel": "Are you sure you want to cancel your current subscription?",
+    "cancel-header": "Cancel Subscription",
+    "confirm-change": "Are you sure you want to change to the {planName} plan?",
+    "change-header": "Change Plan",
+    "success": "Success",
+    "error": "Error",
+    "renewed-successfully": "Your plan has been renewed successfully",
+    "cancelled-successfully": "Your subscription has been cancelled",
+    "plan-changed": "You have successfully changed to the {planName} plan",
+    "renew-failed": "Failed to renew plan",
+    "cancel-failed": "Failed to cancel subscription",
+    "change-failed": "Failed to change plan"
   }
 }

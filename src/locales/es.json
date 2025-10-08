@@ -238,5 +238,32 @@
       "save": "Guardar",
       "errorSaving": "Error al guardar. Por favor intenta de nuevo."
     }
+  },
+  "subscriptions": {
+    "title": "Mi Suscripción",
+    "current-plan": "Plan Actual",
+    "change-plan": "Cambiar Plan",
+    "month": "mes",
+    "status": "Estado",
+    "status-active": "Activo",
+    "status-cancelled": "Cancelado",
+    "status-expired": "Expirado",
+    "renew-plan": "Renovar Plan",
+    "cancel-plan": "Cancelar Plan",
+    "no-subscription": "No tienes una suscripción activa",
+    "confirm-renew": "¿Está seguro de que desea renovar su plan actual?",
+    "renew-header": "Renovar Suscripción",
+    "confirm-cancel": "¿Está seguro de que desea cancelar su suscripción actual?",
+    "cancel-header": "Cancelar Suscripción",
+    "confirm-change": "¿Está seguro de que desea cambiar al plan {planName}?",
+    "change-header": "Cambiar Plan",
+    "success": "Éxito",
+    "error": "Error",
+    "renewed-successfully": "Su plan ha sido renovado exitosamente",
+    "cancelled-successfully": "Su suscripción ha sido cancelada",
+    "plan-changed": "Ha cambiado exitosamente al plan {planName}",
+    "renew-failed": "Error al renovar el plan",
+    "cancel-failed": "Error al cancelar la suscripción",
+    "change-failed": "Error al cambiar el plan"
   }
 }
