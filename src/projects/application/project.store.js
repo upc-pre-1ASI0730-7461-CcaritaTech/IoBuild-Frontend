@@ -54,11 +54,12 @@ export const useProjectStore = defineStore("projects", () => {
     }
 
     function deleteProject(project) {
-        projectApi
+        return projectApi
             .deleteProject(project.id)
             .then(() => {
                 const index = projects.value.findIndex((p) => p.id === project.id);
                 if (index !== -1) projects.value.splice(index, 1);
+                return fetchProjects();
             })
             .catch((error) => errors.value.push(error));
     }
