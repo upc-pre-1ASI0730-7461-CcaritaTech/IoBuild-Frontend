@@ -26,9 +26,13 @@ const confirmDelete = () => {
     message: t("projects.confirm-delete", { name: project.value.name }),
     header: t("projects.delete-header"),
     icon: "pi pi-exclamation-triangle",
-    accept: () => {
-      store.deleteProject(project.value);
-      router.push({ name: "projects" });
+    accept: async () => {
+      try {
+        await store.deleteProject(project.value);
+        router.push({ name: "projects-management" });
+      } catch (error) {
+        console.error("Error deleting project:", error);
+      }
     },
   });
 };

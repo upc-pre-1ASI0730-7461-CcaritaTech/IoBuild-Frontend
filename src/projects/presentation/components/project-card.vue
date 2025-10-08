@@ -24,6 +24,7 @@ defineEmits(["viewDetails"]);
         <pv-button
             :label="t('projects.actions.view-details')"
             icon="pi pi-info-circle"
+            class="custom-green-button"
             @click="$emit('viewDetails')"
         />
       </div>
@@ -32,5 +33,18 @@ defineEmits(["viewDetails"]);
 </template>
 
 <style scoped>
+:deep(.custom-green-button) {
+  background-color: #10B981 !important;
+  border-color: #10B981 !important;
+  color: white !important;
+}
 
+:deep(.custom-green-button:hover) {
+  background-color: #059669 !important;
+  border-color: #059669 !important;
+}
+
+:deep(.custom-green-button:focus) {
+  box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.5) !important;
+}
 </style>
