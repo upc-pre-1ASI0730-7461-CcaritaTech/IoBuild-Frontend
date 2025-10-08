@@ -20,30 +20,32 @@ const navigateToDetails = (id) => router.push({ name: "projects-management-detai
 </script>
 
 <template>
-  <div class="p-4">
-    <div class="flex items-center justify-between mb-4">
-      <h1 class="text-2xl font-semibold">{{ t("projects.title") }}</h1>
+  <div class="p-3 lg:p-4">
+    <div class="flex  items-center justify-between mb-3">
+      <h1 class="text-xl font-semibold lg:text-2xl">{{ t("projects.title") }}</h1>
       <div class="ml-auto">
         <pv-button
-            :label="t('projects.add')"
-            icon="pi pi-plus"
-            size="small"
-            class="custom-green-button"
-            @click="navigateToNew"
+          :label="t('projects.add')"
+          icon="pi pi-plus"
+          size="small"
+          class="custom-green-button"
+          @click="navigateToNew"
         />
       </div>
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-fr"
-         v-if="store.projects.length">
+    <div
+      class="grid gap-[15px] grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr"
+      v-if="store.projects.length"
+    >
       <ProjectCard
-          v-for="project in store.projects"
-          :key="project.id"
-          :project="project"
-          @viewDetails="navigateToDetails(project.id)"
+        v-for="project in store.projects"
+        :key="project.id"
+        :project="project"
+        @viewDetails="navigateToDetails(project.id)"
       />
     </div>
-    <p v-else class="text-gray-500">{{ t('projects.messages.no-projects') }}</p>
+    <p v-else class="text-gray-500 text-sm lg:text-base">{{ t('projects.messages.no-projects') }}</p>
   </div>
 </template>
 

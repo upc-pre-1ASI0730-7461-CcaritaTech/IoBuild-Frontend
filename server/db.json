@@ -134,7 +134,8 @@
       "occupiedUnits": 32,
       "status": "active",
       "builderId": 1,
-      "createdDate": "2024-03-15T00:00:00Z"
+      "createdDate": "2024-03-15T00:00:00Z",
+      "imageUrl": "https://i.pinimg.com/736x/9e/f0/04/9ef004e38f30cca877fbfabbb0727ba1.jpg"
     },
     {
       "id": 102,
@@ -145,7 +146,8 @@
       "occupiedUnits": 98,
       "status": "active",
       "builderId": 1,
-      "createdDate": "2024-01-20T00:00:00Z"
+      "createdDate": "2024-01-20T00:00:00Z",
+      "imageUrl": "https://i.pinimg.com/736x/a7/55/f4/a755f4536457ce22a897e393d9c535c1.jpg"
     },
     {
       "id": 103,
@@ -156,7 +158,8 @@
       "occupiedUnits": 45,
       "status": "construction",
       "builderId": 2,
-      "createdDate": "2024-06-10T00:00:00Z"
+      "createdDate": "2024-06-10T00:00:00Z",
+      "imageUrl": "https://www.abc.com.py/resizer/v2/https%3A%2F%2Fcloudfront-us-east-1.images.arcpublishing.com%2Fabccolor%2FANZTJK3F2FH7TCL74ZW7BOLOXI.jpg?auth=61ccae0349176592e0ae22d1c0a4f7af8d36ac237d31ae6e40a746b0d33f67d5&smart=true&width=400"
     }
   ],
   "external_clients": [

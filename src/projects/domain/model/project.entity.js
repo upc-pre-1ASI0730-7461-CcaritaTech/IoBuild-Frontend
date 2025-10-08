@@ -9,6 +9,7 @@ export class Project {
                     status = "active",
                     builderId = 1,
                     createdDate = null,
+                    imageUrl = "",
                 }) {
         this.id = id;
         this.name = name;
@@ -19,5 +20,6 @@ export class Project {
         this.status = status;
         this.builderId = builderId;
         this.createdDate = createdDate;
+        this.imageUrl = imageUrl;
     }
 }
