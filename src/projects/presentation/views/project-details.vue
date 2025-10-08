@@ -52,18 +52,15 @@ const confirmDelete = () => {
       </div>
     </div>
     <div class="space-y-2 text-gray-800 leading-relaxed">
+      <p><strong>{{ t("projects.fields.description") }}:</strong> {{ project.description }}</p>
+      <p><strong>{{ t("projects.fields.location") }}:</strong> {{ project.location }}</p>
+      <p><strong>{{ t("projects.fields.total-units") }}:</strong> {{ project.totalUnits }}</p>
+      <p><strong>{{ t("projects.fields.occupied-units") }}:</strong> {{ project.occupiedUnits }}</p>
       <p>
         <strong>{{ t("projects.fields.status") }}:</strong>
-        {{ t(`projects.status.${project.status}`) }}
+        {{ project.status }}
       </p>
-      <p><strong>{{ t("projects.fields.progress") }}:</strong> {{ project.progressPercent }}%</p>
-      <p><strong>{{ t("projects.fields.last-update") }}:</strong> {{ project.lastUpdatedAt }}</p>
-      <p><strong>{{ t("projects.fields.location") }}:</strong> {{ project.location }}</p>
-      <p><strong>{{ t("projects.fields.description") }}:</strong> {{ project.description }}</p>
-      <p v-if="project.budget !== null">
-        <strong>{{ t("projects.fields.budget") }}:</strong>
-        $ {{ project.budget.toLocaleString() }}
-      </p>
+      <p><strong>{{ t("projects.fields.created-date") }}:</strong> {{ project.createdDate }}</p>
     </div>
   </div>
   <p v-else class="text-gray-500 text-center">{{ t("projects.messages.no-projects") }}</p>
