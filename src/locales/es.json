@@ -1,0 +1,318 @@
+{
+  "header": {
+    "welcome": "Bienvenido"
+  },
+  "option": {
+    "dashboard": "Panel",
+    "home": "Inicio",
+    "device-management": "Gestión de dispositivos",
+    "profile": "Perfil",
+    "projects": "Proyectos",
+    "projects-management": "Proyectos",
+    "clients": "Clientes",
+    "subscription": "Suscripción",
+    "payments": "Pagos",
+    "configuration": "Configuración"
+  },
+  "projects": {
+    "title": "Proyectos",
+    "add": "Nuevo Proyecto",
+    "edit-title": "Editar Proyecto",
+    "new-title": "Crear Nuevo Proyecto",
+    "details-title": "Detalles del Proyecto",
+    "delete-header": "Eliminar Proyecto",
+    "confirm-delete": "¿Está seguro de que desea eliminar el proyecto '{name}'?",
+    "fields": {
+      "name": "Nombre del Proyecto",
+      "description": "Descripción",
+      "location": "Ubicación",
+      "total-units": "Unidades Totales",
+      "occupied-units": "Units Ocupadas",
+      "occupancy-rate": "Tasa de Ocupación",
+      "status": "Estado",
+      "created-date": "Fecha de creación"
+    },
+    "status": {
+      "planned": "Planeado",
+      "in_progress": "En Progreso",
+      "completed": "Completado",
+      "halted": "En Pausa"
+    },
+    "actions": {
+      "view-details": "Ver Detalles",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "go-back": "Regresar"
+    },
+    "messages": {
+      "no-projects": "No se encontraron proyectos.",
+      "saved": "Proyecto guardado exitosamente.",
+      "deleted": "Proyecto eliminado exitosamente."
+    },
+    "labels": {
+      "progress-display": "{progress}% Completado",
+      "last-update-display": "Última Actualización: {date}",
+      "in-progress-display": "En Progreso ({progress}%)"
+    }
+  },
+
+  "profile": {
+    "title": "Perfil",
+    "edit": "Editar perfil",
+    "accountInformation": "Información de la cuenta",
+    "fullName": "Nombre completo",
+    "email": "Correo electrónico",
+    "phoneNumber": "Número de teléfono",
+    "address": "Dirección",
+    "appLanguage": "Idioma de la aplicación",
+    "languageEnglish": "Inglés",
+    "languageSpanish": "Español",
+    "scenes": "Escenas",
+    "loadingScenes": "Cargando escenas...",
+    "noScenes": "No hay escenas disponibles.",
+    "toggleOn": "Activado",
+    "toggleOff": "Desactivado",
+    "ownerRole": "Propietario",
+    "builderRole": "Constructor",
+    "save": "Guardar Cambios",
+    "cancel": "Cancelar Edición",
+
+    "sceneNames": {
+      "401": "Modo Cine",
+      "405": "Ahorro de energía",
+      "406": "Fuera de casa",
+      "407": "Cena",
+      "408": "Amanecer",
+      "Movie Time": "Modo Cine",
+      "Energy Saving Mode": "Ahorro de energía",
+      "Away": "Fuera de casa",
+      "Dinner": "Cena",
+      "Sunrise": "Amanecer"
+    }
+  },
+
+  "dashboard": {
+    "title": "Dashboard IoBuilt",
+    "loading": "Cargando datos del dashboard...",
+    "error_header": "Error al cargar los datos",
+    "retry": "Reintentar",
+    "role": {
+      "builder": "Constructora",
+      "owner": "Propietario"
+    },
+    "owner": {
+      "stats": {
+        "active_devices": {
+          "title": "Dispositivos Activos",
+          "subtitle": "{count} desconectados"
+        },
+        "avg_temperature": {
+          "title": "Temperatura Promedio",
+          "subtitle": "Últimas 24 horas"
+        },
+        "energy_consumption": {
+          "title": "Consumo Energético",
+          "subtitle": "Hoy"
+        }
+      }
+    },
+    "stats": {
+      "active_projects": {
+        "title": "Proyectos Activos",
+        "subtitle": "{count} en total"
+      },
+      "connected_devices": {
+        "title": "Dispositivos Conectados",
+        "subtitle": "{count} en total"
+      },
+      "occupied_units": {
+        "title": "Unidades Ocupadas",
+        "subtitle": "{percentage}% de ocupación"
+      }
+    },
+    "sections": {
+      "projects_overview": "Resumen de Proyectos",
+      "device_distribution": "Distribución de Dispositivos por Tipo",
+      "charts": {
+        "energy_hourly": "Consumo Energético por Hora (kWh)",
+        "occupancy_monthly": "Tasa de Ocupación Mensual (%)",
+          "temperature_24h": "Historial de Temperatura (24h)",
+          "energy_weekly": "Consumo Energético Semanal"
+      }
+    }
+    ,
+    "chart_labels": {
+      "consumption_kwh": "Consumo (kWh)",
+      "occupancy_pct": "Ocupación (%)",
+      "temperature_c": "Temperatura (°C)"
+    },
+    "quick_actions": {
+      "title": "Acciones Rápidas",
+      "energy_saving": "Modo Ahorro de Energía",
+      "security": "Activar Seguridad",
+      "climate": "Control Climático",
+      "lighting": "Control de Iluminación"
+    }
+    ,
+    "chart_loading": "Cargando gráfico..."
+  },
+  "clients": {
+    "title": "Mis Clientes",
+    "profile": {
+      "title": "Perfil del Cliente",
+      "personalInfo": "Información Personal",
+      "projectInfo": "Información del Proyecto"
+    },
+    "fields": {
+      "fullName": "Nombre Completo",
+      "project": "Proyecto Asociado",
+      "accountStatement": "Estado de Cuenta",
+      "email": "Correo Electrónico",
+      "phoneNumber": "Número de Teléfono",
+      "address": "Dirección"
+    },
+    "status": {
+      "active": "Activo",
+      "standBy": "En Espera",
+      "suspended": "Suspendido"
+    },
+    "actions": {
+      "title": "Acciones",
+      "add": "Agregar Cliente",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "viewProfile": "Ver Perfil",
+      "goBack": "Volver a Clientes",
+      "editClient": "Editar Cliente",
+      "deleteClient": "Eliminar Cliente"
+    },
+    "messages": {
+      "noClients": "No se encontraron clientes",
+      "noClientsDescription": "Comienza agregando tu primer cliente al sistema",
+      "clientNotFound": "Cliente no encontrado",
+      "noProject": "Sin Proyecto",
+      "addClientPlaceholder": "Funcionalidad para agregar cliente próximamente",
+      "addSuccess": "Cliente agregado exitosamente",
+      "addError": "Error al agregar cliente",
+      "updateSuccess": "Cliente actualizado exitosamente",
+      "updateError": "Error al actualizar cliente",
+      "deleteSuccess": "Cliente eliminado exitosamente",
+      "deleteError": "Error al eliminar cliente",
+      "deleteConfirmTitle": "Confirmar Eliminación",
+      "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar a {name}?",
+      "paginationSummary": "{first} a {last} de {totalRecords}"
+    }
+  },
+  "configuration": {
+    "title": "Configuración",
+    "notifications": {
+      "title": "Notificaciones",
+      "expiration": "Alertas de Vencimiento",
+      "system": "Actualizaciones del Sistema",
+      "customer": "Notificaciones del Cliente",
+      "push": "Push Notifications"
+    },
+    "security": {
+      "title": "Seguridad y Privacidad",
+      "password": "Cambiar Contraseña",
+      "2fa": "Autenticación en dos pasos",
+      "sessions": "Gestión de Sesiones",
+      "alternate": "Agregar dirección de correo alternativa"
+    },
+    "support": {
+      "title": "Soporte y Ayuda",
+      "faqs": "FAQs",
+      "contact": "Contactar con Soporte",
+      "tutorials": "Tutoriales y Guías"
+    },
+    "form": {
+      "title": "Agregar dirección de correo alternativa",
+      "placeholder": "ejemplo@dominio.com",
+      "emailRequired": "El correo es obligatorio",
+      "emailInvalid": "Por favor ingresa un correo válido",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "errorSaving": "Error al guardar. Por favor intenta de nuevo."
+    }
+  },
+  "subscriptions": {
+    "title": "Mi Suscripción",
+    "current-plan": "Plan Actual",
+    "change-plan": "Cambiar Plan",
+    "month": "mes",
+    "status": "Estado",
+    "status-active": "Activo",
+    "status-cancelled": "Cancelado",
+    "status-expired": "Expirado",
+    "renew-plan": "Renovar Plan",
+    "cancel-plan": "Cancelar Plan",
+    "no-subscription": "No tienes una suscripción activa",
+    "confirm-renew": "¿Está seguro de que desea renovar su plan actual?",
+    "renew-header": "Renovar Suscripción",
+    "confirm-cancel": "¿Está seguro de que desea cancelar su suscripción actual?",
+    "cancel-header": "Cancelar Suscripción",
+    "confirm-change": "¿Está seguro de que desea cambiar al plan {planName}?",
+    "change-header": "Cambiar Plan",
+    "success": "Éxito",
+    "error": "Error",
+    "renewed-successfully": "Su plan ha sido renovado exitosamente",
+    "cancelled-successfully": "Su suscripción ha sido cancelada",
+    "plan-changed": "Ha cambiado exitosamente al plan {planName}",
+    "renew-failed": "Error al renovar el plan",
+    "cancel-failed": "Error al cancelar la suscripción",
+    "change-failed": "Error al cambiar el plan"
+  },
+  "devices": {
+    "title": "Gestión de dispositivos",
+    "loading": "Cargando dispositivos...",
+    "refresh": "Actualizar",
+    "edit": { "title": "Editar Dispositivo" },
+    "fields": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "location": "Ubicación",
+      "status": "Estado"
+    },
+    "actions": {
+      "add": "Agregar Dispositivo",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "delete": "Eliminar"
+    },
+    "add": { "title": "Agregar Dispositivo" },
+    "status": { "online": "Online", "offline": "Offline" },
+    "types": {
+      "temperature": "Sensor de Temperatura",
+      "energy": "Medidor Energético",
+      "humidity": "Sensor de Humedad",
+      "door": "Control de Acceso",
+      "water": "Sensor de Agua",
+      "security": "Sistema de Seguridad",
+      "lighting": "Control de Iluminación",
+      "hvac": "Sistema HVAC"
+    },
+    "messages": {
+      "createSuccess": "Dispositivo creado correctamente",
+      "createError": "No se pudo crear el dispositivo",
+      "updateSuccess": "Dispositivo actualizado correctamente",
+      "updateError": "No se pudo actualizar el dispositivo",
+      "deleteSuccess": "Dispositivo eliminado correctamente",
+      "deleteError": "No se pudo eliminar el dispositivo",
+      "deleteConfirmTitle": "Eliminar Dispositivo",
+      "deleteConfirmMessage": "¿Está seguro de que desea eliminar '{name}'?"
+    },
+    "table": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "category": "Categoría",
+      "location": "Ubicación",
+      "realtimeStatus": "Estado en tiempo real",
+      "actions": "Acciones",
+      "empty": "No hay dispositivos disponibles"
+    }
+  }
+}
