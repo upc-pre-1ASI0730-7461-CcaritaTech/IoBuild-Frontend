@@ -6,7 +6,7 @@ export class ProjectAssembler {
     }
 
     static toEntitiesFromResponse(response) {
-        if (response.status !== 200) {
+        if (!response || (!response.status && !response.data)) {
             console.error(`${response.status} - ${response.statusText}`);
             return [];
         }
