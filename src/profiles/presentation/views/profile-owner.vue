@@ -40,10 +40,6 @@
           <label>{{ $t('profile.address') }}</label>
           <input type="text" v-model="profile.address" :readonly="!isEditing" class="info-input" />
         </div>
-        <div v-if="isEditing" class="info-group">
-          <label>{{ $t('profile.pictureUrl') }}</label>
-          <input v-model="profile.photoUrl" type="text" class="info-input" placeholder="https://i.postimg.cc/...jpg" />
-        </div>
         <h3 class="card-title">{{ $t('profile.appLanguage') }}</h3>
         <select v-model="$i18n.locale" class="language-select">
           <option value="es">Español</option>
