@@ -97,6 +97,8 @@ const save = async () => {
 };
 
 const close = () => {
+  email.value = '';
+  error.value = '';
   emit('update:visible', false);
 };
 
