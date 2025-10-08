@@ -160,6 +160,15 @@
       "faqs": "FAQs",
       "contact": "Contactar con Soporte",
       "tutorials": "Tutoriales y Guías"
+    },
+    "form": {
+      "title": "Agregar dirección de correo alternativa",
+      "placeholder": "ejemplo@dominio.com",
+      "emailRequired": "El correo es obligatorio",
+      "emailInvalid": "Por favor ingresa un correo válido",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "errorSaving": "Error al guardar. Por favor intenta de nuevo."
     }
   }
 }

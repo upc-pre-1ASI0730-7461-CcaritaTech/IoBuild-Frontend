@@ -159,6 +159,15 @@
       "faqs": "FAQs",
       "contact": "Contact Support",
       "tutorials": "Tutorials and Guides"
+    },
+    "form": {
+      "title": "Add Alternate mail address",
+      "placeholder": "example@domain.com",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "cancel": "Cancel",
+      "save": "Save",
+      "errorSaving": "Failed to save. Please try again."
     }
   }
 }
