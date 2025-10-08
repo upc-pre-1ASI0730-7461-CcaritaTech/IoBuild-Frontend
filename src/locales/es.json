@@ -75,6 +75,8 @@
     "toggleOff": "Desactivado",
     "ownerRole": "Propietario",
     "builderRole": "Constructor",
+    "save": "Guardar Cambios",
+    "cancel": "Cancelar Edición",
 
     "sceneNames": {
       "401": "Modo Cine",
