@@ -203,5 +203,37 @@
       "deleteConfirmMessage": "Are you sure you want to delete {name}?",
       "paginationSummary": "{first} to {last} of {totalRecords}"
     }
+  },
+  "configuration": {
+    "title": "Configuration",
+    "notifications": {
+      "title": "Notifications",
+      "expiration": "Expiration Alerts",
+      "system": "System Updates",
+      "customer": "Customer Notifications",
+      "push": "Push Notifications"
+    },
+    "security": {
+      "title": "Security and Privacy",
+      "password": "Change Password",
+      "2fa": "Two-Factor Authentication",
+      "sessions": "Session Management",
+      "alternate": "Add Alternate mail address"
+    },
+    "support": {
+      "title": "Support and Help",
+      "faqs": "FAQs",
+      "contact": "Contact Support",
+      "tutorials": "Tutorials and Guides"
+    },
+    "form": {
+      "title": "Add Alternate mail address",
+      "placeholder": "example@domain.com",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email",
+      "cancel": "Cancel",
+      "save": "Save",
+      "errorSaving": "Failed to save. Please try again."
+    }
   }
 }
