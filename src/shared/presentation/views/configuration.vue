@@ -3,13 +3,14 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ToggleSwitch from 'primevue/toggleswitch';
 import Button from 'primevue/button';
+import AlternateMailForm from '../components/alternate-mail.form.vue';
 
 const { t } = useI18n();
 
 // Listas de claves (sin objetos)
 const notificationKeys = ['expiration', 'system', 'customer', 'push'];
 const securityKeys = ['password', '2fa', 'sessions', 'alternate'];
-const supportKeys = ['faqs', 'contact', 'tutorials'];
+const supportKeys = ['faqs', 'contact'];
 
 // Estado reactivo para los toggles (solo notificaciones)
 const notificationStates = ref({
@@ -19,10 +20,17 @@ const notificationStates = ref({
   push: true
 });
 
+// Estado para la modal y el correo
+const showAlternateEmailModal = ref(false);
+const alternateEmail = ref(''); // podrías cargarlo desde una API o store
+
+const handleSaveAlternateEmail = (email) => {
+  alternateEmail.value = email;
+};
+
 const supportUrls = {
   faqs: 'https://upc-pre-1asi0730-7461-ccaritatech.github.io/landing-page-CcaritaTech/faq.html',
-  contact: 'https://upc-pre-1asi0730-7461-ccaritatech.github.io/landing-page-CcaritaTech/index.html',
-  tutorials: 'https://upc-pre-1asi0730-7461-ccaritatech.github.io/landing-page-CcaritaTech/index.html'
+  contact: 'https://upc-pre-1asi0730-7461-ccaritatech.github.io/landing-page-CcaritaTech/index.html'
 };
 </script>
 
@@ -49,7 +57,20 @@ const supportUrls = {
         <div class="items-list">
           <div v-for="item in securityKeys" :key="item" class="item-row">
             <span>{{ $t(`configuration.security.${item}`) }}</span>
-            <Button icon="pi pi-cog" text class="icon-button" />
+            <Button
+                v-if="item === 'alternate'"
+                icon="pi pi-cog"
+                text
+                class="icon-button"
+                @click="showAlternateEmailModal = true"
+            />
+            <Button
+                v-else
+                icon="pi pi-cog"
+                text
+                class="icon-button"
+                disabled
+            />
           </div>
         </div>
       </div>
@@ -72,6 +93,14 @@ const supportUrls = {
         </a>
       </div>
     </div>
+
+    <!-- Modal para correo alternativo -->
+    <AlternateMailForm
+        :visible="showAlternateEmailModal"
+        :modelValue="alternateEmail"
+        @update:visible="showAlternateEmailModal = $event"
+        @save="handleSaveAlternateEmail"
+    />
   </div>
 </template>
 
