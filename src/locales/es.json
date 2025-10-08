@@ -24,12 +24,13 @@
     "confirm-delete": "¿Está seguro de que desea eliminar el proyecto '{name}'?",
     "fields": {
       "name": "Nombre del Proyecto",
-      "progress": "Progreso (%)",
-      "status": "Estado",
-      "last-update": "Última Actualización",
-      "location": "Ubicación",
       "description": "Descripción",
-      "budget": "Presupuesto"
+      "location": "Ubicación",
+      "total-units": "Unidades Totales",
+      "occupied-units": "Units Ocupadas",
+      "occupancy-rate": "Tasa de Ocupación",
+      "status": "Estado",
+      "created-date": "Fecha de creación"
     },
     "status": {
       "planned": "Planeado",
