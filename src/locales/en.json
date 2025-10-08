@@ -75,6 +75,8 @@
     "toggleOff": "Disabled",
     "ownerRole": "Owner",
     "builderRole": "Builder",
+    "save": "Save Changes",
+    "cancel": "Cancel editing",
 
     "sceneNames": {
       "401": "Cinema mode",

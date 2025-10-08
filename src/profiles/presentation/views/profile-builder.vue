@@ -1,6 +1,7 @@
 <template>
   <div class="profile-container">
     <h1 class="profile-title">{{ $t('profile.title') }}</h1>
+
     <div class="profile-header">
       <div class="profile-card">
         <img :src="profile.photoUrl" alt="Profile Photo" class="profile-photo" />
@@ -8,7 +9,27 @@
           <h2 class="profile-name">{{ profile.name }}</h2>
           <p class="profile-role">{{ $t('profile.builderRole') }}</p>
         </div>
-        <pv-button :label="$t('profile.edit')" class="edit-button" />
+
+        <div class="edit-buttons">
+          <pv-button
+            v-if="!isEditing"
+            :label="$t('profile.edit')"
+            class="edit-button"
+            @click="toggleEdit"
+          />
+          <div v-else class="edit-actions">
+            <pv-button
+              :label="$t('profile.save')"
+              class="edit-button"
+              @click="toggleEdit"
+            />
+            <pv-button
+              :label="$t('profile.cancel')"
+              class="cancel-button"
+              @click="cancelEdit"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
@@ -18,48 +39,90 @@
 
         <div class="info-group">
           <label>{{ $t('profile.fullName') }}</label>
-          <input type="text" :value="profile.name" readonly class="info-input" />
+          <input
+            type="text"
+            v-model="profile.name"
+            :readonly="!isEditing"
+            class="info-input"
+          />
         </div>
 
         <div class="info-group">
           <label>{{ $t('profile.email') }}</label>
-          <input type="text" :value="profile.email" readonly class="info-input" />
+          <input type="text" v-model="profile.email" readonly class="info-input" />
         </div>
 
         <div class="info-group">
           <label>{{ $t('profile.phoneNumber') }}</label>
-          <input type="text" :value="profile.phoneNumber" readonly class="info-input" />
+          <input
+            type="text"
+            v-model="profile.phoneNumber"
+            :readonly="!isEditing"
+            class="info-input"
+          />
         </div>
 
         <div class="info-group">
           <label>{{ $t('profile.address') }}</label>
-          <input type="text" :value="profile.address" readonly class="info-input" />
+          <input
+            type="text"
+            v-model="profile.address"
+            :readonly="!isEditing"
+            class="info-input"
+          />
         </div>
 
+
         <h3 class="card-title">{{ $t('profile.appLanguage') }}</h3>
-        <input type="text" :value="$t('profile.languageEnglish')" readonly class="info-input" />
+        <select v-model="$i18n.locale" class="language-select">
+          <option value="es">Español</option>
+          <option value="en">English</option>
+        </select>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useProfileStore } from '../../application/profile.store.js';
+import { ref, computed } from 'vue'
+import { useProfileStore } from '../../application/profile.store.js'
+import { ProfileApi } from '../../infrastructure/profile-api.js'
+import PvButton from 'primevue/button'
 
-const store = useProfileStore();
-const profile = computed(() => store.profile);
+const store = useProfileStore()
+const profile = computed(() => store.profile)
+const api = new ProfileApi()
+const isEditing = ref(false)
+
+function toggleEdit() {
+  if (isEditing.value) saveProfile()
+  isEditing.value = !isEditing.value
+}
+
+async function saveProfile() {
+  try {
+    await api.updateProfile(profile.value.id, {
+      name: profile.value.name,
+      address: profile.value.address,
+      phoneNumber: profile.value.phoneNumber,
+      photoUrl: profile.value.photoUrl
+    })
+    console.log('')
+  } catch (error) {
+    console.error('', error)
+  }
+}
+
+function cancelEdit() {
+  isEditing.value = false
+  store.fetchProfile(profile.value.id)
+}
 </script>
 
 <style scoped>
-
-.profile-title {
-  text-align: left;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #111827;
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 .profile-container {
   display: flex;
   flex-direction: column;
@@ -68,14 +131,17 @@ const profile = computed(() => store.profile);
   padding: 2rem;
   background-color: #f8fafc;
 }
-
-
+.profile-title {
+  text-align: left;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111827;
+}
 .profile-header {
   display: flex;
   justify-content: center;
   width: 100%;
 }
-
 .profile-card {
   display: flex;
   align-items: center;
@@ -87,47 +153,48 @@ const profile = computed(() => store.profile);
   width: 100%;
   max-width: 800px;
 }
-
 .profile-photo {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   border: 2px solid black;
   object-fit: cover;
-  display: block;
-  background-color: #ecfdf5;
 }
-
 .profile-info {
   flex-grow: 1;
 }
-
 .profile-name {
   font-size: 1.4rem;
   font-weight: 600;
-  margin: 0;
-  color: #000000;
+  color: #000;
 }
-
 .profile-role {
   font-size: 0.95rem;
   color: #475569;
-  margin: 0.25rem 0 0;
 }
-
+.edit-buttons,
+.edit-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .edit-button {
   background-color: #10b981;
   color: white;
   border: none;
   font-weight: bold;
 }
-
+.cancel-button {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
 .profile-body {
   width: 100%;
   display: flex;
   justify-content: center;
 }
-
 .account-card {
   background: white;
   border-radius: 10px;
@@ -136,36 +203,34 @@ const profile = computed(() => store.profile);
   width: 100%;
   max-width: 800px;
 }
-
 .card-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #111827;
-  margin-top: 0;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
   border-bottom: 1px solid black;
+  margin-bottom: 20px;
 }
-
 .info-group {
   margin-bottom: 15px;
 }
-
 .info-group label {
-  display: block;
-  font-size: 0.9rem;
+  font-weight: 500;
   color: #111827;
   margin-bottom: 5px;
-  font-weight: 500;
+  display: block;
 }
-
 .info-input {
   width: 100%;
   background-color: #ecfdf5;
   border: 1px solid black;
   border-radius: 6px;
   padding: 0.6rem 0.8rem;
-  font-size: 0.95rem;
-  color: #111827;
+}
+.language-select {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+  width: 100%;
 }
 </style>

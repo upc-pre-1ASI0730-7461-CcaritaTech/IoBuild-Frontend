@@ -26,8 +26,8 @@ export const useProfileStore = defineStore('profile', () => {
             profileLoaded.value = true;
 
         } catch (error) {
-            console.error('Error fetching profile:', error);
-            errors.value.push(error.message || 'Error desconocido al conectar con la API.');
+            console.error('', error);
+            errors.value.push(error.message || '');
             profileLoaded.value = false;
 
         } finally {
