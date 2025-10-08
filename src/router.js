@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 import monitoringRoutes from "./monitoring/presentation/monitoring-routes.js";
 import automationRoutes from "./automation/presentation/automation-routes.js";
-import subscriptionsRoutes from "./suscriptions/presentation/subscriptions-routes.js";
+import subscriptionsRoutes from "./subscriptions/presentation/subscriptions-routes.js";
 import profilesRoutes from "./profiles/presentation/profiles-routes.js";
 import projectsRoutes from "./projects/presentation/projects-routes.js";
 import { clientsRoutes } from "./clients/presentation/clients-routes.js";

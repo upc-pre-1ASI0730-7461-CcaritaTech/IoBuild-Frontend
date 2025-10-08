@@ -38,7 +38,7 @@ const items = [
   { label: 'option.profile', to: '/profiles/profile', use_role: 'builder', type: 'builder', icon: 'pi pi-user' },
   { label: 'option.projects', to: '/projects/projects-management', use_role: 'builder', type: 'builder', icon: 'pi pi-folder' },
   { label: 'option.clients', to: '/clients', use_role: 'builder', type: 'builder', icon: 'pi pi-users' },
-  { label: 'option.subscription', to: '/subscriptions/payments', use_role: 'builder', type: 'builder', icon: 'pi pi-credit-card' },
+  { label: 'option.subscription', to: '/subscriptions/my-subscription', use_role: 'builder', type: 'builder', icon: 'pi pi-credit-card' },
   { label: 'option.configuration', to: '/configuration', use_role: 'builder', type: 'builder', icon: 'pi pi-cog' },
 
   // Opciones para Owner
