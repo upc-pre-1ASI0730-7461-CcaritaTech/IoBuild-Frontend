@@ -2,22 +2,22 @@ export class Project {
     constructor({
                     id = null,
                     name = "",
-                    builderId = null,
-                    progressPercent = 0,
-                    status = "planned",
-                    lastUpdatedAt = "",
-                    location = "",
                     description = "",
-                    budget = null
+                    location = "",
+                    totalUnits = 0,
+                    occupiedUnits = 0,
+                    status = "active",
+                    builderId = 1,
+                    createdDate = null,
                 }) {
         this.id = id;
         this.name = name;
-        this.builderId = builderId;
-        this.progressPercent = progressPercent;
-        this.status = status;
-        this.lastUpdatedAt = lastUpdatedAt;
-        this.location = location;
         this.description = description;
-        this.budget = budget;
+        this.location = location;
+        this.totalUnits = totalUnits;
+        this.occupiedUnits = occupiedUnits;
+        this.status = status;
+        this.builderId = builderId;
+        this.createdDate = createdDate;
     }
 }
