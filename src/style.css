@@ -29,21 +29,84 @@ html, body {
   color-scheme: light only !important;
 }
 
-/* Forzar todos los inputs a fondo blanco */
+/* FORZAR FONDO BLANCO EN TODAS LAS TABLAS DE PRIMEVUE */
+.p-datatable,
+.p-datatable-wrapper,
+.p-datatable-table,
+.p-datatable-thead,
+.p-datatable-tbody,
+.p-datatable-header,
+.p-datatable-footer {
+  background: #ffffff !important;
+  color-scheme: light only !important;
+}
+
+.p-datatable-thead > tr,
+.p-datatable-tbody > tr,
+.p-datatable-thead > tr > th,
+.p-datatable-tbody > tr > td {
+  background: #ffffff !important;
+  color: #111827 !important;
+  color-scheme: light only !important;
+}
+
+.p-datatable-thead > tr > th {
+  color: #374151 !important;
+}
+
+.p-datatable-tbody > tr:hover,
+.p-datatable-tbody > tr:hover > td {
+  background: #f8fafc !important;
+  color: #111827 !important;
+}
+
+.p-datatable-striped .p-datatable-tbody > tr:nth-child(odd),
+.p-datatable-striped .p-datatable-tbody > tr:nth-child(odd) > td,
+.p-datatable-striped .p-datatable-tbody > tr:nth-child(even),
+.p-datatable-striped .p-datatable-tbody > tr:nth-child(even) > td {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+/* FORZAR TEXTO NEGRO EN TODOS LOS TAGS DE PRIMEVUE */
+.p-tag {
+  color: #111827 !important;
+  font-weight: 600 !important;
+}
+
+.p-tag.p-tag-success {
+  background: #dcfce7 !important;
+  color: #111827 !important;
+}
+
+.p-tag.p-tag-danger {
+  background: #fee2e2 !important;
+  color: #111827 !important;
+}
+
+.p-tag.p-tag-warn,
+.p-tag.p-tag-warning {
+  background: #fef3c7 !important;
+  color: #111827 !important;
+}
+
+.p-tag.p-tag-info {
+  background: #dbeafe !important;
+  color: #111827 !important;
+}
+
 input, textarea, select {
   background: white !important;
   color: black !important;
   color-scheme: light !important;
 }
 
-/* Forzar componentes PrimeVue a fondo blanco */
 .p-inputtext, .p-textarea, .p-select {
   background: white !important;
   color: black !important;
   color-scheme: light !important;
 }
 
-/* Forzar diálogos y overlays de PrimeVue a fondo blanco */
 .p-dialog,
 .p-dialog-header,
 .p-dialog-content,
@@ -86,13 +149,11 @@ input, textarea, select {
   color: #111827 !important;
 }
 
-/* Estilos específicos para Edit (success - verde) */
 .p-menu .p-menu-item:first-child .p-menu-item-content {
   background: #d1fae5 !important;
   color: #047857 !important;
 }
 
-/* Estilos específicos para Delete (danger - rojo) */
 .p-menu .p-menu-item:last-child .p-menu-item-content {
   background: #fee2e2 !important;
   color: #dc2626 !important;
@@ -366,4 +427,58 @@ body {
   .iobuilt-hidden-mobile {
     display: none;
   }
+}
+.device-select-darktext {
+  --p-select-color: #111827 !important;
+  --p-select-placeholder-color: #6b7280 !important;
+}
+
+.device-select-darktext .p-select-label {
+  color: #111827 !important;
+  background: #ffffff !important;
+}
+
+.device-select-darktext .p-select-label.p-placeholder {
+  color: #6b7280 !important;
+}
+
+.device-select-darktext .p-select {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.device-select-darktext .p-select:hover {
+  border-color: #9ca3af !important;
+}
+
+.device-select-darktext .p-select:focus,
+.device-select-darktext .p-select.p-focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+}
+
+.device-select-darktext .p-select-trigger .p-icon {
+  color: #374151 !important;
+}
+
+.device-select-darktext .p-select-panel {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.device-select-darktext .p-select-panel .p-select-option {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+.device-select-darktext .p-select-panel .p-select-option:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+.device-select-darktext .p-select-panel .p-select-option.p-highlight {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
 }

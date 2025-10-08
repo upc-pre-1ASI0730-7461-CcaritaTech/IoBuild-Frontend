@@ -265,5 +265,54 @@
     "renew-failed": "Failed to renew plan",
     "cancel-failed": "Failed to cancel subscription",
     "change-failed": "Failed to change plan"
+  },
+  "devices": {
+    "title": "Device Management",
+    "loading": "Loading devices...",
+    "refresh": "Refresh",
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "category": "Category",
+      "location": "Location",
+      "realtimeStatus": "Real-time Status",
+      "actions": "Actions",
+      "empty": "No devices available"
+    },
+    "edit": { "title": "Edit Device" },
+    "fields": {
+      "name": "Name",
+      "type": "Type",
+      "location": "Location",
+      "status": "Status"
+    },
+    "actions": {
+      "add": "Add Device",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "add": { "title": "Add Device" },
+    "messages": {
+      "createSuccess": "Device created successfully",
+      "createError": "Failed to create device",
+      "updateSuccess": "Device updated successfully",
+      "updateError": "Failed to update device",
+      "deleteSuccess": "Device deleted successfully",
+      "deleteError": "Failed to delete device",
+      "deleteConfirmTitle": "Delete Device",
+      "deleteConfirmMessage": "Are you sure you want to delete '{name}'?"
+    },
+    "status": { "online": "Online", "offline": "Offline" },
+    "types": {
+      "temperature": "Temperature Sensor",
+      "energy": "Energy Meter",
+      "humidity": "Humidity Sensor",
+      "door": "Access Control",
+      "water": "Water Sensor",
+      "security": "Security System",
+      "lighting": "Lighting Control",
+      "hvac": "HVAC System"
+    }
   }
 }

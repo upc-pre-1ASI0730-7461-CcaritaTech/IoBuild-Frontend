@@ -278,59 +278,67 @@
   "devices": [
     {
       "id": 301,
-      "name": "Sensor Temperatura Sala",
-      "type": "temperature",
-      "location": "Sala Principal",
-      "projectId": 101
+      "name": "Smart meter",
+      "type": "energy",
+      "location": "Main Living Room",
+      "projectId": 101,
+      "status": "Online"
     },
     {
       "id": 302,
-      "name": "Medidor Energético",
+      "name": "Energy Meter",
       "type": "energy",
-      "location": "Panel Eléctrico",
-      "projectId": 101
+      "location": "Electrical Panel",
+      "projectId": 101,
+      "status": "Online"
     },
     {
       "id": 303,
-      "name": "Sensor Humedad",
+      "name": "Humidity Sensor",
       "type": "humidity",
-      "location": "Dormitorio Principal",
-      "projectId": 101
+      "location": "Master Bedroom",
+      "projectId": 101,
+      "status": "Offline"
     },
     {
       "id": 304,
-      "name": "Control de Acceso",
+      "name": "Access Control System",
       "type": "door",
-      "location": "Entrada Principal",
-      "projectId": 101
+      "location": "Main Entrance",
+      "projectId": 101,
+      "status": "Online"
     },
     {
       "id": 305,
-      "name": "Sensor Agua",
+      "name": "Water Sensor",
       "type": "water",
-      "location": "Cocina",
-      "projectId": 101
+      "location": "Kitchen",
+      "projectId": 101,
+      "status": "Offline"
     },
     {
       "id": 306,
-      "name": "Sistema Seguridad",
+      "name": "Security System",
       "type": "security",
-      "location": "Central",
-      "projectId": 102
+      "location": "Central Hub",
+      "projectId": 102,
+      "status": "Online"
     },
     {
       "id": 307,
-      "name": "Control Iluminación",
+      "name": "Lighting Control",
       "type": "lighting",
-      "location": "Toda la unidad",
-      "projectId": 102
+      "location": "Entire Unit",
+      "projectId": 102,
+      "status": "Online"
     },
     {
       "id": 308,
-      "name": "HVAC Central",
+      "name": "HVAC Central System",
       "type": "hvac",
-      "location": "Sistema Central",
-      "projectId": 102
+      "location": "Central System",
+      "projectId": 102,
+      "status": "Online"
     }
   ],
   "analytics": [

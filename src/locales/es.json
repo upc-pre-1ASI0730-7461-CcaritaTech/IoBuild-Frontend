@@ -265,5 +265,54 @@
     "renew-failed": "Error al renovar el plan",
     "cancel-failed": "Error al cancelar la suscripción",
     "change-failed": "Error al cambiar el plan"
+  },
+  "devices": {
+    "title": "Gestión de dispositivos",
+    "loading": "Cargando dispositivos...",
+    "refresh": "Actualizar",
+    "edit": { "title": "Editar Dispositivo" },
+    "fields": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "location": "Ubicación",
+      "status": "Estado"
+    },
+    "actions": {
+      "add": "Agregar Dispositivo",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "delete": "Eliminar"
+    },
+    "add": { "title": "Agregar Dispositivo" },
+    "status": { "online": "Online", "offline": "Offline" },
+    "types": {
+      "temperature": "Sensor de Temperatura",
+      "energy": "Medidor Energético",
+      "humidity": "Sensor de Humedad",
+      "door": "Control de Acceso",
+      "water": "Sensor de Agua",
+      "security": "Sistema de Seguridad",
+      "lighting": "Control de Iluminación",
+      "hvac": "Sistema HVAC"
+    },
+    "messages": {
+      "createSuccess": "Dispositivo creado correctamente",
+      "createError": "No se pudo crear el dispositivo",
+      "updateSuccess": "Dispositivo actualizado correctamente",
+      "updateError": "No se pudo actualizar el dispositivo",
+      "deleteSuccess": "Dispositivo eliminado correctamente",
+      "deleteError": "No se pudo eliminar el dispositivo",
+      "deleteConfirmTitle": "Eliminar Dispositivo",
+      "deleteConfirmMessage": "¿Está seguro de que desea eliminar '{name}'?"
+    },
+    "table": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "category": "Categoría",
+      "location": "Ubicación",
+      "realtimeStatus": "Estado en tiempo real",
+      "actions": "Acciones",
+      "empty": "No hay dispositivos disponibles"
+    }
   }
 }
