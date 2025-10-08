@@ -9,13 +9,13 @@ export const useProjectStore = defineStore("projects", () => {
     const projects = ref([]);
     const errors = ref([]);
     const projectsLoaded = ref(false);
-    const builderId = 1; // for now, fixed
+    const builderId = 1;
 
     const projectsCount = computed(() => (projectsLoaded ? projects.value.length : 0));
 
     function fetchProjects() {
         return projectApi
-            .getProjectsByBuilder(builderId)
+            .getProjectsByBuilderId(builderId)
             .then((response) => {
                 projects.value = ProjectAssembler.toEntitiesFromResponse(response);
                 projectsLoaded.value = true;
