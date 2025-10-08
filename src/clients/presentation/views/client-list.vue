@@ -6,8 +6,8 @@ import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { useI18n } from 'vue-i18n';
 import ClientAddDialog from '../components/client-add-dialog.vue';
-import ClientListHeader from '../components/ClientListHeader.vue';
-import ClientsTable from '../components/ClientsTable.vue';
+import ClientListHeader from '../components/client-list-header.vue';
+import ClientsTable from '../components/clients-table.vue';
 
 const clientStore = useClientStore();
 const router = useRouter();
