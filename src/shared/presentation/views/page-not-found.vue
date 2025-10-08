@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<p>pipipi</p>
+<p>page not found</p>
 </template>
 
 <style scoped>
