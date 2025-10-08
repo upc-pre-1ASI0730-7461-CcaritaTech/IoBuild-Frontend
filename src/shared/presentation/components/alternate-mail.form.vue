@@ -58,7 +58,6 @@ const error = ref('');
 const loading = ref(false);
 const visible = ref(props.visible);
 
-// Sincronizar el valor inicial si cambia desde afuera
 watch(() => props.modelValue, (newVal) => {
   email.value = newVal || '';
 });
@@ -85,7 +84,6 @@ const save = async () => {
   if (!validate()) return;
   loading.value = true;
   try {
-    // Aquí iría tu lógica de API (ej: await api.updateAlternateEmail(email.value))
     await new Promise(resolve => setTimeout(resolve, 500)); // Simulación
     emit('save', email.value);
     close();
@@ -100,6 +98,7 @@ const close = () => {
   email.value = '';
   error.value = '';
   emit('update:visible', false);
+  emit('save', '');
 };
 
 const onHide = () => {
