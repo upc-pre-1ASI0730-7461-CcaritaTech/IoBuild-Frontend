@@ -10,15 +10,8 @@ const route = useRoute();
 const router = useRouter();
 const store = useProjectStore();
 
-const form = ref({ name: "", progress: 0, status: "planned", location: "" });
+const form = ref({ name: "", description: "", location: "", totalUnits: 0, occupiedUnits: 0 });
 const isEdit = computed(() => !!route.params.id);
-
-const statuses = computed(() => [
-  { label: t("projects.status.planned"), value: "planned" },
-  { label: t("projects.status.in_progress"), value: "in_progress" },
-  { label: t("projects.status.completed"), value: "completed" },
-  { label: t("projects.status.halted"), value: "halted" }
-]);
 
 onMounted(() => {
   if (isEdit.value) {
@@ -57,22 +50,20 @@ const cancel = () => {
         <pv-input-text v-model="form.name" class="w-full" required />
       </div>
       <div class="mb-3">
-        <label>{{ t("projects.fields.progress") }}</label>
-        <pv-input-number v-model="form.progress" :min="0" :max="100" class="w-full" />
-      </div>
-      <div class="mb-3">
-        <label>{{ t("projects.fields.status") }}</label>
-        <pv-select
-            v-model="form.status"
-            :options="statuses"
-            optionLabel="label"
-            optionValue="value"
-            class="w-full"
-        />
+        <label>{{ t("projects.fields.description") }}</label>
+        <pv-input-text v-model="form.description" class="w-full" />
       </div>
       <div class="mb-3">
         <label>{{ t("projects.fields.location") }}</label>
         <pv-input-text v-model="form.location" class="w-full" />
+      </div>
+      <div class="mb-3">
+        <label>{{ t("projects.fields.total-units") }}</label>
+        <pv-input-number v-model="form.totalUnits" :min="0" class="w-full" />
+      </div>
+      <div class="mb-3">
+        <label>{{ t("projects.fields.occupied-units") }}</label>
+        <pv-input-number v-model="form.occupiedUnits" :min="0" class="w-full" />
       </div>
 
       <pv-button type="submit" :label="t('projects.actions.save')" icon="pi pi-check" />

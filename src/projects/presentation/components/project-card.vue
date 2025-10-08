@@ -14,11 +14,11 @@ defineEmits(["viewDetails"]);
     <template #content>
       <h3 class="text-lg font-semibold mb-2">{{ project.name }}</h3>
       <p class="text-sm text-gray-700 leading-relaxed">
-        <strong>{{ t("projects.fields.status") }}:</strong> {{ t(`projects.status.${project.status}`) }}<br />
-        <strong>{{ t("projects.fields.progress") }}:</strong>
-        {{ project.progressPercent }}%<br />
-        <strong>{{ t("projects.fields.last-update") }}:</strong>
-        {{ project.lastUpdatedAt }}
+        <strong>{{ t("projects.fields.status") }}:</strong> {{ project.status }}<br />
+        <strong>{{ t("projects.fields.occupancy-rate") }}:</strong>
+        {{ project.occupiedUnits }}/{{ project.totalUnits }}<br />
+        <strong>{{ t("projects.fields.created-date") }}:</strong>
+        {{ project.createdDate }}
       </p>
       <div class="mt-4">
         <pv-button

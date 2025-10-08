@@ -24,12 +24,13 @@
     "confirm-delete": "Are you sure you want to delete project '{name}'?",
     "fields": {
       "name": "Project Name",
-      "progress": "Progress (%)",
-      "status": "Status",
-      "last-update": "Last Update",
-      "location": "Location",
       "description": "Description",
-      "budget": "Budget"
+      "location": "Location",
+      "total-units": "Total Units",
+      "occupied-units": "Occupied Units",
+      "occupancy-rate": "Occupancy Rate",
+      "status": "Status",
+      "created-date": "Created Date"
     },
     "status": {
       "planned": "Planned",
