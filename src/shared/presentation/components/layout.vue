@@ -72,12 +72,13 @@ const filteredItems = items.filter(item => {
                 text
                 rounded
                 @click="toggleDrawer"
-            />
-            <img
-              src="/IoBuild-Logo.png"
-              alt="IoBuild Logo"
-              class="header-logo"
-            />
+            />            <router-link to="/monitoring/dashboard" class="logo-link">
+              <img
+                src="/IoBuild-Logo.png"
+                alt="IoBuild Logo"
+                class="header-logo"
+              />
+            </router-link>
           </div>
         </template>
 
@@ -199,6 +200,32 @@ const filteredItems = items.filter(item => {
   height: 40px;
   width: auto;
   object-fit: contain;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  padding: 0.25rem;
+}
+
+.logo-link:hover {
+  background: rgba(16, 185, 129, 0.1);
+  transform: scale(1.05);
+}
+
+.logo-link:active {
+  transform: scale(0.98);
+}
+
+.logo-link .header-logo {
+  transition: all 0.2s ease;
+}
+
+.logo-link:hover .header-logo {
+  filter: brightness(1.1);
 }
 
 .welcome-message {
