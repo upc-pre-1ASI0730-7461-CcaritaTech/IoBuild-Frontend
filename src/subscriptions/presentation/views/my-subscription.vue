@@ -100,23 +100,22 @@ const handleChangePlan = (plan) => {
 <template>
   <div class="subscription-container">
     <!-- Header -->
-    <h1 class="text-3xl font-extrabold text-gray-900 mb-2">
+    <h1 class="text-3xl font-extrabold text-gray-900 mb-1">
       {{ t("subscriptions.title") }}
     </h1>
-    <p class="text-lg font-semibold text-gray-800 mb-8">
+    <p class="text-lg font-semibold text-gray-800 mb-6">
       {{ t("subscriptions.current-plan") }}:
       <span class="text-black font-bold">{{ store.currentPlan?.name || 'N/A' }}</span>
     </p>
 
-    <!-- Loading state -->
     <div v-if="store.isLoading" class="flex justify-center items-center py-8">
       <pv-progress-spinner />
     </div>
 
     <!-- Main content -->
-    <div v-else-if="store.currentPlan" class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-      <!-- Current Plan - Ocupa más espacio (3 columnas de 5) -->
-      <div class="lg:col-span-3">
+    <div v-else-if="store.currentPlan" class="subscription-layout">
+      <!-- Current Plan - Lado izquierdo -->
+      <div class="current-plan-section">
         <CurrentPlanCard
           :plan="store.currentPlan"
           :subscription="store.currentSubscription"
@@ -125,12 +124,14 @@ const handleChangePlan = (plan) => {
         />
       </div>
 
-      <div class="lg:col-span-2 flex flex-col items-center">
-        <div class="border border-green-500 text-green-600 font-semibold px-6 py-2 rounded-full mb-6">
+      <!-- Change Plan Section - Lado derecho -->
+      <div class="change-plan-section">
+        <div class="change-plan-header bg-white border border-green-500 text-green-600 font-semibold px-6 py-4 rounded-xl mb-6 text-center shadow-sm">
           {{ t("subscriptions.change-plan") }}
         </div>
 
-        <div class="flex flex-col gap-6 w-full">
+        <!-- Plan Cards debajo del título -->
+        <div class="plan-cards-container">
           <PlanCard
             v-for="plan in store.otherPlans"
             :key="plan.name"
@@ -161,9 +162,204 @@ const handleChangePlan = (plan) => {
   padding: 2rem;
   min-height: 100vh;
   background: linear-gradient(135deg, #f0fdf4 0%, #e6fffa 100%);
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 li {
   line-height: 1.5rem;
+}
+
+.subscription-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.current-plan-section {
+  flex: 0 0 auto;
+  width: 40%;
+  max-width: 650px;
+}
+
+.change-plan-section {
+  flex: 0 0 auto;
+  width: 45%;
+  max-width: 550px;
+}
+.change-plan-header {
+  justify-self: center;
+  border-radius: 10px;
+}
+
+.plan-cards-container {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-box-pack: justify;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Media queries para responsividad */
+
+/* Tablets en landscape (máx. 1200px) */
+@media (max-width: 1200px) {
+  .subscription-container {
+    padding: 1.5rem;
+  }
+
+  .subscription-layout {
+    gap: 1.5rem;
+    justify-content: space-between;
+  }
+
+
+  .change-plan-section {
+    flex: 1;
+    max-width: 45%;
+    min-width: 280px;
+  }
+
+  .plan-cards-container {
+    gap: 0.75rem;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: justify;
+  }
+}
+
+/* Tablets en portrait (máx. 1024px) */
+@media (max-width: 1024px) {
+  .subscription-container {
+    padding: 1.5rem;
+  }
+
+  .subscription-layout {
+    gap: 1.5rem;
+    justify-content: center;
+  }
+
+  .current-plan-section {
+    flex: 1;
+    max-width: 60%;
+    min-width: 300px;
+  }
+
+  .change-plan-section {
+    flex: 1;
+    max-width: 40%;
+    min-width: 250px;
+  }
+
+  .plan-cards-container {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    gap: 1rem;
+  }
+}
+
+/* Móviles grandes y tablets pequeñas (máx. 768px) */
+@media (max-width: 768px) {
+  .subscription-container {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  /* Cambiar a layout vertical */
+  .subscription-layout {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .current-plan-section,
+  .change-plan-section {
+    flex: none;
+    width: 100%;
+    max-width: 500px;
+    min-width: auto;
+  }
+
+  .plan-cards-container {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: center;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  /* Ajustar títulos para móvil */
+  .subscription-container h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .subscription-container p {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .change-plan-header {
+    font-size: 0.95rem;
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+/* Móviles pequeños (máx. 480px) */
+@media (max-width: 480px) {
+  .subscription-container {
+    padding: 0.75rem;
+  }
+
+  .subscription-layout {
+    gap: 1.5rem;
+  }
+
+  .plan-cards-container {
+    gap: 1rem;
+  }
+
+  /* Títulos más pequeños en móviles */
+  .subscription-container h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subscription-container p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .change-plan-header {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Ajustes específicos para las tarjetas en móvil */
+@media (max-width: 768px) {
+  :deep(.current-plan-card) {
+    transform: scale(1) !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+}
+
+/* Pantallas muy anchas (min. 1400px) */
+@media (min-width: 1400px) {
+  .subscription-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .subscription-layout {
+    gap: 3rem;
+  }
 }
 </style>

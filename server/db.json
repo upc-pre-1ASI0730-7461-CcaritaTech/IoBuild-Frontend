@@ -89,9 +89,9 @@
       "builderId": 1,
       "plan": "Professional",
       "status": "active",
-      "price": 799,
       "startDate": "2024-01-01T00:00:00Z",
       "endDate": "2024-12-31T23:59:59Z",
+      "price": 799,
       "features": [
         "Up to 200 IoT devices",
         "Advanced dashboard",
