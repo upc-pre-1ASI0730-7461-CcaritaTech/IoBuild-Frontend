@@ -1,39 +1,63 @@
 <script setup lang="js">
-import {useI18n} from "vue-i18n";
-import {ref, computed, onMounted} from "vue";
+import { useI18n } from "vue-i18n";
+import { ref, computed, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import LanguageSwitcher from "./language-switcher.vue";
 import { useProfileStore } from "../../../profiles/application/profile.store.js";
+import { useIamStore } from "../../../iam/application/iam.store.js";
 
 const { t } = useI18n();
+const router = useRouter();
 const drawer = ref(false);
 const profileStore = useProfileStore();
+const iamStore = useIamStore();
 
 const toggleDrawer = () => {
   drawer.value = !drawer.value;
 };
 
-// Obtener información del usuario desde las variables de entorno
-const userId = import.meta.env.VITE_USER_ID;
-const userRole = import.meta.env.VITE_USER_ROLE || 'builder';
 
-// Cargar perfil del usuario al montar el componente
+const currentUser = computed(() => iamStore.currentUser);
+const userRole = computed(() => currentUser.value?.role?.toLowerCase() || 'builder');
+
+
 onMounted(async () => {
+  const userId = currentUser.value?.id;
   if (userId && !profileStore.profileLoaded) {
     await profileStore.fetchProfile(userId);
+    console.log('layout: fetched profile', profileStore.profile);
+
+
+    if (profileStore.profile) {
+      const payload = {
+        username: profileStore.profile.username,
+        name: profileStore.profile.name,
+        photoUrl: profileStore.profile.photoUrl
+      };
+      console.log('layout: updating IAM user with profile payload', payload);
+      iamStore.updateUserProfile(payload);
+      console.log('layout: currentUser after update', iamStore.currentUser);
+    }
   }
 });
 
-// Computed para obtener el nombre del usuario y su foto
+
 const userName = computed(() => {
-  return profileStore.profile?.name || 'Usuario';
+  return currentUser.value?.username || currentUser.value?.name || 'Usuario';
 });
 
 const userPhoto = computed(() => {
-  return profileStore.profile?.photoUrl || 'https://via.placeholder.com/40x40/10B981/FFFFFF?text=U';
+  return currentUser.value?.photoUrl || 'https://via.placeholder.com/40x40/10B981/FFFFFF?text=U';
 });
 
+
+const handleLogout = () => {
+  iamStore.signOut();
+  router.push('/login');
+};
+
 const items = [
-  // Opciones para Builder
+
   { label: 'option.home', to: '/monitoring/dashboard', use_role: 'builder', type: 'builder', icon: 'pi pi-home' },
   { label: 'option.profile', to: '/profiles/profile', use_role: 'builder', type: 'builder', icon: 'pi pi-user' },
   { label: 'option.projects', to: '/projects/projects-management', use_role: 'builder', type: 'builder', icon: 'pi pi-folder' },
@@ -41,19 +65,19 @@ const items = [
   { label: 'option.subscription', to: '/subscriptions/my-subscription', use_role: 'builder', type: 'builder', icon: 'pi pi-credit-card' },
   { label: 'option.configuration', to: '/configuration', use_role: 'builder', type: 'builder', icon: 'pi pi-cog' },
 
-  // Opciones para Owner
+
   { label: 'option.home', to: '/monitoring/dashboard', use_role: 'owner', type: 'owner', icon: 'pi pi-home' },
   { label: 'option.profile', to: '/profiles/profile', use_role: 'owner', type: 'owner', icon: 'pi pi-user' },
   { label: 'option.device-management', to: '/automation/device-management', use_role: 'owner', type: 'owner', icon: 'pi pi-microchip' },
   { label: 'option.configuration', to: '/configuration', use_role: 'owner', type: 'owner', icon: 'pi pi-cog' },
 ];
 
-const rawRole = import.meta.env.VITE_USER_ROLE || 'builder';
-let currentUserRole = String(rawRole).trim().toLowerCase();
-
-const filteredItems = items.filter(item => {
-  const itemRole = String(item.use_role || 'builder').trim().toLowerCase();
-  return itemRole === currentUserRole;
+const filteredItems = computed(() => {
+  const currentRole = userRole.value;
+  return items.filter(item => {
+    const itemRole = String(item.use_role || 'builder').trim().toLowerCase();
+    return itemRole === currentRole;
+  });
 });
 </script>
 
@@ -90,7 +114,7 @@ const filteredItems = items.filter(item => {
 
         <template #end>
           <div class="header-end">
-            <!-- Notificaciones -->
+
             <pv-button
               class="notification-button"
               icon="pi pi-bell"
@@ -99,7 +123,7 @@ const filteredItems = items.filter(item => {
               severity="secondary"
             />
 
-            <!-- Información del usuario - Ahora clickeable -->
+
             <router-link
               to="/profiles/profile"
               class="user-info-link"
@@ -118,16 +142,27 @@ const filteredItems = items.filter(item => {
               </div>
             </router-link>
 
-            <!-- Selector de idioma -->
+
             <language-switcher/>
+
+
+            <pv-button
+              class="logout-button"
+              icon="pi pi-sign-out"
+              :label="t('iam.logout')"
+              text
+              rounded
+              severity="danger"
+              @click="handleLogout"
+            />
           </div>
         </template>
       </pv-toolbar>
     </header>
 
-    <!-- Contenedor del body que incluye sidebar y contenido -->
+
     <div class="body-container">
-      <!-- Sidebar personalizado que no se sobrepone al header -->
+
       <div v-if="drawer" class="custom-sidebar" @click.self="drawer = false">
         <div class="sidebar-content">
           <nav class="sidebar-menu">
@@ -142,6 +177,13 @@ const filteredItems = items.filter(item => {
               <span class="menu-label">{{ t(item.label) }}</span>
               <i class="pi pi-chevron-right menu-arrow"></i>
             </router-link>
+            
+            <!-- Botón de Logout en el sidebar -->
+            <div class="menu-item logout-item" @click="handleLogout">
+              <i class="pi pi-sign-out menu-icon"></i>
+              <span class="menu-label">{{ t('iam.logout') }}</span>
+              <i class="pi pi-chevron-right menu-arrow"></i>
+            </div>
           </nav>
         </div>
       </div>
@@ -254,6 +296,16 @@ const filteredItems = items.filter(item => {
   background: rgba(0, 0, 0, 0.05) !important;
 }
 
+.logout-button {
+  color: #ef4444 !important;
+  font-weight: 500;
+}
+
+.logout-button:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #dc2626 !important;
+}
+
 .user-info-link {
   text-decoration: none;
   color: inherit;
@@ -316,7 +368,7 @@ const filteredItems = items.filter(item => {
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.06);
   background: white;
   border-radius: 0;
-  z-index: 1000; /* Menor que el header */
+  z-index: 1000;
 }
 
 :deep(.custom-drawer .p-drawer .p-drawer-content) {
@@ -324,9 +376,9 @@ const filteredItems = items.filter(item => {
   background: white;
 }
 
-/* Overlay del drawer para que no cubra el header */
+
 :deep(.custom-drawer .p-drawer-mask) {
-  z-index: 999; /* Menor que el header */
+  z-index: 999;
 }
 
 .drawer-header {
@@ -453,13 +505,30 @@ const filteredItems = items.filter(item => {
 }
 
 
-/* Contenedor del body (sidebar + contenido principal) */
+.logout-item {
+  cursor: pointer;
+  margin-top: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  color: #ef4444;
+}
+
+.logout-item:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.logout-item::before {
+  background: #ef4444;
+}
+
+
+
 .body-container {
   position: relative;
   min-height: calc(100vh - 76px);
 }
 
-/* Sidebar personalizado que no cubre el header */
+
 .custom-sidebar {
   position: fixed;
   top: 76px; /* Altura del header */
