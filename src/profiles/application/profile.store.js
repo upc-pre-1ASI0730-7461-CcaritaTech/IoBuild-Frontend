@@ -35,12 +35,46 @@ export const useProfileStore = defineStore('profile', () => {
         }
     }
 
+    async function createProfile(profileData) {
+        isLoading.value = true;
+        errors.value = [];
+
+        try {
+            const response = await profileApi.createProfile(profileData);
+            return response;
+        } catch (error) {
+            console.error('Error creating profile:', error);
+            errors.value.push(error.message || 'Error creating profile');
+            throw error;
+        } finally {
+            isLoading.value = false;
+        }
+    }
+
+    async function updateProfile(profileId, profileData) {
+        isLoading.value = true;
+        errors.value = [];
+
+        try {
+            const response = await profileApi.updateProfile(profileId, profileData);
+            return response;
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            errors.value.push(error.message || 'Error updating profile');
+            throw error;
+        } finally {
+            isLoading.value = false;
+        }
+    }
+
     return {
         profile,
         viewType,
         isLoading,
         profileLoaded,
         errors,
-        fetchProfile
+        fetchProfile,
+        createProfile,
+        updateProfile
     };
 });

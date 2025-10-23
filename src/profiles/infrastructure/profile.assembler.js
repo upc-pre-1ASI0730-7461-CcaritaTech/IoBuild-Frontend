@@ -8,8 +8,10 @@ export class ProfileAssembler {
 
     const profileData = {
       id: response.id,
-      name: response.fullName || '',
+      // Backend returns 'name' in the profile response
+      name: response.name || response.fullName || '',
       email: response.email || '',
+      username: response.username || '',
       role: response.role || '',
 
       photoUrl: response.photoUrl && response.photoUrl !== 'undefined'
