@@ -5,7 +5,7 @@ const registerOwner = () => import('./views/register-owner.vue');
 
 const iamRoutes = [
     { 
-        path: '/login', 
+        path: 'login',
         name: 'login', 
         component: login, 
         meta: { 
@@ -14,7 +14,7 @@ const iamRoutes = [
         } 
     },
     { 
-        path: '/register-builder', 
+        path: 'register-builder',
         name: 'register-builder', 
         component: registerBuilder, 
         meta: { 
@@ -23,7 +23,7 @@ const iamRoutes = [
         } 
     },
     { 
-        path: '/register-owner', 
+        path: 'register-owner',
         name: 'register-owner', 
         component: registerOwner, 
         meta: { 
