@@ -29,23 +29,45 @@
 
 <script setup>
 import { useProfileStore } from '../../application/profile.store.js';
-import { onMounted } from 'vue';
+import { useIamStore } from '../../../iam/application/iam.store.js';
+import { onMounted, watch } from 'vue';
 import ProfileOwnerView from './profile-owner.vue';
 import ProfileBuilderView from './profile-builder.vue';
 
 const store = useProfileStore();
+const iamStore = useIamStore();
 
+// Function to load profile
+const loadProfile = () => {
+    const userId = iamStore.currentUser?.id;
+    if (userId) {
+        console.log('profile-router: Loading profile for userId', userId);
+        store.fetchProfile(userId);
+    } else {
+        store.isLoading = false;
+        store.errors.push("No authenticated user found. Please log in.");
+    }
+};
+
+// Load profile on mount
 onMounted(() => {
     if (!store.profileLoaded) {
-        const userId = import.meta.env.VITE_USER_ID;
-        if (userId) {
-             store.fetchProfile(userId);
-        } else {
-             store.isLoading = false;
-             store.errors.push("VITE_USER_ID undefined.");
-        }
+        loadProfile();
     }
 });
+
+// Watch for user changes (e.g., after logout/login with different user)
+watch(
+    () => iamStore.currentUser?.id,
+    (newUserId, oldUserId) => {
+        if (newUserId && newUserId !== oldUserId) {
+            console.log('profile-router: User changed, reloading profile', { from: oldUserId, to: newUserId });
+            // Reset profileLoaded to force reload
+            store.profileLoaded = false;
+            loadProfile();
+        }
+    }
+);
 </script>
 
 <style scoped>

@@ -4,6 +4,8 @@ import { computed, ref } from "vue";
 import { AuthenticatedUserAssembler } from "../infrastructure/authenticated-user.assembler.js";
 import { UserAssembler } from "../infrastructure/user.assembler.js";
 import { ProfileApi } from "../../profiles/infrastructure/profile-api.js";
+import { useProfileStore } from "../../profiles/application/profile.store.js";
+import { Profile } from "../../profiles/domain/model/profile.entity.js";
 
 const profileApi = new ProfileApi();
 
@@ -89,11 +91,21 @@ export const useIamStore = defineStore('iam', () => {
      * Sign out current user
      */
     function signOut() {
+        // Reset IAM store
         currentUser.value = null;
         token.value = '';
         isAuthenticated.value = false;
         localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
+        
+        // Reset profile store to ensure clean state for next login
+        const profileStore = useProfileStore();
+        profileStore.profile = new Profile({});
+        profileStore.profileLoaded = false;
+        profileStore.viewType = '';
+        profileStore.errors = [];
+        
+        console.log('iam.store: User signed out, stores reset');
     }
 
     /**

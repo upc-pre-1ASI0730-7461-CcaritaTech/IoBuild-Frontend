@@ -115,7 +115,10 @@ async function saveProfile() {
 
 function cancelEdit() {
   isEditing.value = false
-  store.fetchProfile(profile.value.id)
+  // Use userId from profile, not profile.id (which is the profile's ID, not user's ID)
+  if (profile.value?.userId) {
+    store.fetchProfile(profile.value.userId)
+  }
 }
 </script>
 
