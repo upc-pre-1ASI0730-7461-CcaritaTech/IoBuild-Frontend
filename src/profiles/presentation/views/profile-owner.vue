@@ -68,11 +68,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProfileStore } from '../../application/profile.store.js'
+import { useIamStore } from '../../../iam/application/iam.store.js'
 import { ProfileApi } from '../../infrastructure/profile-api.js'
 import PvButton from 'primevue/button'
 
 const { t, te } = useI18n()
 const store = useProfileStore()
+const iamStore = useIamStore()
 const api = new ProfileApi()
 const profile = computed(() => store.profile)
 const isEditing = ref(false)
@@ -80,8 +82,8 @@ const scenes = ref([])
 const isLoadingScenes = ref(true)
 
 onMounted(async () => {
-  const currentUserId = parseInt(import.meta.env.VITE_CURRENT_USER_ID)
-  if (currentUserId) await store.fetchProfile(currentUserId)
+  // Profile is already loaded by profile-router.vue
+  // Just load scenes data
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
   const res = await fetch(`${baseUrl}/scenes?unitId=201`)
   const data = await res.json()
@@ -110,7 +112,8 @@ async function saveProfile() {
 
 function cancelEdit() {
   isEditing.value = false
-  store.fetchProfile(profile.value.id)
+  // Use userId from profile, not profile.id
+  store.fetchProfile(profile.value.userId)
 }
 
 function toggleScene(scene) {
