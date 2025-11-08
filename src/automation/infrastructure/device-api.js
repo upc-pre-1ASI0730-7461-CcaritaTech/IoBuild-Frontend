@@ -1,15 +1,15 @@
-import axios from 'axios';
+import {BaseApi} from "@/shared/infrastructure/base-api.js";
 import { DeviceAssembler } from './device.assembler.js';
 
-export class DeviceApi {
+export class DeviceApi extends BaseApi {
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-    this.devicesEndpoint = import.meta.env.VITE_DEVICES_ENDPOINT_PATH || '/devices';
+    super();
+    this.devicesEndpoint = import.meta.env.VITE_DEVICES_ENDPOINT_PATH;
   }
 
   async getAllDevices() {
     try {
-      const response = await axios.get(`${this.baseURL}${this.devicesEndpoint}`);
+      const response = await this.http.get(`${this.devicesEndpoint}`);
       return DeviceAssembler.toEntityList(response.data);
     } catch (error) {
       console.error('Error fetching devices:', error);
@@ -19,7 +19,7 @@ export class DeviceApi {
 
   async getDeviceById(id) {
     try {
-      const response = await axios.get(`${this.baseURL}${this.devicesEndpoint}/${id}`);
+      const response = await this.http.get(`${this.devicesEndpoint}/${id}`);
       return DeviceAssembler.toEntity(response.data);
     } catch (error) {
       console.error('Error fetching device:', error);
@@ -30,7 +30,7 @@ export class DeviceApi {
   async updateDevice(device) {
     try {
       const deviceResource = DeviceAssembler.toResource(device);
-      const response = await axios.put(`${this.baseURL}${this.devicesEndpoint}/${device.id}`, deviceResource);
+      const response = await this.http.put(`${this.devicesEndpoint}/${device.id}`, deviceResource);
       return DeviceAssembler.toEntity(response.data);
     } catch (error) {
       console.error('Error updating device:', error);
@@ -41,7 +41,7 @@ export class DeviceApi {
   async createDevice(device) {
     try {
       const deviceResource = DeviceAssembler.toResource(device);
-      const response = await axios.post(`${this.baseURL}${this.devicesEndpoint}`, deviceResource);
+      const response = await this.http.post(`${this.devicesEndpoint}`, deviceResource);
       return DeviceAssembler.toEntity(response.data);
     } catch (error) {
       console.error('Error creating device:', error);
@@ -51,7 +51,7 @@ export class DeviceApi {
 
   async deleteDevice(id) {
     try {
-      await axios.delete(`${this.baseURL}${this.devicesEndpoint}/${id}`);
+      await this.http.delete(`${this.devicesEndpoint}/${id}`);
       return true;
     } catch (error) {
       console.error('Error deleting device:', error);

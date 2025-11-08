@@ -1,5 +1,5 @@
 export class Device {
-  constructor(id, name, type, location, projectId, status = 'Online') {
+  constructor(id=null, name="", type="", location="", projectId=1, status = "") {
     this.id = id;
     this.name = name;
     this.type = type; // canonical code (e.g., temperature, energy)
