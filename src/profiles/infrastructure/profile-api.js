@@ -1,7 +1,7 @@
 import { BaseApi } from "../../shared/infrastructure/base-api.js";
 
-const profilesEndpoint = '/api/v1/profiles';
-const usersEndpoint = '/api/v1/users';
+const profilesEndpoint = import.meta.env.VITE_PROFILES_ENDPOINT_PATH;
+const usersEndpoint = import.meta.env.VITE_USERS_ENDPOINT_PATH;
 
 /**
  * Profile API class to interact with profiles endpoints
