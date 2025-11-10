@@ -1,7 +1,7 @@
 import { BaseApi } from "../../shared/infrastructure/base-api.js";
 
-const authenticationEndpoint = '/api/v1/authentication';
-const usersEndpoint = '/api/v1/users';
+const authenticationEndpoint = import.meta.env.VITE_AUTHENTICATION_ENDPOINT_PATH;
+const usersEndpoint = import.meta.env.VITE_USERS_ENDPOINT_PATH;
 
 /**
  * IAM API class to interact with authentication endpoints
