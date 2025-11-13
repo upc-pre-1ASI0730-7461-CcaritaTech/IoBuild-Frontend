@@ -61,9 +61,13 @@ const cancel = () => {
         <label>{{ t("projects.fields.total-units") }}</label>
         <pv-input-number v-model="form.totalUnits" :min="0" class="w-full" />
       </div>
-      <div class="mb-3">
+      <div v-if="isEdit" class="mb-3">
         <label>{{ t("projects.fields.occupied-units") }}</label>
         <pv-input-number v-model="form.occupiedUnits" :min="0" class="w-full" />
+      </div>
+      <div class="mb-3">
+        <label>{{ t("projects.fields.image-url") }}</label>
+        <pv-input-text v-model="form.imageUrl" class="w-full" />
       </div>
 
       <pv-button type="submit" :label="t('projects.actions.save')" icon="pi pi-check" />
