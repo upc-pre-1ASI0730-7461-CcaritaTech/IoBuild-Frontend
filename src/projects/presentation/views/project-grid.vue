@@ -21,7 +21,7 @@ const navigateToDetails = (id) => router.push({ name: "projects-management-detai
 
 <template>
   <div class="p-3 lg:p-4">
-    <div class="flex  items-center justify-between mb-3">
+    <div class="flex items-center justify-between mb-3">
       <h1 class="text-xl font-semibold lg:text-2xl">{{ t("projects.title") }}</h1>
       <div class="ml-auto">
         <pv-button
@@ -35,7 +35,7 @@ const navigateToDetails = (id) => router.push({ name: "projects-management-detai
     </div>
 
     <div
-      class="grid gap-[15px] grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr"
+      class="grid gap-[15px] grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr gap-4"
       v-if="store.projects.length"
     >
       <ProjectCard
