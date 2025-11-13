@@ -1,9 +1,9 @@
 import {createRouter, createWebHistory} from "vue-router";
-import monitoringRoutes from "./monitoring/presentation/monitoring-routes.js";
 import automationRoutes from "./automation/presentation/automation-routes.js";
 import subscriptionsRoutes from "./subscriptions/presentation/subscriptions-routes.js";
 import profilesRoutes from "./profiles/presentation/profiles-routes.js";
 import projectsRoutes from "./projects/presentation/projects-routes.js";
+import analyticsRoutes from "./analytics/presentation/analytics-routes.js";
 import { clientsRoutes } from "./clients/presentation/clients-routes.js";
 import iamRoutes from "./iam/presentation/iam-routes.js";
 
@@ -15,9 +15,9 @@ const routes = [
         children: iamRoutes
     },
     {
-        path:'/monitoring',
-        name:'monitoring',
-        children: monitoringRoutes
+        path: '/analytics',
+        name: 'analytics',
+        children: analyticsRoutes
     },
     {
         path: '/automation',
@@ -58,7 +58,7 @@ const routes = [
     {
         path: '/home',
         name: 'home',
-        redirect: '/monitoring/dashboard'
+        redirect: '/analytics/dashboard'
     },
 
     {
