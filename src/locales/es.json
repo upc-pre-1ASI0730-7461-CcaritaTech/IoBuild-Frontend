@@ -383,5 +383,78 @@
       "submitButton": "Registrarse",
       "cancelButton": "Cancelar"
     }
+  },
+  "analytics": {
+    "builder": {
+      "title": "Panel del Constructor",
+      "subtitle": "Vista general completa de tus proyectos de construcción",
+      "stats": {
+        "activeProjects": "Proyectos Activos",
+        "connectedDevices": "Dispositivos Conectados",
+        "occupiedUnits": "Unidades Ocupadas",
+        "totalUnits": "Unidades Totales",
+        "alerts": "Alertas",
+        "energyEfficiency": "Eficiencia Energética",
+        "averageConsumption": "Consumo promedio",
+        "online": "en línea",
+        "occupancy": "ocupación"
+      },
+      "charts": {
+        "hourlyEnergy": "Consumo de Energía por Hora (Últimas 24h)",
+        "monthlyOccupancy": "Tasa de Ocupación Mensual",
+        "temperatureTrends": "Tendencias de Temperatura (Últimos 7 Días)",
+        "deviceDistribution": "Distribución de Dispositivos por Tipo",
+        "energyLabel": "Energía (kWh)",
+        "occupancyLabel": "Tasa de Ocupación (%)",
+        "temperatureLabel": "Temperatura (°C)"
+      },
+      "sections": {
+        "devicesDistribution": "Distribución de Dispositivos por Tipo",
+        "projectsOverview": "Resumen de Proyectos",
+        "devices": "dispositivos"
+      },
+      "noData": {
+        "hourlyEnergy": "No hay datos de energía por hora disponibles",
+        "occupancy": "No hay datos de ocupación disponibles",
+        "temperature": "No hay datos de temperatura disponibles",
+        "device": "No hay datos de dispositivos disponibles",
+        "projects": "No hay proyectos disponibles"
+      }
+    },
+    "owner": {
+      "title": "Mi Panel de Unidad",
+      "subtitle": "Vista general personal de tu hogar inteligente",
+      "stats": {
+        "myUnits": "Mis Unidades",
+        "myDevices": "Mis Dispositivos",
+        "energyThisMonth": "Energía Este Mes",
+        "temperatureAvg": "Temperatura Promedio",
+        "alerts": "Alertas",
+        "online": "en línea"
+      },
+      "charts": {
+        "energyConsumption": "Mi Consumo de Energía (Últimos 30 Días)",
+        "temperatureComfort": "Confort de Temperatura (Últimos 7 Días)",
+        "waterUsage": "Consumo de Agua (Esta Semana)",
+        "dailyEnergyLabel": "Energía Diaria (kWh)",
+        "temperatureLabel": "Temperatura (°C)",
+        "waterLabel": "Consumo de Agua (L)"
+      },
+      "sections": {
+        "deviceHealth": "Estado de Salud de Dispositivos",
+        "myUnitsOverview": "Resumen de Mis Unidades"
+      },
+      "device": {
+        "online": "En Línea",
+        "offline": "Desconectado"
+      },
+      "noData": {
+        "energyConsumption": "No hay datos de consumo de energía disponibles",
+        "temperature": "No hay datos de temperatura disponibles",
+        "waterUsage": "No hay datos de consumo de agua disponibles",
+        "deviceHealth": "No hay datos de salud de dispositivos disponibles",
+        "units": "No hay unidades disponibles"
+      }
+    }
   }
 }
