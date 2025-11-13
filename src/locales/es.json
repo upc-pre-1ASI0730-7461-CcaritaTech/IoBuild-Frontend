@@ -30,7 +30,8 @@
       "occupied-units": "Units Ocupadas",
       "occupancy-rate": "Tasa de Ocupación",
       "status": "Estado",
-      "created-date": "Fecha de creación"
+      "created-date": "Fecha de creación",
+      "image-url": "Link de Imagen"
     },
     "status": {
       "planned": "Planeado",

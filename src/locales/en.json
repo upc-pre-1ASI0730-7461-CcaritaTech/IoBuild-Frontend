@@ -30,7 +30,8 @@
       "occupied-units": "Occupied Units",
       "occupancy-rate": "Occupancy Rate",
       "status": "Status",
-      "created-date": "Created Date"
+      "created-date": "Created Date",
+      "image-url": "Image link"
     },
     "status": {
       "planned": "Planned",
