@@ -24,13 +24,18 @@
     "confirm-delete": "Are you sure you want to delete project '{name}'?",
     "fields": {
       "name": "Project Name",
+      "name-placeholder": "Enter project name",
       "description": "Description",
+      "description-placeholder": "Enter project description",
       "location": "Location",
+      "location-placeholder": "Enter project location",
       "total-units": "Total Units",
       "occupied-units": "Occupied Units",
       "occupancy-rate": "Occupancy Rate",
       "status": "Status",
-      "created-date": "Created Date"
+      "created-date": "Created Date",
+      "image-url": "Image link",
+      "image-url-placeholder": "https://example.com/image.jpg"
     },
     "status": {
       "planned": "Planned",

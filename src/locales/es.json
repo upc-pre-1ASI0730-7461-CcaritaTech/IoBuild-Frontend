@@ -24,13 +24,18 @@
     "confirm-delete": "¿Está seguro de que desea eliminar el proyecto '{name}'?",
     "fields": {
       "name": "Nombre del Proyecto",
+      "name-placeholder": "Ingrese el nombre del proyecto",
       "description": "Descripción",
+      "description-placeholder": "Ingrese una breve descripción del proyecto",
       "location": "Ubicación",
+      "location-placeholder": "Ingrese la ubicación del proyecto",
       "total-units": "Unidades Totales",
       "occupied-units": "Units Ocupadas",
       "occupancy-rate": "Tasa de Ocupación",
       "status": "Estado",
-      "created-date": "Fecha de creación"
+      "created-date": "Fecha de creación",
+      "image-url": "Link de Imagen",
+      "image-url-placeholder": "https://ejemplo.com/imagen.jpg"
     },
     "status": {
       "planned": "Planeado",
