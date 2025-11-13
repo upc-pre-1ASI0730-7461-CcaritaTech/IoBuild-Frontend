@@ -41,41 +41,188 @@ const cancel = () => {
 </script>
 
 <template>
-  <div class="p-4">
-    <h1>{{ isEdit ? t("projects.edit-title") : t("projects.new-title") }}</h1>
-
-    <form @submit.prevent="save">
-      <div class="mb-3">
-        <label>{{ t("projects.fields.name") }}</label>
-        <pv-input-text v-model="form.name" class="w-full" required />
-      </div>
-      <div class="mb-3">
-        <label>{{ t("projects.fields.description") }}</label>
-        <pv-input-text v-model="form.description" class="w-full" />
-      </div>
-      <div class="mb-3">
-        <label>{{ t("projects.fields.location") }}</label>
-        <pv-input-text v-model="form.location" class="w-full" />
-      </div>
-      <div class="mb-3">
-        <label>{{ t("projects.fields.total-units") }}</label>
-        <pv-input-number v-model="form.totalUnits" :min="0" class="w-full" />
-      </div>
-      <div v-if="isEdit" class="mb-3">
-        <label>{{ t("projects.fields.occupied-units") }}</label>
-        <pv-input-number v-model="form.occupiedUnits" :min="0" class="w-full" />
-      </div>
-      <div class="mb-3">
-        <label>{{ t("projects.fields.image-url") }}</label>
-        <pv-input-text v-model="form.imageUrl" class="w-full" />
+  <div class="p-4 lg:p-4 bg-gray-50 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+      <!-- Header -->
+      <div class="mb-6">
+        <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
+          <i class="pi pi-home"></i>
+          <span>/</span>
+          <span class="text-emerald-600 font-medium">{{ isEdit ? t("projects.edit-title") : t("projects.new-title") }}</span>
+        </div>
+        <h1 class="text-2xl lg:text-3xl font-bold text-gray-900">
+          {{ isEdit ? t("projects.edit-title") : t("projects.new-title") }}
+        </h1>
       </div>
 
-      <pv-button type="submit" :label="t('projects.actions.save')" icon="pi pi-check" />
-      <pv-button :label="t('projects.actions.cancel')" class="ml-2" severity="secondary" @click="cancel" />
-    </form>
+      <!-- Form Card -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 lg:p-4">
+        <form @submit.prevent="save">
+          <!-- Name Field -->
+          <div class="form-field mb-4">
+            <label class="form-label">
+              <i class="pi pi-tag text-emerald-600 mr-2"></i>
+              {{ t("projects.fields.name") }}
+              <span class="text-red-500 ml-1">*</span>
+            </label>
+            <pv-input-text
+                v-model="form.name"
+                class="w-full input-enhanced"
+                required
+                :placeholder="t('projects.fields.name-placeholder')"
+            />
+          </div>
+
+          <!-- Description Field -->
+          <div class="form-field mb-4">
+            <label class="form-label">
+              <i class="pi pi-align-left text-emerald-600 mr-2"></i>
+              {{ t("projects.fields.description") }}
+            </label>
+            <pv-textarea
+                v-model="form.description"
+                class="w-full input-enhanced"
+                rows="3"
+                :placeholder="t('projects.fields.description-placeholder')"
+            />
+          </div>
+
+          <!-- Location Field -->
+          <div class="form-field mb-4">
+            <label class="form-label">
+              <i class="pi pi-map-marker text-emerald-600 mr-2"></i>
+              {{ t("projects.fields.location") }}
+            </label>
+            <pv-input-text
+                v-model="form.location"
+                class="w-full input-enhanced"
+                :placeholder="t('projects.fields.location-placeholder')"
+            />
+          </div>
+
+          <!-- Units Fields -->
+          <div class="form-field mb-4">
+            <label class="form-label">
+              <i class="pi pi-building text-emerald-600 mr-2"></i>
+              {{ t("projects.fields.total-units") }}
+            </label>
+            <pv-input-number
+                v-model="form.totalUnits"
+                :min="0"
+                class="w-full input-enhanced"
+                placeholder="0"
+            />
+          </div>
+
+          <div v-if="isEdit" class="form-field mb-4">
+            <label class="form-label">
+              <i class="pi pi-check-circle text-emerald-600 mr-2"></i>
+              {{ t("projects.fields.occupied-units") }}
+            </label>
+            <pv-input-number
+                v-model="form.occupiedUnits"
+                :min="0"
+                class="w-full input-enhanced"
+                placeholder="0"
+            />
+          </div>
+
+          <!-- Image URL Field -->
+          <div class="form-field">
+            <label class="form-label">
+              <i class="pi pi-image text-emerald-600 mr-2"></i>
+              {{ t("projects.fields.image-url") }}
+            </label>
+            <pv-input-text
+                v-model="form.imageUrl"
+                class="w-full input-enhanced"
+                :placeholder="t('projects.fields.image-url-placeholder')"
+            />
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex gap-3 pt-4 border-t border-gray-200">
+            <pv-button
+                type="submit"
+                :label="t('projects.actions.save')"
+                icon="pi pi-check"
+                class="custom-green-button flex-1 md:flex-initial"
+            />
+            <pv-button
+                :label="t('projects.actions.cancel')"
+                icon="pi pi-times"
+                severity="secondary"
+                class="cancel-button flex-1 md:flex-initial"
+                @click="cancel"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+}
+
+:deep(.input-enhanced input),
+:deep(.input-enhanced textarea),
+:deep(.input-enhanced .p-inputnumber-input) {
+  border-color: #e5e7eb !important;
+  transition: all 0.2s ease !important;
+}
+
+:deep(.input-enhanced input:focus),
+:deep(.input-enhanced textarea:focus),
+:deep(.input-enhanced .p-inputnumber-input:focus) {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+}
+
+:deep(.custom-green-button) {
+  background-color: #10B981 !important;
+  border-color: #10B981 !important;
+  color: white !important;
+  transition: all 0.2s ease !important;
+  padding: 0.625rem 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+:deep(.custom-green-button:hover) {
+  background-color: #059669 !important;
+  border-color: #059669 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3) !important;
+}
+
+:deep(.custom-green-button:focus) {
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3) !important;
+}
+
+:deep(.cancel-button) {
+  background-color: white !important;
+  border-color: #e5e7eb !important;
+  color: #6b7280 !important;
+  transition: all 0.2s ease !important;
+  padding: 0.625rem 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+:deep(.cancel-button:hover) {
+  background-color: #f9fafb !important;
+  border-color: #d1d5db !important;
+  color: #374151 !important;
+}
 </style>
