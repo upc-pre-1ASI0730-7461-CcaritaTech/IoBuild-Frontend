@@ -24,13 +24,18 @@
     "confirm-delete": "¿Está seguro de que desea eliminar el proyecto '{name}'?",
     "fields": {
       "name": "Nombre del Proyecto",
+      "name-placeholder": "Ingrese el nombre del proyecto",
       "description": "Descripción",
+      "description-placeholder": "Ingrese una breve descripción del proyecto",
       "location": "Ubicación",
+      "location-placeholder": "Ingrese la ubicación del proyecto",
       "total-units": "Unidades Totales",
       "occupied-units": "Units Ocupadas",
       "occupancy-rate": "Tasa de Ocupación",
       "status": "Estado",
-      "created-date": "Fecha de creación"
+      "created-date": "Fecha de creación",
+      "image-url": "Link de Imagen",
+      "image-url-placeholder": "https://ejemplo.com/imagen.jpg"
     },
     "status": {
       "planned": "Planeado",
@@ -313,6 +318,143 @@
       "realtimeStatus": "Estado en tiempo real",
       "actions": "Acciones",
       "empty": "No hay dispositivos disponibles"
+    }
+  },
+  "iam": {
+    "logout": "Cerrar Sesión",
+    "login": {
+      "title": "Iniciar Sesión",
+      "email": "Correo Electrónico",
+      "emailPlaceholder": "Ingrese su correo electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingrese su contraseña",
+      "submitButton": "Iniciar Sesión",
+      "noAccount": "¿No tienes una cuenta?",
+      "registerBuilder": "Registrarse como Constructor",
+      "registerOwner": "Registrarse como Propietario"
+    },
+    "registerBuilder": {
+      "title": "Registro como Constructor",
+      "userInfoSection": "Información de Cuenta",
+      "profileInfoSection": "Información de la Empresa",
+      "email": "Correo Electrónico",
+      "emailPlaceholder": "Ingrese su correo electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingrese su contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "confirmPasswordPlaceholder": "Confirme su contraseña",
+      "photoUrl": "URL de Foto",
+      "photoUrlPlaceholder": "Ingrese URL de foto (opcional)",
+      "name": "Nombre de la Empresa",
+      "namePlaceholder": "Ingrese el nombre de la empresa",
+      "username": "Nombre de Usuario",
+      "usernamePlaceholder": "Ingrese nombre de usuario",
+      "address": "Dirección",
+      "addressPlaceholder": "Ingrese la dirección de la empresa",
+      "age": "Años en el Negocio",
+      "agePlaceholder": "Ingrese años en el negocio",
+      "phoneNumber": "Número de Teléfono",
+      "phoneNumberPlaceholder": "Ingrese número de teléfono",
+      "submitButton": "Registrarse",
+      "cancelButton": "Cancelar"
+    },
+    "registerOwner": {
+      "title": "Registro como Propietario",
+      "userInfoSection": "Información de Cuenta",
+      "profileInfoSection": "Información Personal",
+      "email": "Correo Electrónico",
+      "emailPlaceholder": "Ingrese su correo electrónico",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Ingrese su contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "confirmPasswordPlaceholder": "Confirme su contraseña",
+      "photoUrl": "URL de Foto",
+      "photoUrlPlaceholder": "Ingrese URL de foto (opcional)",
+      "name": "Nombre Completo",
+      "namePlaceholder": "Ingrese su nombre completo",
+      "username": "Nombre de Usuario",
+      "usernamePlaceholder": "Ingrese nombre de usuario",
+      "address": "Dirección",
+      "addressPlaceholder": "Ingrese su dirección",
+      "age": "Edad",
+      "agePlaceholder": "Ingrese su edad",
+      "phoneNumber": "Número de Teléfono",
+      "phoneNumberPlaceholder": "Ingrese número de teléfono",
+      "submitButton": "Registrarse",
+      "cancelButton": "Cancelar"
+    }
+  },
+  "analytics": {
+    "builder": {
+      "title": "Panel del Constructor",
+      "subtitle": "Vista general completa de tus proyectos de construcción",
+      "stats": {
+        "activeProjects": "Proyectos Activos",
+        "connectedDevices": "Dispositivos Conectados",
+        "occupiedUnits": "Unidades Ocupadas",
+        "totalUnits": "Unidades Totales",
+        "alerts": "Alertas",
+        "energyEfficiency": "Eficiencia Energética",
+        "averageConsumption": "Consumo promedio",
+        "online": "en línea",
+        "occupancy": "ocupación"
+      },
+      "charts": {
+        "hourlyEnergy": "Consumo de Energía por Hora (Últimas 24h)",
+        "monthlyOccupancy": "Tasa de Ocupación Mensual",
+        "temperatureTrends": "Tendencias de Temperatura (Últimos 7 Días)",
+        "deviceDistribution": "Distribución de Dispositivos por Tipo",
+        "energyLabel": "Energía (kWh)",
+        "occupancyLabel": "Tasa de Ocupación (%)",
+        "temperatureLabel": "Temperatura (°C)"
+      },
+      "sections": {
+        "devicesDistribution": "Distribución de Dispositivos por Tipo",
+        "projectsOverview": "Resumen de Proyectos",
+        "devices": "dispositivos"
+      },
+      "noData": {
+        "hourlyEnergy": "No hay datos de energía por hora disponibles",
+        "occupancy": "No hay datos de ocupación disponibles",
+        "temperature": "No hay datos de temperatura disponibles",
+        "device": "No hay datos de dispositivos disponibles",
+        "projects": "No hay proyectos disponibles"
+      }
+    },
+    "owner": {
+      "title": "Mi Panel de Unidad",
+      "subtitle": "Vista general personal de tu hogar inteligente",
+      "stats": {
+        "myUnits": "Mis Unidades",
+        "myDevices": "Mis Dispositivos",
+        "energyThisMonth": "Energía Este Mes",
+        "temperatureAvg": "Temperatura Promedio",
+        "alerts": "Alertas",
+        "online": "en línea"
+      },
+      "charts": {
+        "energyConsumption": "Mi Consumo de Energía (Últimos 30 Días)",
+        "temperatureComfort": "Confort de Temperatura (Últimos 7 Días)",
+        "waterUsage": "Consumo de Agua (Esta Semana)",
+        "dailyEnergyLabel": "Energía Diaria (kWh)",
+        "temperatureLabel": "Temperatura (°C)",
+        "waterLabel": "Consumo de Agua (L)"
+      },
+      "sections": {
+        "deviceHealth": "Estado de Salud de Dispositivos",
+        "myUnitsOverview": "Resumen de Mis Unidades"
+      },
+      "device": {
+        "online": "En Línea",
+        "offline": "Desconectado"
+      },
+      "noData": {
+        "energyConsumption": "No hay datos de consumo de energía disponibles",
+        "temperature": "No hay datos de temperatura disponibles",
+        "waterUsage": "No hay datos de consumo de agua disponibles",
+        "deviceHealth": "No hay datos de salud de dispositivos disponibles",
+        "units": "No hay unidades disponibles"
+      }
     }
   }
 }

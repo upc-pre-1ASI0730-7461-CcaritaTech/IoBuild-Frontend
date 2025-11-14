@@ -24,13 +24,18 @@
     "confirm-delete": "Are you sure you want to delete project '{name}'?",
     "fields": {
       "name": "Project Name",
+      "name-placeholder": "Enter project name",
       "description": "Description",
+      "description-placeholder": "Enter project description",
       "location": "Location",
+      "location-placeholder": "Enter project location",
       "total-units": "Total Units",
       "occupied-units": "Occupied Units",
       "occupancy-rate": "Occupancy Rate",
       "status": "Status",
-      "created-date": "Created Date"
+      "created-date": "Created Date",
+      "image-url": "Image link",
+      "image-url-placeholder": "https://example.com/image.jpg"
     },
     "status": {
       "planned": "Planned",
@@ -313,6 +318,143 @@
       "security": "Security System",
       "lighting": "Lighting Control",
       "hvac": "HVAC System"
+    }
+  },
+  "iam": {
+    "logout": "Log Out",
+    "login": {
+      "title": "Sign In",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submitButton": "Sign In",
+      "noAccount": "Don't have an account?",
+      "registerBuilder": "Register as Builder",
+      "registerOwner": "Register as Owner"
+    },
+    "registerBuilder": {
+      "title": "Register as Builder",
+      "userInfoSection": "Account Information",
+      "profileInfoSection": "Company Information",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "photoUrl": "Photo URL",
+      "photoUrlPlaceholder": "Enter photo URL (optional)",
+      "name": "Company Name",
+      "namePlaceholder": "Enter company name",
+      "username": "Username",
+      "usernamePlaceholder": "Enter username",
+      "address": "Address",
+      "addressPlaceholder": "Enter company address",
+      "age": "Years in Business",
+      "agePlaceholder": "Enter years in business",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter phone number",
+      "submitButton": "Register",
+      "cancelButton": "Cancel"
+    },
+    "registerOwner": {
+      "title": "Register as Owner",
+      "userInfoSection": "Account Information",
+      "profileInfoSection": "Personal Information",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "photoUrl": "Photo URL",
+      "photoUrlPlaceholder": "Enter photo URL (optional)",
+      "name": "Full Name",
+      "namePlaceholder": "Enter your full name",
+      "username": "Username",
+      "usernamePlaceholder": "Enter username",
+      "address": "Address",
+      "addressPlaceholder": "Enter your address",
+      "age": "Age",
+      "agePlaceholder": "Enter your age",
+      "phoneNumber": "Phone Number",
+      "phoneNumberPlaceholder": "Enter phone number",
+      "submitButton": "Register",
+      "cancelButton": "Cancel"
+    }
+  },
+  "analytics": {
+    "builder": {
+      "title": "Builder Dashboard",
+      "subtitle": "Comprehensive overview of your construction projects",
+      "stats": {
+        "activeProjects": "Active Projects",
+        "connectedDevices": "Connected Devices",
+        "occupiedUnits": "Occupied Units",
+        "totalUnits": "Total Units",
+        "alerts": "Alerts",
+        "energyEfficiency": "Energy Efficiency",
+        "averageConsumption": "Average consumption",
+        "online": "online",
+        "occupancy": "occupancy"
+      },
+      "charts": {
+        "hourlyEnergy": "Hourly Energy Consumption (Last 24h)",
+        "monthlyOccupancy": "Monthly Occupancy Rate",
+        "temperatureTrends": "Temperature Trends (Last 7 Days)",
+        "deviceDistribution": "Device Distribution by Type",
+        "energyLabel": "Energy (kWh)",
+        "occupancyLabel": "Occupancy Rate (%)",
+        "temperatureLabel": "Temperature (°C)"
+      },
+      "sections": {
+        "devicesDistribution": "Devices Distribution by Type",
+        "projectsOverview": "Projects Overview",
+        "devices": "devices"
+      },
+      "noData": {
+        "hourlyEnergy": "No hourly energy data available",
+        "occupancy": "No occupancy data available",
+        "temperature": "No temperature data available",
+        "device": "No device data available",
+        "projects": "No projects available"
+      }
+    },
+    "owner": {
+      "title": "My Unit Dashboard",
+      "subtitle": "Personal overview of your smart home",
+      "stats": {
+        "myUnits": "My Units",
+        "myDevices": "My Devices",
+        "energyThisMonth": "Energy This Month",
+        "temperatureAvg": "Temperature Avg",
+        "alerts": "Alerts",
+        "online": "online"
+      },
+      "charts": {
+        "energyConsumption": "My Energy Consumption (Last 30 Days)",
+        "temperatureComfort": "Temperature Comfort (Last 7 Days)",
+        "waterUsage": "Water Usage (This Week)",
+        "dailyEnergyLabel": "Daily Energy (kWh)",
+        "temperatureLabel": "Temperature (°C)",
+        "waterLabel": "Water Usage (L)"
+      },
+      "sections": {
+        "deviceHealth": "Device Health Status",
+        "myUnitsOverview": "My Units Overview"
+      },
+      "device": {
+        "online": "Online",
+        "offline": "Offline"
+      },
+      "noData": {
+        "energyConsumption": "No energy consumption data available",
+        "temperature": "No temperature data available",
+        "waterUsage": "No water usage data available",
+        "deviceHealth": "No device health data available",
+        "units": "No units available"
+      }
     }
   }
 }
