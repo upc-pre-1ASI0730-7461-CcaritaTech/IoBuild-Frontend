@@ -269,7 +269,15 @@
     "plan-changed": "Ha cambiado exitosamente al plan {planName}",
     "renew-failed": "Error al renovar el plan",
     "cancel-failed": "Error al cancelar la suscripción",
-    "change-failed": "Error al cambiar el plan"
+    "change-failed": "Error al cambiar el plan",
+    "previous-invoices": "Facturas anteriores",
+    "previous-invoices-button": "Facturas anteriores",
+    "invoice-due-date-label": "Fecha de vencimiento",
+    "invoice-billing-period-label": "Periodo de facturación",
+    "invoice-view-details": "Ver detalles",
+    "invoice-status-paid": "Pagada",
+    "invoice-status-pending": "Pendiente",
+    "no-invoices": "Sin facturas anteriores"
   },
   "devices": {
     "title": "Gestión de dispositivos",

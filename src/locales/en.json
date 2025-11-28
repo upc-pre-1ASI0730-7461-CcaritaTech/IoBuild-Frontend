@@ -269,7 +269,15 @@
     "plan-changed": "You have successfully changed to the {planName} plan",
     "renew-failed": "Failed to renew plan",
     "cancel-failed": "Failed to cancel subscription",
-    "change-failed": "Failed to change plan"
+    "change-failed": "Failed to change plan",
+    "previous-invoices": "Previous invoices",
+    "previous-invoices-button": "Previous invoices",
+    "invoice-due-date-label": "Due Date",
+    "invoice-billing-period-label": "Billing Period",
+    "invoice-view-details": "View Details",
+    "invoice-status-paid": "Paid",
+    "invoice-status-pending": "Pending",
+    "no-invoices": "No previous invoices"
   },
   "devices": {
     "title": "Device Management",
