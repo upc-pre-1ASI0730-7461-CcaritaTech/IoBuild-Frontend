@@ -45,7 +45,7 @@ defineEmits(['renew', 'cancel']);
         :label="t('subscriptions.renew-plan')"
         class="custom-green-button-large"
         @click="$emit('renew')"
-        :disabled="!subscription.isActive()"
+        :disabled="false"
       />
       <pv-button
         :label="t('subscriptions.cancel-plan')"

@@ -1,16 +1,24 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
 import useSubscriptionStore from "../../application/subscription.store.js";
 import PlanCard from "../components/plan-card.vue";
 import CurrentPlanCard from "../components/current-plan-card.vue";
+import PreviousInvoicesModal from "../components/previous-invoices-modal.vue";
+import { SubscriptionApi } from "../../infrastructure/subscription-api.js";
 
 const { t } = useI18n();
 const confirm = useConfirm();
 const toast = useToast();
 const store = useSubscriptionStore();
+const subscriptionApi = new SubscriptionApi();
+
+const showInvoices = ref(false);
+const invoices = ref([]);
+const invoicesLoading = ref(false);
+const invoicesError = ref("");
 
 onMounted(() => {
   store.fetchCurrentSubscription();
@@ -95,26 +103,66 @@ const handleChangePlan = (plan) => {
     },
   });
 };
+
+
+const openInvoices = async () => {
+  if (!store.currentSubscription) return;
+  invoices.value = [];
+  invoicesError.value = "";
+  invoicesLoading.value = true;
+  showInvoices.value = true;
+  try {
+    const resp = await subscriptionApi.getPreviousInvoicesBySubscriptionId(store.currentSubscription.id);
+    const rows = Array.isArray(resp.data) ? resp.data : resp.data?.data || [];
+    invoices.value = rows.map(inv => ({
+      id: inv.id,
+      period: inv.period || '',
+      date: inv.dueDate || inv.date || null,
+      dueDate: inv.dueDate || inv.date || null,
+      billingStart: inv.billingStart || null,
+      billingEnd: inv.billingEnd || null,
+      status: inv.status || 'paid',
+      currency: inv.currency || '$',
+      amount: inv.amount || 0,
+      downloadUrl: inv.downloadUrl || '#'
+    })).filter(i => i.id);
+  } catch (e) {
+    invoicesError.value = e?.message || t('subscriptions.change-failed');
+  } finally {
+    invoicesLoading.value = false;
+  }
+};
+
+const closeInvoices = () => {
+  showInvoices.value = false;
+};
 </script>
 
 <template>
   <div class="subscription-container">
-    <!-- Header -->
-    <h1 class="text-3xl font-extrabold text-gray-900 mb-1">
-      {{ t("subscriptions.title") }}
-    </h1>
-    <p class="text-lg font-semibold text-gray-800 mb-6">
-      {{ t("subscriptions.current-plan") }}:
-      <span class="text-black font-bold">{{ store.currentPlan?.name || 'N/A' }}</span>
-    </p>
+
+    <div class="header-row">
+      <div class="header-left">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-1">
+          {{ t("subscriptions.title") }}
+        </h1>
+        <p class="text-lg font-semibold text-gray-800">
+          {{ t("subscriptions.current-plan") }}:
+          <span class="text-black font-bold">{{ store.currentPlan?.name || 'N/A' }}</span>
+        </p>
+      </div>
+      <div class="header-right">
+        <pv-button :label="t('subscriptions.previous-invoices-button')" class="p-button-sm invoices-btn" @click="openInvoices" :disabled="!store.currentSubscription" />
+      </div>
+    </div>
 
     <div v-if="store.isLoading" class="flex justify-center items-center py-8">
       <pv-progress-spinner />
     </div>
 
-    <!-- Main content -->
+
     <div v-else-if="store.currentPlan" class="subscription-layout">
-      <!-- Current Plan - Lado izquierdo -->
+
       <div class="current-plan-section">
         <CurrentPlanCard
           :plan="store.currentPlan"
@@ -154,6 +202,15 @@ const handleChangePlan = (plan) => {
         />
       </div>
     </div>
+
+    <!-- Modal de facturas anteriores -->
+    <PreviousInvoicesModal
+      :visible="showInvoices"
+      :invoices="invoices"
+      :loading="invoicesLoading"
+      :error="invoicesError"
+      @close="closeInvoices"
+    />
   </div>
 </template>
 
@@ -169,6 +226,19 @@ const handleChangePlan = (plan) => {
 li {
   line-height: 1.5rem;
 }
+
+/* Header row con botón a la derecha */
+.header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.header-left p { margin-bottom: 0.5rem; }
+.invoices-btn { white-space: nowrap; }
+/* Forzar texto blanco del label del botón de PrimeVue */
+:deep(.invoices-btn .p-button-label) { color: #ffffff !important; }
 
 .subscription-layout {
   display: flex;
@@ -268,6 +338,11 @@ li {
   .subscription-container {
     padding: 1rem;
     text-align: center;
+  }
+
+  .header-row {
+    flex-direction: column;
+    align-items: center;
   }
 
   /* Cambiar a layout vertical */
