@@ -151,7 +151,8 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
         const updatedSubscription = {
             ...currentSubscription.value,
             plan: newPlan.name,
-            price: newPlan.price
+            price: newPlan.price,
+            status: 'active'
         };
 
         return subscriptionApi
