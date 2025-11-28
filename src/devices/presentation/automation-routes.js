@@ -3,13 +3,13 @@ import DeviceManagement from './views/device-management.vue';
 export const automationRoutes = [
   {
     path: '',
-    redirect: '/automation/device-management'
+    redirect: '/devices/device-management'
   },
   {
-    path: 'device-management', // Ruta final: /automation/device-management
+    path: 'device-management', // Ruta final: /devices/device-management
     name: 'device-management',
     component: DeviceManagement,
-    alias: ['/automation/devices', 'devices'], // Compatibilidad con rutas antiguas
+    alias: ['/devices/devices', 'devices'], // Compatibilidad con rutas antiguas
     meta: {
       title: 'Device Management',
       requiresAuth: true
