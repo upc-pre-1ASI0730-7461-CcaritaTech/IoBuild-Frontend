@@ -31,7 +31,7 @@ export class SubscriptionApi extends BaseApi {
     }
 
     renewSubscription(subscriptionId) {
-        // Simulate renew operation - in real app this would call a specific endpoint
+
         return this.updateSubscription({
             id: subscriptionId,
             status: 'active',
@@ -40,10 +40,15 @@ export class SubscriptionApi extends BaseApi {
     }
 
     cancelSubscription(subscriptionId) {
-        // Simulate cancel operation - in real app this would call a specific endpoint
+
         return this.updateSubscription({
             id: subscriptionId,
             status: 'cancelled'
         });
+    }
+
+    async getPreviousInvoicesBySubscriptionId(subscriptionId) {
+
+        return this.http.get(`${subscriptionsEndpointPath}/${subscriptionId}/invoices`);
     }
 }
