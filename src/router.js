@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
-import automationRoutes from "./automation/presentation/automation-routes.js";
+import automationRoutes from "./devices/presentation/automation-routes.js";
 import subscriptionsRoutes from "./subscriptions/presentation/subscriptions-routes.js";
 import profilesRoutes from "./profiles/presentation/profiles-routes.js";
 import projectsRoutes from "./projects/presentation/projects-routes.js";
@@ -20,7 +20,7 @@ const routes = [
         children: analyticsRoutes
     },
     {
-        path: '/automation',
+        path: '/devices',
         name: 'automation',
         children: automationRoutes
     },
