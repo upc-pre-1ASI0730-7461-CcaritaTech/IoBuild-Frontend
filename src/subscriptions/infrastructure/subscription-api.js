@@ -51,4 +51,12 @@ export class SubscriptionApi extends BaseApi {
 
         return this.http.get(`${subscriptionsEndpointPath}/${subscriptionId}/invoices`);
     }
+
+    createCheckoutSession(builderId, planName, price) {
+        return this.http.post(`${subscriptionsEndpointPath}/checkout-session`, {
+            builderId,
+            planName,
+            price
+        });
+    }
 }
