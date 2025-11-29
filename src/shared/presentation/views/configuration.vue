@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import ToggleSwitch from 'primevue/toggleswitch';
 import Button from 'primevue/button';
 import AlternateMailForm from '../components/alternate-mail.form.vue';
+import ChangePassword from '../components/change-password.vue';
 
 const { t } = useI18n();
 
@@ -20,9 +21,12 @@ const notificationStates = ref({
   push: true
 });
 
-// Estado para la modal y el correo
+// Estado para la modal de correo alternativo y el correo
 const showAlternateEmailModal = ref(false);
 const alternateEmail = ref(''); // podrías cargarlo desde una API o store
+
+// Estado para la modal de cambio de contraseña
+const showChangePasswordModal = ref(false);
 
 const handleSaveAlternateEmail = (email) => {
   alternateEmail.value = email;
@@ -57,6 +61,7 @@ const supportUrls = {
         <div class="items-list">
           <div v-for="item in securityKeys" :key="item" class="item-row">
             <span>{{ $t(`configuration.security.${item}`) }}</span>
+            <!-- Botón especial para correo alternativo -->
             <Button
                 v-if="item === 'alternate'"
                 icon="pi pi-cog"
@@ -64,6 +69,15 @@ const supportUrls = {
                 class="icon-button"
                 @click="showAlternateEmailModal = true"
             />
+            <!-- Botón especial para cambio de contraseña -->
+            <Button
+                v-else-if="item === 'password'"
+                icon="pi pi-cog"
+                text
+                class="icon-button"
+                @click="showChangePasswordModal = true"
+            />
+            <!-- Resto de acciones de seguridad deshabilitadas por ahora -->
             <Button
                 v-else
                 icon="pi pi-cog"
@@ -100,6 +114,13 @@ const supportUrls = {
         :modelValue="alternateEmail"
         @update:visible="showAlternateEmailModal = $event"
         @save="handleSaveAlternateEmail"
+    />
+
+    <!-- Modal para cambio de contraseña -->
+    <ChangePassword
+        :visible="showChangePasswordModal"
+        @update:visible="showChangePasswordModal = $event"
+        @close="showChangePasswordModal = false"
     />
   </div>
 </template>
@@ -241,5 +262,9 @@ const supportUrls = {
   .configuration-container {
     padding: 16px;
   }
+}
+
+.change-password-modal {
+  margin-top: 24px;
 }
 </style>
