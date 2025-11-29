@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import  PaymentModal from "../presentation/components/payment-modal.vue";
 import { SubscriptionApi } from "../infrastructure/subscription-api.js";
 import { SubscriptionAssembler } from "../infrastructure/subscription.assembler.js";
 import { Plan } from "../domain/model/plan.entity.js";
@@ -11,6 +12,8 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
     const availablePlans = ref([]);
     const errors = ref([]);
     const isLoading = ref(false);
+    const showPaymentModal = ref(false);
+    const selectedPlan = ref(null);
 
     // Get builderId from environment variables
     const builderId = parseInt(import.meta.env.VITE_USER_ID);
@@ -182,6 +185,32 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
         renewSubscription,
         cancelSubscription,
         changePlan,
+    };
+
+    function openPaymentModal(plan) {
+        selectedPlan.value = plan;
+        showPaymentModal.value = true;
+    }
+
+    function closePaymentModal() {
+        showPaymentModal.value = false;
+        selectedPlan.value = null;
+    }
+
+    async function handlePaymentSuccess(paymentIntent) {
+        await fetchSubscriptionsAfterPayment();
+    }
+
+    async function fetchSubscriptionsAfterPayment() {
+        await fetchCurrentSubscription();
+    }
+
+    return {
+        showPaymentModal,
+        selectedPlan,
+        openPaymentModal,
+        closePaymentModal,
+        handlePaymentSuccess
     };
 });
 
