@@ -234,14 +234,24 @@
       "contact": "Contactar con Soporte",
       "tutorials": "Tutoriales y Guías"
     },
-    "form": {
+    "email-form": {
       "title": "Agregar dirección de correo alternativa",
+      "description": "Agrega un correo alternativo para poder recuperar tu cuenta si pierdes acceso al principal.",
       "placeholder": "ejemplo@dominio.com",
       "emailRequired": "El correo es obligatorio",
       "emailInvalid": "Por favor ingresa un correo válido",
       "cancel": "Cancelar",
       "save": "Guardar",
       "errorSaving": "Error al guardar. Por favor intenta de nuevo."
+    },
+    "password-form": {
+      "title": "Cambiar Contraseña",
+      "description": "Actualice su contraseña para mantener su cuenta segura.",
+      "current": "Contraseña actual",
+      "new": "Nueva contraseña",
+      "confirm": "Confirmar nueva contraseña",
+      "cancel": "Cancelar",
+      "save": "Guardar"
     }
   },
   "subscriptions": {
