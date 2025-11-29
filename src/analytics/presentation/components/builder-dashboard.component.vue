@@ -71,7 +71,7 @@ const deviceTypeChartData = computed(() => {
   
   const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#14B8A6'];
   return {
-    labels: Object.keys(props.dashboard.devicesByType),
+    labels: Object.keys(props.dashboard.devicesByType).map(type => translateDeviceType(type)),
     datasets: [{
       data: Object.values(props.dashboard.devicesByType),
       backgroundColor: colors.slice(0, Object.keys(props.dashboard.devicesByType).length),
@@ -121,6 +121,10 @@ const deviceTypeIcons = {
 };
 
 const getDeviceIcon = (type) => deviceTypeIcons[type] || 'pi-box';
+
+const translateDeviceType = (type) => {
+  return t(`analytics.deviceTypes.${type}`, type);
+};
 </script>
 
 <template>
@@ -227,7 +231,7 @@ const getDeviceIcon = (type) => deviceTypeIcons[type] || 'pi-box';
             <i :class="['pi', getDeviceIcon(type), 'text-2xl']"></i>
           </div>
           <div class="device-type-info">
-            <p class="device-type-name">{{ type }}</p>
+            <p class="device-type-name">{{ translateDeviceType(type) }}</p>
             <p class="device-type-count">{{ count }} {{ $t('analytics.builder.sections.devices') }}</p>
           </div>
         </div>
