@@ -385,6 +385,29 @@
     }
   },
   "analytics": {
+    "deviceTypes": {
+      "Temperature": "Temperature",
+      "Humidity": "Humidity",
+      "Energy": "Energy",
+      "Water": "Water",
+      "Lighting": "Lighting",
+      "Access Control": "Access Control",
+      "HVAC": "HVAC",
+      "Construction": "Construction",
+      "Security": "Security"
+    },
+    "projectStatus": {
+      "OnGoing": "Ongoing",
+      "Active": "Active",
+      "Construction": "Construction",
+      "Planned": "Planned",
+      "Completed": "Completed"
+    },
+    "common": {
+      "occupancy": "Occupancy",
+      "units": "Units",
+      "devices": "Devices"
+    },
     "builder": {
       "title": "Builder Dashboard",
       "subtitle": "Comprehensive overview of your construction projects",

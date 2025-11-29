@@ -385,6 +385,29 @@
     }
   },
   "analytics": {
+    "deviceTypes": {
+      "Temperature": "Temperatura",
+      "Humidity": "Humedad",
+      "Energy": "Energía",
+      "Water": "Agua",
+      "Lighting": "Iluminación",
+      "Access Control": "Control de Acceso",
+      "HVAC": "HVAC",
+      "Construction": "Construcción",
+      "Security": "Seguridad"
+    },
+    "projectStatus": {
+      "OnGoing": "En Curso",
+      "Active": "Activo",
+      "Construction": "En Construcción",
+      "Planned": "Planeado",
+      "Completed": "Completado"
+    },
+    "common": {
+      "occupancy": "Ocupación",
+      "units": "Unidades",
+      "devices": "Dispositivos"
+    },
     "builder": {
       "title": "Panel del Constructor",
       "subtitle": "Vista general completa de tus proyectos de construcción",
