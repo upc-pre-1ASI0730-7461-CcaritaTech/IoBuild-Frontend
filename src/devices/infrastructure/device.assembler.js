@@ -13,7 +13,8 @@ export class DeviceAssembler {
       deviceData.type,
       deviceData.location,
       deviceData.projectId,
-      status
+      status,
+      deviceData.macAddress || ""
     );
   }
 
@@ -28,7 +29,8 @@ export class DeviceAssembler {
       type: device.type,
       location: device.location,
       projectId: device.projectId,
-      status: device.status
+      status: device.status,
+      macAddress: device.macAddress
     };
   }
 }

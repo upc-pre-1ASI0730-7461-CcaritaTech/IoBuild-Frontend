@@ -23,7 +23,7 @@ const isNewDialog = ref(false);
 
 const addDevice = () => {
   isNewDialog.value = true;
-  editingDevice.value = { id: null, name: '', type: '', location: '', status: 'Online', projectId: null };
+  editingDevice.value = { id: null, name: '', type: '', location: '', status: 'Online', projectId: null, macAddress: '' };
   showEditDialog.value = true;
 };
 
@@ -74,15 +74,20 @@ const handleSave = async (payload) => {
         type: payload.type,
         location: payload.location,
         status: payload.status,
-        projectId: payload.projectId || 101
+        projectId: payload.projectId || 1,
+        macAddress: payload.macAddress || ''
       });
       if (!created) throw new Error('create-failed');
       toast.add({ severity: 'success', summary: t('devices.messages.createSuccess'), life: 2500 });
     } else {
-      await deviceStore.updateDevice(payload);
+      const updated = await deviceStore.updateDevice(payload);
+      if (!updated) throw new Error('update-failed');
       toast.add({ severity: 'success', summary: t('devices.messages.updateSuccess'), life: 2500 });
     }
+    // Cerrar el diálogo y limpiar el estado
     showEditDialog.value = false;
+    editingDevice.value = null;
+    isNewDialog.value = false;
   } catch (e) {
     const key = isNewDialog.value ? 'devices.messages.createError' : 'devices.messages.updateError';
     toast.add({ severity: 'error', summary: t(key), life: 3000 });
@@ -97,7 +102,6 @@ onMounted(async () => {
 <template>
   <div class="p-4">
     <pv-toast />
-    <pv-confirm-dialog />
 
     <DeviceListHeader :on-add-device="addDevice" />
 

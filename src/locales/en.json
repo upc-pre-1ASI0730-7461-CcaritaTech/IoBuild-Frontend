@@ -308,7 +308,8 @@
       "name": "Name",
       "type": "Type",
       "location": "Location",
-      "status": "Status"
+      "status": "Status",
+      "macAddress": "MAC Address"
     },
     "actions": {
       "add": "Add Device",

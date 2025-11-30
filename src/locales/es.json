@@ -299,7 +299,8 @@
       "name": "Nombre",
       "type": "Tipo",
       "location": "Ubicación",
-      "status": "Estado"
+      "status": "Estado",
+      "macAddress": "Dirección MAC"
     },
     "actions": {
       "add": "Agregar Dispositivo",

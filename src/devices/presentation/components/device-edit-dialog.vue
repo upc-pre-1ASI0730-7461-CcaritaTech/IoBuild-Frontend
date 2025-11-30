@@ -11,7 +11,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'save', 'cancel']);
 const { t } = useI18n();
 
-const form = reactive({ id: null, name: '', type: '', location: '', projectId: null, status: 'Online' });
+const form = reactive({ id: null, name: '', type: '', location: '', projectId: null, status: 'Online', macAddress: '' });
 
 const typeOptions = [
   { label: t('devices.types.temperature'), value: 'temperature' },
@@ -37,8 +37,21 @@ watch(() => props.device, (d) => {
     form.location = d.location;
     form.projectId = d.projectId;
     form.status = d.status || 'Online';
+    form.macAddress = d.macAddress || '';
   }
 }, { immediate: true });
+
+watch(() => props.modelValue, (isVisible) => {
+  if (!isVisible) {
+    form.id = null;
+    form.name = '';
+    form.type = '';
+    form.location = '';
+    form.projectId = null;
+    form.status = 'Online';
+    form.macAddress = '';
+  }
+});
 
 const visible = computed({
   get: () => props.modelValue,
@@ -76,6 +89,11 @@ const onSave = () => {
       </div>
 
       <div class="flex flex-column gap-2">
+        <label class="font-medium text-gray-800">{{ t('devices.fields.macAddress') }}</label>
+        <pv-input-text v-model="form.macAddress" :placeholder="t('devices.fields.macAddress')" class="text-input" />
+      </div>
+
+      <div v-if="!props.isNew" class="flex flex-column gap-2">
         <label class="font-medium text-gray-800">{{ t('devices.fields.status') }}</label>
         <pv-select v-model="form.status" :options="statusOptions" optionLabel="label" optionValue="value" class="select-input device-select-darktext" />
       </div>
