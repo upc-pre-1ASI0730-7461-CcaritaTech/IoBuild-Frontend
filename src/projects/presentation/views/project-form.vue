@@ -10,7 +10,14 @@ const route = useRoute();
 const router = useRouter();
 const store = useProjectStore();
 
-const form = ref({ name: "", description: "", location: "", totalUnits: 0, occupiedUnits: 0 });
+const form = ref({
+  name: "",
+  description: "",
+  location: "",
+  totalUnits: 0,
+  occupiedUnits: 0,
+  imageUrl: ""
+});
 const isEdit = computed(() => !!route.params.id);
 
 onMounted(() => {
@@ -19,7 +26,41 @@ onMounted(() => {
     if (existing) form.value = { ...existing };
     else router.push({ name: "projects-management" });
   }
+
+  // Cargar Cloudinary widget
+  loadCloudinaryScript();
 });
+
+const loadCloudinaryScript = () => {
+  if (!window.cloudinary) {
+    const script = document.createElement('script');
+    script.src = 'https://widget.cloudinary.com/v2.0/global/all.js';
+    script.type = 'text/javascript';
+    document.head.appendChild(script);
+  }
+};
+
+const cloudinaryName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const cloudinaryPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+const openUploadModal = () => {
+  if (!window.cloudinary) {
+    console.error('Cloudinary widget not loaded');
+    return;
+  }
+
+  window.cloudinary.openUploadWidget(
+    {
+      cloud_name: cloudinaryName,
+      upload_preset: cloudinaryPreset
+    },
+    (error, result) => {
+      if (!error && result && result.event === "success") {
+        form.value.imageUrl = result.info.secure_url || result.info.url;
+      }
+    }
+  ).open();
+};
 
 const save = async () => {
   const project = new Project({
@@ -39,6 +80,7 @@ const cancel = () => {
   }
 };
 </script>
+
 
 <template>
   <div class="p-4 lg:p-4 bg-gray-50 min-h-screen">
@@ -128,16 +170,20 @@ const cancel = () => {
           </div>
 
           <!-- Image URL Field -->
-          <div class="form-field">
+          <div class="form-field mb-4">
             <label class="form-label">
               <i class="pi pi-image text-emerald-600 mr-2"></i>
               {{ t("projects.fields.image-url") }}
             </label>
-            <pv-input-text
-                v-model="form.imageUrl"
-                class="w-full input-enhanced"
-                :placeholder="t('projects.fields.image-url-placeholder')"
+            <pv-button
+                :label="t('projects.actions.upload-image')"
+                icon="pi pi-cloud-upload"
+                @click="openUploadModal"
+                class="mb-3"
             />
+            <div v-if="form.imageUrl" class="mt-3">
+              <img :src="form.imageUrl" alt="Uploaded image" style="max-width: 400px; border-radius: 8px;" />
+            </div>
           </div>
 
           <!-- Action Buttons -->
