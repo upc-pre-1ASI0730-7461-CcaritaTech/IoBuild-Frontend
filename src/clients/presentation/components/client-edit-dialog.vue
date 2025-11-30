@@ -21,7 +21,7 @@ const formData = ref({
   email: '',
   phoneNumber: '',
   address: '',
-  projectId: null,
+  projectId: 0,
   projectName: '',
   accountStatement: 'Active'
 });

@@ -30,6 +30,7 @@ watch(() => props.visible, (newVal) => {
       email: '',
       phoneNumber: '',
       address: '',
+      projectId: 0,
       projectName: '',
       accountStatement: 'Active'
     });
