@@ -3,8 +3,10 @@ import { computed, ref, watch, computed as vueComputed } from 'vue'
 import Dialog from 'primevue/dialog'
 import Button from 'primevue/button'
 import { useI18n } from 'vue-i18n';
+import { useIamStore } from '../../../iam/application/iam.store.js';
 
 const { t } = useI18n();
+const iamStore = useIamStore();
 
 const props = defineProps({
   visible: {
@@ -122,12 +124,11 @@ async function onSubmit() {
   isSubmitting.value = true
 
   try {
-    // Aquí podrías llamar a un store o API para cambiar la contraseña
-    // e.g. await iamStore.changePassword({ currentPassword: currentPassword.value, newPassword: newPassword.value })
+    await iamStore.changePassword(currentPassword.value, newPassword.value, confirmPassword.value)
     visible.value = false
     emit('close')
   } catch (error) {
-    errors.value.form = 'There was a problem updating your password. Please try again.'
+    errors.value.form = t('configuration.password-form.error') || 'There was a problem updating your password. Please try again.'
   } finally {
     isSubmitting.value = false
   }
