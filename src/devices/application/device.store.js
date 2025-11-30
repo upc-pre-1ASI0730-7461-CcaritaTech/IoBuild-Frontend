@@ -78,9 +78,9 @@ export const useDeviceStore = defineStore('device', {
       try {
         const deviceApi = new DeviceApi();
         const updatedDevice = await deviceApi.updateDevice(device);
-        const index = this.devices.findIndex(d => d.id === device.id);
-        if (index !== -1) {
-          this.devices[index] = updatedDevice;
+        await this.fetchDevices(); // Recargar la lista de dispositivos
+        if (this.selectedDevice && this.selectedDevice.id === updatedDevice.id) {
+          this.selectedDevice = updatedDevice;
         }
         return updatedDevice;
       } catch (error) {
@@ -97,8 +97,11 @@ export const useDeviceStore = defineStore('device', {
       this.error = null;
       try {
         const deviceApi = new DeviceApi();
-        const newDevice = await deviceApi.createDevice(deviceData);
-        this.devices.push(newDevice);
+        const payload = { ...deviceData, status: 'active' };
+        const newDevice = await deviceApi.createDevice(payload);
+        await this.fetchDevices(); // Recargar la lista de dispositivos
+        console.log('[DeviceStore] Device created and list refreshed:', newDevice);
+        console.log('[DeviceStore] Total devices:', this.devices.length);
         return newDevice;
       } catch (error) {
         this.error = error.message;
@@ -115,7 +118,10 @@ export const useDeviceStore = defineStore('device', {
       try {
         const deviceApi = new DeviceApi();
         await deviceApi.deleteDevice(id);
-        this.devices = this.devices.filter(device => device.id !== id);
+        await this.fetchDevices(); // Recargar la lista de dispositivos
+        if (this.selectedDevice && this.selectedDevice.id === id) {
+          this.selectedDevice = null;
+        }
         return true;
       } catch (error) {
         this.error = error.message;
