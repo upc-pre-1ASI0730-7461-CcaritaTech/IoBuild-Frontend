@@ -14,8 +14,6 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
     const availablePlans = ref([]);
     const errors = ref([]);
     const isLoading = ref(false);
-    const showPaymentModal = ref(false);
-    const selectedPlan = ref(null);
 
     // Helper function to get builderId from authenticated user using Facade (ACL)
     const getBuilderId = () => {
@@ -130,19 +128,6 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
             });
     }
 
-    function openPaymentModal(plan) {
-        selectedPlan.value = plan;
-        showPaymentModal.value = true;
-    }
-
-    function closePaymentModal() {
-        showPaymentModal.value = false;
-        selectedPlan.value = null;
-    }
-
-    async function handlePaymentSuccess(paymentIntent) {
-        await fetchCurrentSubscription();
-    }
 
     return {
         currentSubscription,
@@ -151,16 +136,11 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
         otherPlans,
         errors,
         isLoading,
-        showPaymentModal,
-        selectedPlan,
         fetchCurrentSubscription,
         fetchAvailablePlans,
         renewSubscription,
         cancelSubscription,
-        changePlan,
-        openPaymentModal,
-        closePaymentModal,
-        handlePaymentSuccess
+        changePlan
     };
 });
 
