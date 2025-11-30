@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch, onUnmounted, nextTick } from "vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
@@ -24,97 +24,37 @@ const invoices = ref([]);
 const invoicesLoading = ref(false);
 const invoicesError = ref("");
 
-const stripeModalVisible = ref(false);
-const selectedPlanForCheckout = ref(null);
-
-
-const publishableKey = import.meta.env?.VITE_STRIPE_PUBLISHABLE_KEY || "";
-const stripePromise = loadStripe(publishableKey);
-let stripe = null;
-let elements = null;
-let card = null;
-const cardMounted = ref(false);
-const stripeError = ref("");
+// Stripe setup - simplified like Profile.jsx
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const isProcessing = ref(false);
-const clientSecret = ref(null);
-
-
-watch(stripeModalVisible, async (val) => {
-  if (val) {
-    stripeError.value = "";
-    if (!publishableKey) {
-      stripeError.value = "Falta VITE_STRIPE_PUBLISHABLE_KEY en .env";
-      return;
-    }
-    await nextTick();
-    await mountCard();
-  } else {
-    destroyCard();
-    clientSecret.value = null;
-    stripeError.value = "";
-  }
-});
-
-const openStripeModal = (plan) => {
-  selectedPlanForCheckout.value = plan;
-  stripeModalVisible.value = true;
-};
-
-const closeStripeModal = () => {
-  stripeModalVisible.value = false;
-
-  destroyCard();
-  clientSecret.value = null;
-  stripeError.value = "";
-};
-
-
-const startStripePayment = async () => {
-  try {
-    isProcessing.value = true;
-    const builderId = parseInt(import.meta.env.VITE_USER_ID || "1");
-    const resp = await subscriptionApi.createCheckoutSession(
-      builderId,
-      selectedPlanForCheckout.value?.name,
-      selectedPlanForCheckout.value?.price
-    );
-
-
-    if (resp?.data?.checkoutUrl) {
-      window.location.href = resp.data.checkoutUrl;
-      return;
-    }
-
-    if (resp?.data?.clientSecret) {
-      clientSecret.value = resp.data.clientSecret;
-      await nextTick();
-      if (publishableKey) await mountCard();
-      return;
-    }
-
-
-    stripeError.value = "No se obtuvo clientSecret ni checkoutUrl desde el servidor.";
-    toast.add({ severity: "error", summary: "Error", detail: stripeError.value });
-  } catch (e) {
-    console.error('startStripePayment error:', e);
-    const serverMessage = e?.response?.data?.message || e?.response?.data || e?.message || 'Error al conectar con el servidor';
-    stripeError.value = String(serverMessage);
-    toast.add({ severity: "error", summary: "Error", detail: stripeError.value });
-  } finally {
-    isProcessing.value = false;
-  }
-};
-/* ===================================== */
 
 onMounted(() => {
+  store.fetchAvailablePlans();
   store.fetchCurrentSubscription();
+
+  // Si volvemos del checkout de Stripe con success, refrescar datos
+  const urlParams = new URLSearchParams(window.location.search);
+  const hasCheckoutSignal = urlParams.get('session_id') || urlParams.get('success') === 'true';
+
+  if (hasCheckoutSignal) {
+    // Mostrar mensaje de éxito
+    toast.add({
+      severity: "success",
+      summary: t("subscriptions.success"),
+      detail: t("subscriptions.payment-success") || "Pago realizado exitosamente",
+      life: 5000
+    });
+
+    // Refrescar subscription después de un momento
+    setTimeout(() => {
+      store.fetchCurrentSubscription();
+    }, 1000);
+  }
 });
 
-onUnmounted(() => {
-  destroyCard();
-});
-
-const handleRenewPlan = () => openStripeModal(store.currentPlan);
+const handleRenewPlan = async () => {
+  await handlePayPlan(store.currentPlan);
+};
 
 const handleCancelPlan = () => {
   confirm.require({
@@ -143,7 +83,62 @@ const handleCancelPlan = () => {
   });
 };
 
-const handleChangePlan = (plan) => openStripeModal(plan);
+const handleChangePlan = async (plan) => {
+  await handlePayPlan(plan);
+};
+
+const handlePayPlan = async (plan) => {
+  try {
+    if (!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY) {
+      throw new Error('Falta configurar VITE_STRIPE_PUBLISHABLE_KEY en .env');
+    }
+
+    isProcessing.value = true;
+    const builderId = parseInt(import.meta.env.VITE_USER_ID || "1");
+
+    const { data } = await subscriptionApi.createCheckoutSession(builderId, plan.id);
+
+    // El backend devuelve CheckoutUrl (con C mayúscula) según PaymentSessionResource
+    if (data.checkoutUrl || data.CheckoutUrl) {
+      window.location.href = data.checkoutUrl || data.CheckoutUrl;
+      return;
+    }
+
+    // Si el backend devuelve un sessionId, usar redirectToCheckout
+    if (data.sessionId || data.SessionId) {
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error('Stripe no se pudo inicializar');
+      }
+
+      const sessionId = data.sessionId || data.SessionId;
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+      if (error) {
+        console.error('Stripe redirect error:', error);
+        toast.add({
+          severity: "error",
+          summary: t("subscriptions.error"),
+          detail: 'No se pudo redirigir al pago. Inténtalo nuevamente.',
+          life: 3000
+        });
+      }
+      return;
+    }
+
+    throw new Error('No se recibió URL ni sessionId del servidor');
+  } catch (err) {
+    console.error('Payment error:', err);
+    const message = err?.response?.data?.message || err?.message || 'No se pudo iniciar el pago';
+    toast.add({
+      severity: "error",
+      summary: t("subscriptions.error"),
+      detail: message,
+      life: 3000
+    });
+  } finally {
+    isProcessing.value = false;
+  }
+};
 
 const openInvoices = async () => {
   if (!store.currentSubscription) return;
@@ -186,102 +181,11 @@ const closeInvoices = () => {
   showInvoices.value = false;
 };
 
-// ---------------- Stripe helpers ----------------
-async function mountCard() {
-  if (cardMounted.value) return;
-  try {
-    if (!stripe) {
-      stripe = await stripePromise;
-      if (!stripe) {
-        stripeError.value = "Stripe no disponible";
-        return;
-      }
-    }
 
-    elements = stripe.elements();
-
-    const style = {
-      base: {
-        color: "#111827",
-        fontSize: "16px",
-        "::placeholder": { color: "#94a3b8" },
-      },
-    };
-
-    card = elements.create("card", { style, hidePostalCode: true });
-
-    const el = document.getElementById("stripe-card-element");
-    if (el) {
-      card.mount(el);
-      cardMounted.value = true;
-      card.on("change", (ev) => {
-        stripeError.value = ev.error ? ev.error.message : "";
-      });
-    } else {
-      stripeError.value = "Elemento de tarjeta no encontrado";
-    }
-  } catch (err) {
-    stripeError.value = err?.message || "Error al inicializar Stripe";
-  }
-}
-
-function destroyCard() {
-  try {
-    if (card) {
-      card.unmount();
-      card = null;
-    }
-    cardMounted.value = false;
-  } catch (e) {
-    cardMounted.value = false;
-    card = null;
-  }
-}
-
-async function handleConfirmPay() {
-  stripeError.value = "";
-  if (!clientSecret.value) {
-    stripeError.value = "No hay clientSecret disponible";
-    return;
-  }
-
-  isProcessing.value = true;
-  try {
-    if (!stripe) {
-      stripe = await stripePromise;
-      if (!stripe) throw new Error("Stripe no está inicializado");
-    }
-
-    const { error, paymentIntent } = await stripe.confirmCardPayment(
-      clientSecret.value,
-      {
-        payment_method: { card },
-      }
-    );
-
-    if (error) throw error;
-
-    // Pago exitoso
-    toast.add({
-      severity: "success",
-      summary: t("subscriptions.success"),
-      detail: t("subscriptions.payment-success") || "Pago realizado",
-      life: 3000,
-    });
-
-    // refrescar estado
-    store.fetchCurrentSubscription();
-    closeStripeModal();
-  } catch (e) {
-    stripeError.value = e?.message || "Error al procesar el pago";
-  } finally {
-    isProcessing.value = false;
-  }
-}
 </script>
 
 <template>
-  <div :class="{ 'blur-background': stripeModalVisible }">
+  <div>
     <div class="subscription-container">
       <div class="header-row">
         <div class="header-left">
@@ -314,6 +218,7 @@ async function handleConfirmPay() {
           <CurrentPlanCard
             :plan="store.currentPlan"
             :subscription="store.currentSubscription"
+            :isProcessing="isProcessing"
             @renew="handleRenewPlan"
             @cancel="handleCancelPlan"
           />
@@ -331,6 +236,7 @@ async function handleConfirmPay() {
               v-for="plan in store.otherPlans"
               :key="plan.name"
               :plan="plan"
+              :isProcessing="isProcessing"
               @select="handleChangePlan"
             />
           </div>
@@ -346,6 +252,7 @@ async function handleConfirmPay() {
             v-for="plan in store.availablePlans"
             :key="plan.name"
             :plan="plan"
+            :isProcessing="isProcessing"
             @select="handleChangePlan"
           />
         </div>
@@ -360,130 +267,9 @@ async function handleConfirmPay() {
       />
     </div>
   </div>
-
-  <!-- ================= MODAL STRIPE ================ -->
-  <div v-if="stripeModalVisible" class="stripe-modal-overlay">
-    <div class="stripe-modal">
-      <h2 class="title">Resumen de compra</h2>
-
-      <p class="plan-name">{{ selectedPlanForCheckout?.name }}</p>
-
-      <p class="price">
-        {{ selectedPlanForCheckout?.price }} USD / mes
-      </p>
-
-      <!-- Tarjeta de Stripe montada aquí -->
-      <div style="margin-top: 1rem;">
-        <label class="block mb-2">Tarjeta</label>
-        <div id="stripe-card-element" class="card-element" style="min-height:48px; border:1px solid #e5e7eb; padding:12px; border-radius:8px; background:#fafafa;"></div>
-        <div v-if="stripeError" class="text-red-600 mt-2">{{ stripeError }}</div>
-      </div>
-
-      <button class="pay-button" @click="clientSecret ? handleConfirmPay() : startStripePayment()" :disabled="isProcessing">
-        <span v-if="isProcessing">Procesando…</span>
-        <span v-else>{{ clientSecret ? 'Pagar ahora' : 'Iniciar pago' }}</span>
-      </button>
-
-      <button class="close-button" @click="closeStripeModal">
-        Cancelar
-      </button>
-    </div>
-  </div>
 </template>
 
 <style scoped>
-/* ==================== BLUR ==================== */
-.blur-background {
-  filter: blur(5px);
-  pointer-events: none;
-  user-select: none;
-}
-
-/* ==================== MODAL ==================== */
-.stripe-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.55);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  backdrop-filter: blur(4px);
-}
-
-.stripe-modal {
-  background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  width: 420px;
-  max-width: 90%;
-  text-align: center;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.2s ease-out;
-}
-
-.title {
-  font-size: 1.7rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.plan-name {
-  font-size: 1.3rem;
-  font-weight: 600;
-}
-
-.price {
-  margin-top: 0.5rem;
-  font-size: 1.2rem;
-  color: #16a34a;
-  font-weight: bold;
-}
-
-.pay-button {
-  margin-top: 1.5rem;
-  width: 100%;
-  background: #16a34a;
-  color: white;
-  padding: 0.9rem;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-}
-
-.close-button {
-  margin-top: 1rem;
-  width: 100%;
-  background: #e5e7eb;
-  color: black;
-  padding: 0.8rem;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  border: none;
-  cursor: pointer;
-}
-
-.card-element {
-  border: 1px solid #e5e7eb;
-  padding: 12px;
-  border-radius: 8px;
-  background: #fafafa;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-  }
-}
 
 /* ==================== CONTENEDOR PRINCIPAL ==================== */
 .subscription-container {

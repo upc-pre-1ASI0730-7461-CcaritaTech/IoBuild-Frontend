@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import  PaymentModal from "../presentation/components/payment-modal.vue";
 import { SubscriptionApi } from "../infrastructure/subscription-api.js";
 import { SubscriptionAssembler } from "../infrastructure/subscription.assembler.js";
-import { Plan } from "../domain/model/plan.entity.js";
+import { PlanApi } from "../infrastructure/plan-api.js";
+import { PlanAssembler } from "../infrastructure/plan.assembler.js";
 
 const subscriptionApi = new SubscriptionApi();
+const planApi = new PlanApi();
 
 export const useSubscriptionStore = defineStore("subscriptions", () => {
     const currentSubscription = ref(null);
@@ -18,82 +19,32 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
     // Get builderId from environment variables
     const builderId = parseInt(import.meta.env.VITE_USER_ID);
 
-    // Initialize available plans
-    const initializePlans = () => {
-        availablePlans.value = [
-            new Plan({
-                name: 'Professional',
-                price: 799,
-                description: 'Ideal for medium-sized projects',
-                features: [
-                    'Up to 200 IoT devices',
-                    'Advanced dashboard',
-                    '24/7 priority support',
-                    'Updates and new features',
-                    '3 administrators',
-                    'Real-time reports',
-                    'Custom API',
-                    'Training included',
-                ],
-                maxDevices: 200,
-                maxAdministrators: 3,
-                supportLevel: '24/7 priority',
-                hasAPI: true,
-                hasAnalytics: true
-            }),
-            new Plan({
-                name: 'Starter',
-                price: 299,
-                description: 'Perfect for small projects',
-                features: [
-                    'Up to 50 IoT devices',
-                    'Basic dashboard',
-                    'Email support',
-                    'Updates included',
-                    '1 administrator',
-                    'Monthly reports',
-                ],
-                maxDevices: 50,
-                maxAdministrators: 1,
-                supportLevel: 'Email',
-                hasAPI: false,
-                hasAnalytics: false
-            }),
-            new Plan({
-                name: 'Enterprise',
-                price: 1299,
-                description: 'For big developments',
-                features: [
-                    'Unlimited IoT devices',
-                    'Enterprise dashboard',
-                    'Dedicated 24/7 support',
-                    'Development of custom features',
-                    'Unlimited administrators',
-                    'Advanced analytics',
-                    'Complete API',
-                    'Specialized consulting',
-                    'Guaranteed SLA',
-                ],
-                maxDevices: -1, // Unlimited
-                maxAdministrators: -1, // Unlimited
-                supportLevel: 'Dedicated 24/7',
-                hasAPI: true,
-                hasAnalytics: true
+    // Fetch available plans from API
+    function fetchAvailablePlans() {
+        isLoading.value = true;
+        return planApi
+            .getAllPlans()
+            .then((response) => {
+                if (response.data) {
+                    availablePlans.value = PlanAssembler.toEntitiesFromResourceArray(response.data);
+                }
+                isLoading.value = false;
             })
-        ];
-    };
+            .catch((error) => {
+                errors.value.push(error);
+                isLoading.value = false;
+            });
+    }
 
     const currentPlan = computed(() => {
-        if (!currentSubscription.value) return null;
-        return availablePlans.value.find(plan =>
-            plan.name === currentSubscription.value.plan
-        );
+        if (!currentSubscription.value || !currentSubscription.value.plan) return null;
+        return currentSubscription.value.plan;
     });
 
     const otherPlans = computed(() => {
-        if (!currentSubscription.value) return availablePlans.value;
+        if (!currentSubscription.value || !currentSubscription.value.plan) return availablePlans.value;
         return availablePlans.value.filter(plan =>
-            plan.name !== currentSubscription.value.plan
+            plan.id !== currentSubscription.value.plan.id
         );
     });
 
@@ -153,8 +104,7 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
         isLoading.value = true;
         const updatedSubscription = {
             ...currentSubscription.value,
-            plan: newPlan.name,
-            price: newPlan.price,
+            plan: newPlan,
             status: 'active'
         };
 
@@ -171,22 +121,6 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
             });
     }
 
-    // Initialize plans on store creation
-    initializePlans();
-
-    return {
-        currentSubscription,
-        availablePlans,
-        currentPlan,
-        otherPlans,
-        errors,
-        isLoading,
-        fetchCurrentSubscription,
-        renewSubscription,
-        cancelSubscription,
-        changePlan,
-    };
-
     function openPaymentModal(plan) {
         selectedPlan.value = plan;
         showPaymentModal.value = true;
@@ -198,16 +132,23 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
     }
 
     async function handlePaymentSuccess(paymentIntent) {
-        await fetchSubscriptionsAfterPayment();
-    }
-
-    async function fetchSubscriptionsAfterPayment() {
         await fetchCurrentSubscription();
     }
 
     return {
+        currentSubscription,
+        availablePlans,
+        currentPlan,
+        otherPlans,
+        errors,
+        isLoading,
         showPaymentModal,
         selectedPlan,
+        fetchCurrentSubscription,
+        fetchAvailablePlans,
+        renewSubscription,
+        cancelSubscription,
+        changePlan,
         openPaymentModal,
         closePaymentModal,
         handlePaymentSuccess
@@ -215,3 +156,4 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
 });
 
 export default useSubscriptionStore;
+

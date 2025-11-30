@@ -5,7 +5,8 @@ const { t } = useI18n();
 
 defineProps({
   plan: { type: Object, required: true },
-  subscription: { type: Object, required: true }
+  subscription: { type: Object, required: true },
+  isProcessing: { type: Boolean, default: false }
 });
 
 defineEmits(['renew', 'cancel']);
@@ -42,10 +43,11 @@ defineEmits(['renew', 'cancel']);
 
     <div class="flex flex-col gap-4">
       <pv-button
-        :label="t('subscriptions.renew-plan')"
+        :label="isProcessing ? 'Redirigiendo a Stripe...' : t('subscriptions.renew-plan')"
         class="custom-green-button-large"
         @click="$emit('renew')"
-        :disabled="false"
+        :disabled="isProcessing"
+        :loading="isProcessing"
       />
       <pv-button
         :label="t('subscriptions.cancel-plan')"
@@ -53,7 +55,7 @@ defineEmits(['renew', 'cancel']);
         severity="danger"
         class="cancel-button-large"
         @click="$emit('cancel')"
-        :disabled="!subscription.isActive()"
+        :disabled="!subscription.isActive() || isProcessing"
       />
     </div>
   </div>

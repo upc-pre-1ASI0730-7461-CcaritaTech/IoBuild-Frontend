@@ -52,11 +52,17 @@ export class SubscriptionApi extends BaseApi {
         return this.http.get(`${subscriptionsEndpointPath}/${subscriptionId}/invoices`);
     }
 
-    createCheckoutSession(builderId, planName, price) {
-        return this.http.post(`${subscriptionsEndpointPath}/checkout-session`, {
+    createCheckoutSession(builderId, planId) {
+        // El backend espera las URLs de success y cancel
+        const baseUrl = window.location.origin;
+        const successUrl = `${baseUrl}/subscriptions?success=true&session_id={CHECKOUT_SESSION_ID}`;
+        const cancelUrl = `${baseUrl}/subscriptions?canceled=true`;
+
+        return this.http.post(`${subscriptionsEndpointPath}/payments/create-session`, {
             builderId,
-            planName,
-            price
+            planId,
+            successUrl,
+            cancelUrl
         });
     }
 }
