@@ -1,4 +1,5 @@
 import { Subscription } from "../domain/model/subscription.entity.js";
+import { PlanAssembler } from "./plan.assembler.js";
 
 /**
  * Subscription Assembler
@@ -12,12 +13,10 @@ export class SubscriptionAssembler {
         return new Subscription({
             id: resource.id,
             builderId: resource.builderId,
-            plan: resource.plan,
+            plan: resource.plan ? PlanAssembler.toEntityFromResource(resource.plan) : null,
             status: resource.status,
             startDate: resource.startDate,
-            endDate: resource.endDate,
-            price: resource.price || 0,
-            features: resource.features || []
+            endDate: resource.endDate
         });
     }
 
@@ -36,12 +35,10 @@ export class SubscriptionAssembler {
         return {
             id: entity.id,
             builderId: entity.builderId,
-            plan: entity.plan,
+            planId: entity.plan ? entity.plan.id : null,
             status: entity.status,
             startDate: entity.startDate,
-            endDate: entity.endDate,
-            price: entity.price,
-            features: entity.features
+            endDate: entity.endDate
         };
     }
 }

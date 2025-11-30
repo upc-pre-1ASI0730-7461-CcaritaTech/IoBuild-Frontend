@@ -6,21 +6,17 @@ export class Subscription {
     constructor({
         id = 0,
         builderId = 0,
-        plan = '',
+        plan = null,
         status = '',
         startDate = null,
-        endDate = null,
-        price = 0,
-        features = []
+        endDate = null
     }) {
         this.id = id;
         this.builderId = builderId;
-        this.plan = plan;
+        this.plan = plan; // This is now a Plan object
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.price = price;
-        this.features = features;
     }
 
     /**
@@ -31,9 +27,16 @@ export class Subscription {
     }
 
     /**
-     * Get formatted price
+     * Get formatted price from plan
      */
     getFormattedPrice() {
-        return `$${this.price}`;
+        return this.plan ? this.plan.getFormattedPrice() : '$0';
+    }
+
+    /**
+     * Get plan name
+     */
+    getPlanName() {
+        return this.plan ? this.plan.name : '';
     }
 }

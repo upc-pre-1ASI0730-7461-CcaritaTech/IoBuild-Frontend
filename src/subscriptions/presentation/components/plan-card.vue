@@ -4,7 +4,8 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 defineProps({
-  plan: { type: Object, required: true }
+  plan: { type: Object, required: true },
+  isProcessing: { type: Boolean, default: false }
 });
 
 defineEmits(['select']);
@@ -12,8 +13,9 @@ defineEmits(['select']);
 
 <template>
   <div
-    class="border border-green-500 rounded-xl p-6 bg-white shadow-sm hover:shadow-md cursor-pointer transition plan-card"
-    @click="$emit('select', plan)"
+    class="border border-green-500 rounded-xl p-6 bg-white shadow-sm hover:shadow-md transition plan-card"
+    :class="{ 'cursor-pointer': !isProcessing, 'cursor-not-allowed opacity-60': isProcessing }"
+    @click="!isProcessing && $emit('select', plan)"
   >
     <h3 class="text-lg font-semibold text-gray-800 mb-1">
       {{ plan.name }}

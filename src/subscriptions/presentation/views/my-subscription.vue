@@ -1,46 +1,95 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
+
 import useSubscriptionStore from "../../application/subscription.store.js";
+import { IamFacade } from "../../infrastructure/iam.facade.js";
 import PlanCard from "../components/plan-card.vue";
 import CurrentPlanCard from "../components/current-plan-card.vue";
+import PreviousInvoicesModal from "../components/previous-invoices-modal.vue";
+import { SubscriptionApi } from "../../infrastructure/subscription-api.js";
+
+// Stripe
+import { loadStripe } from "@stripe/stripe-js";
 
 const { t } = useI18n();
 const confirm = useConfirm();
 const toast = useToast();
 const store = useSubscriptionStore();
+const subscriptionApi = new SubscriptionApi();
 
-onMounted(() => {
+const showInvoices = ref(false);
+const invoices = ref([]);
+const invoicesLoading = ref(false);
+const invoicesError = ref("");
+
+// Stripe setup - simplified like Profile.jsx
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const isProcessing = ref(false);
+
+// Helper function to get builderId from authenticated user using Facade (ACL)
+const getBuilderId = () => {
+  try {
+    return IamFacade.getCurrentUserId();
+  } catch (error) {
+    console.error('[Subscriptions] Error getting user ID:', error);
+    toast.add({
+      severity: "error",
+      summary: "Error de autenticación",
+      detail: error.message,
+      life: 5000
+    });
+    throw error;
+  }
+};
+
+onMounted(async () => {
+  store.fetchAvailablePlans();
   store.fetchCurrentSubscription();
+
+  // Si volvemos del checkout de Stripe con success, confirmar y refrescar datos
+  const urlParams = new URLSearchParams(window.location.search);
+  const sessionId = urlParams.get('session_id');
+  const hasSuccess = urlParams.get('success') === 'true';
+
+  if (sessionId || hasSuccess) {
+    try {
+      // Confirmar el pago en el backend si tenemos sessionId
+      if (sessionId) {
+        const builderId = getBuilderId();
+        await subscriptionApi.confirmPayment(builderId, sessionId);
+      }
+
+      // Mostrar mensaje de éxito
+      toast.add({
+        severity: "success",
+        summary: t("subscriptions.success"),
+        detail: t("subscriptions.payment-success") || "Pago realizado exitosamente",
+        life: 5000
+      });
+
+      // Refrescar subscription
+      await store.fetchCurrentSubscription();
+    } catch (error) {
+      console.error('Error confirming payment:', error);
+      toast.add({
+        severity: "warn",
+        summary: t("subscriptions.warning") || "Advertencia",
+        detail: "El pago fue procesado pero hubo un problema al actualizar. Recarga la página.",
+        life: 5000
+      });
+    } finally {
+      // Limpiar los parámetros de la URL sin recargar la página
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+  }
 });
 
-const handleRenewPlan = () => {
-  confirm.require({
-    message: t("subscriptions.confirm-renew"),
-    header: t("subscriptions.renew-header"),
-    icon: "pi pi-check-circle",
-    acceptClass: "p-button-success",
-    accept: async () => {
-      try {
-        await store.renewSubscription();
-        toast.add({
-          severity: "success",
-          summary: t("subscriptions.success"),
-          detail: t("subscriptions.renewed-successfully"),
-          life: 3000,
-        });
-      } catch (error) {
-        toast.add({
-          severity: "error",
-          summary: t("subscriptions.error"),
-          detail: t("subscriptions.renew-failed"),
-          life: 3000,
-        });
-      }
-    },
-  });
+const handleRenewPlan = async () => {
+  await handlePayPlan(store.currentPlan);
 };
 
 const handleCancelPlan = () => {
@@ -70,94 +119,195 @@ const handleCancelPlan = () => {
   });
 };
 
-const handleChangePlan = (plan) => {
-  confirm.require({
-    message: t("subscriptions.confirm-change", { planName: plan.name }),
-    header: t("subscriptions.change-header"),
-    icon: "pi pi-info-circle",
-    accept: async () => {
-      try {
-        await store.changePlan(plan);
-        toast.add({
-          severity: "success",
-          summary: t("subscriptions.success"),
-          detail: t("subscriptions.plan-changed", { planName: plan.name }),
-          life: 3000,
-        });
-      } catch (error) {
+const handleChangePlan = async (plan) => {
+  await handlePayPlan(plan);
+};
+
+const handlePayPlan = async (plan) => {
+  try {
+    if (!import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY) {
+      throw new Error('Falta configurar VITE_STRIPE_PUBLISHABLE_KEY en .env');
+    }
+
+    isProcessing.value = true;
+    const builderId = getBuilderId();
+
+    const { data } = await subscriptionApi.createCheckoutSession(builderId, plan.id);
+
+    // El backend devuelve CheckoutUrl (con C mayúscula) según PaymentSessionResource
+    if (data.checkoutUrl || data.CheckoutUrl) {
+      window.location.href = data.checkoutUrl || data.CheckoutUrl;
+      return;
+    }
+
+    // Si el backend devuelve un sessionId, usar redirectToCheckout
+    if (data.sessionId || data.SessionId) {
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error('Stripe no se pudo inicializar');
+      }
+
+      const sessionId = data.sessionId || data.SessionId;
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+      if (error) {
+        console.error('Stripe redirect error:', error);
         toast.add({
           severity: "error",
           summary: t("subscriptions.error"),
-          detail: t("subscriptions.change-failed"),
-          life: 3000,
+          detail: 'No se pudo redirigir al pago. Inténtalo nuevamente.',
+          life: 3000
         });
       }
-    },
-  });
+      return;
+    }
+
+    throw new Error('No se recibió URL ni sessionId del servidor');
+  } catch (err) {
+    console.error('Payment error:', err);
+    const message = err?.response?.data?.message || err?.message || 'No se pudo iniciar el pago';
+    toast.add({
+      severity: "error",
+      summary: t("subscriptions.error"),
+      detail: message,
+      life: 3000
+    });
+  } finally {
+    isProcessing.value = false;
+  }
 };
+
+const openInvoices = async () => {
+  if (!store.currentSubscription) return;
+  invoices.value = [];
+  invoicesError.value = "";
+  invoicesLoading.value = true;
+  showInvoices.value = true;
+
+  try {
+    const resp = await subscriptionApi.getPreviousInvoicesBySubscriptionId(
+      store.currentSubscription.id
+    );
+
+    const rows = Array.isArray(resp.data)
+      ? resp.data
+      : resp.data?.data || [];
+
+    invoices.value = rows
+      .map((inv) => ({
+        id: inv.id,
+        period: inv.period || "",
+        date: inv.dueDate || inv.date || null,
+        dueDate: inv.dueDate || inv.date || null,
+        billingStart: inv.billingStart || null,
+        billingEnd: inv.billingEnd || null,
+        status: inv.status || "paid",
+        currency: inv.currency || "$",
+        amount: inv.amount || 0,
+        downloadUrl: inv.downloadUrl || "#",
+      }))
+      .filter((i) => i.id);
+  } catch (e) {
+    invoicesError.value = e?.message || t("subscriptions.change-failed");
+  } finally {
+    invoicesLoading.value = false;
+  }
+};
+
+const closeInvoices = () => {
+  showInvoices.value = false;
+};
+
+
 </script>
 
 <template>
-  <div class="subscription-container">
-    <!-- Header -->
-    <h1 class="text-3xl font-extrabold text-gray-900 mb-1">
-      {{ t("subscriptions.title") }}
-    </h1>
-    <p class="text-lg font-semibold text-gray-800 mb-6">
-      {{ t("subscriptions.current-plan") }}:
-      <span class="text-black font-bold">{{ store.currentPlan?.name || 'N/A' }}</span>
-    </p>
-
-    <div v-if="store.isLoading" class="flex justify-center items-center py-8">
-      <pv-progress-spinner />
-    </div>
-
-    <!-- Main content -->
-    <div v-else-if="store.currentPlan" class="subscription-layout">
-      <!-- Current Plan - Lado izquierdo -->
-      <div class="current-plan-section">
-        <CurrentPlanCard
-          :plan="store.currentPlan"
-          :subscription="store.currentSubscription"
-          @renew="handleRenewPlan"
-          @cancel="handleCancelPlan"
-        />
+  <div>
+    <div class="subscription-container">
+      <div class="header-row">
+        <div class="header-left">
+          <h1 class="text-3xl font-extrabold text-gray-900 mb-1">
+            {{ t("subscriptions.title") }}
+          </h1>
+          <p class="text-lg font-semibold text-gray-800">
+            {{ t("subscriptions.current-plan") }}:
+            <span class="text-black font-bold">
+              {{ store.currentPlan?.name || "N/A" }}
+            </span>
+          </p>
+        </div>
+        <div class="header-right">
+          <pv-button
+            :label="t('subscriptions.previous-invoices-button')"
+            class="p-button-sm invoices-btn"
+            @click="openInvoices"
+            :disabled="!store.currentSubscription"
+          />
+        </div>
       </div>
 
-      <!-- Change Plan Section - Lado derecho -->
-      <div class="change-plan-section">
-        <div class="change-plan-header bg-white border border-green-500 text-green-600 font-semibold px-6 py-4 rounded-xl mb-6 text-center shadow-sm">
-          {{ t("subscriptions.change-plan") }}
+      <div v-if="store.isLoading" class="flex justify-center items-center py-8">
+        <pv-progress-spinner />
+      </div>
+
+      <div v-else-if="store.currentPlan" class="subscription-layout">
+        <div class="current-plan-section">
+          <CurrentPlanCard
+            :plan="store.currentPlan"
+            :subscription="store.currentSubscription"
+            :isProcessing="isProcessing"
+            @renew="handleRenewPlan"
+            @cancel="handleCancelPlan"
+          />
         </div>
 
-        <!-- Plan Cards debajo del título -->
-        <div class="plan-cards-container">
+        <div class="change-plan-section">
+          <div
+            class="change-plan-header bg-white border border-green-500 text-green-600 font-semibold px-6 py-4 rounded-xl mb-6 text-center shadow-sm"
+          >
+            {{ t("subscriptions.change-plan") }}
+          </div>
+
+          <div class="plan-cards-container">
+            <PlanCard
+              v-for="plan in store.otherPlans"
+              :key="plan.name"
+              :plan="plan"
+              :isProcessing="isProcessing"
+              @select="handleChangePlan"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div v-else class="text-center py-8">
+        <p class="text-gray-500 mb-4">
+          {{ t("subscriptions.no-subscription") }}
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <PlanCard
-            v-for="plan in store.otherPlans"
+            v-for="plan in store.availablePlans"
             :key="plan.name"
             :plan="plan"
+            :isProcessing="isProcessing"
             @select="handleChangePlan"
           />
         </div>
       </div>
-    </div>
 
-    <!-- No subscription state -->
-    <div v-else class="text-center py-8">
-      <p class="text-gray-500 mb-4">{{ t("subscriptions.no-subscription") }}</p>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <PlanCard
-          v-for="plan in store.availablePlans"
-          :key="plan.name"
-          :plan="plan"
-          @select="handleChangePlan"
-        />
-      </div>
+      <PreviousInvoicesModal
+        :visible="showInvoices"
+        :invoices="invoices"
+        :loading="invoicesLoading"
+        :error="invoicesError"
+        @close="closeInvoices"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
+
+/* ==================== CONTENEDOR PRINCIPAL ==================== */
 .subscription-container {
   padding: 2rem;
   min-height: 100vh;
@@ -168,6 +318,26 @@ const handleChangePlan = (plan) => {
 
 li {
   line-height: 1.5rem;
+}
+
+.header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.header-left p {
+  margin-bottom: 0.5rem;
+}
+
+.invoices-btn {
+  white-space: nowrap;
+}
+
+:deep(.invoices-btn .p-button-label) {
+  color: #ffffff !important;
 }
 
 .subscription-layout {
@@ -191,6 +361,7 @@ li {
   width: 45%;
   max-width: 550px;
 }
+
 .change-plan-header {
   justify-self: center;
   border-radius: 10px;
@@ -205,57 +376,44 @@ li {
   width: 100%;
 }
 
-/* Media queries para responsividad */
+/* ---------- MEDIA QUERIES ---------- */
 
-/* Tablets en landscape (máx. 1200px) */
 @media (max-width: 1200px) {
   .subscription-container {
     padding: 1.5rem;
   }
-
   .subscription-layout {
     gap: 1.5rem;
     justify-content: space-between;
   }
-
-
   .change-plan-section {
     flex: 1;
     max-width: 45%;
     min-width: 280px;
   }
-
   .plan-cards-container {
     gap: 0.75rem;
-    display: -webkit-box;
-    -webkit-box-orient: horizontal;
-    -webkit-box-pack: justify;
   }
 }
 
-/* Tablets en portrait (máx. 1024px) */
 @media (max-width: 1024px) {
   .subscription-container {
     padding: 1.5rem;
   }
-
   .subscription-layout {
     gap: 1.5rem;
     justify-content: center;
   }
-
   .current-plan-section {
     flex: 1;
     max-width: 60%;
     min-width: 300px;
   }
-
   .change-plan-section {
     flex: 1;
     max-width: 40%;
     min-width: 250px;
   }
-
   .plan-cards-container {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -263,78 +421,62 @@ li {
   }
 }
 
-/* Móviles grandes y tablets pequeñas (máx. 768px) */
 @media (max-width: 768px) {
   .subscription-container {
     padding: 1rem;
     text-align: center;
   }
-
-  /* Cambiar a layout vertical */
+  .header-row {
+    flex-direction: column;
+    align-items: center;
+  }
   .subscription-layout {
     flex-direction: column;
     gap: 2rem;
     align-items: center;
   }
-
   .current-plan-section,
   .change-plan-section {
     flex: none;
     width: 100%;
     max-width: 500px;
-    min-width: auto;
   }
-
   .plan-cards-container {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-box-align: center;
     gap: 1.5rem;
-    width: 100%;
   }
-
-  /* Ajustar títulos para móvil */
   .subscription-container h1 {
     font-size: 2rem;
-    text-align: center;
   }
-
   .subscription-container p {
     font-size: 1rem;
-    text-align: center;
   }
-
   .change-plan-header {
     font-size: 0.95rem;
     padding: 0.75rem 1.25rem;
   }
 }
 
-/* Móviles pequeños (máx. 480px) */
 @media (max-width: 480px) {
   .subscription-container {
     padding: 0.75rem;
   }
-
   .subscription-layout {
     gap: 1.5rem;
   }
-
   .plan-cards-container {
     gap: 1rem;
   }
-
-  /* Títulos más pequeños en móviles */
   .subscription-container h1 {
     font-size: 1.75rem;
     margin-bottom: 0.5rem;
   }
-
   .subscription-container p {
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
   }
-
   .change-plan-header {
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
@@ -342,7 +484,6 @@ li {
   }
 }
 
-/* Ajustes específicos para las tarjetas en móvil */
 @media (max-width: 768px) {
   :deep(.current-plan-card) {
     transform: scale(1) !important;
@@ -351,13 +492,11 @@ li {
   }
 }
 
-/* Pantallas muy anchas (min. 1400px) */
 @media (min-width: 1400px) {
   .subscription-container {
     max-width: 1400px;
     margin: 0 auto;
   }
-
   .subscription-layout {
     gap: 3rem;
   }
