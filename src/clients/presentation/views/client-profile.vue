@@ -117,7 +117,6 @@ const handleDelete = () => {
 <template>
   <div class="p-4">
     <pv-toast />
-    <pv-confirm-dialog />
 
     <pv-button
       :label="t('clients.actions.goBack')"

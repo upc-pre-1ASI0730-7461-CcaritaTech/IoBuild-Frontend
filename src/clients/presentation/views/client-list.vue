@@ -95,7 +95,6 @@ const handleDeleteClient = (client) => {
 <template>
   <div class="p-4">
     <pv-toast />
-    <pv-confirm-dialog />
 
     <ClientListHeader :on-add-client="addClient" />
 
