@@ -102,7 +102,6 @@ onMounted(async () => {
 <template>
   <div class="p-4">
     <pv-toast />
-    <pv-confirm-dialog />
 
     <DeviceListHeader :on-add-device="addDevice" />
 
