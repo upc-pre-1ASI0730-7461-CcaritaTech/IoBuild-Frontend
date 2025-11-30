@@ -54,15 +54,23 @@ export class SubscriptionApi extends BaseApi {
 
     createCheckoutSession(builderId, planId) {
         // El backend espera las URLs de success y cancel
+        // Stripe agrega automáticamente el session_id como query parameter
         const baseUrl = window.location.origin;
-        const successUrl = `${baseUrl}/subscriptions?success=true&session_id={CHECKOUT_SESSION_ID}`;
-        const cancelUrl = `${baseUrl}/subscriptions?canceled=true`;
+        const successUrl = `${baseUrl}/subscriptions/my-subscription?success=true`;
+        const cancelUrl = `${baseUrl}/subscriptions/my-subscription?canceled=true`;
 
         return this.http.post(`${subscriptionsEndpointPath}/payments/create-session`, {
             builderId,
             planId,
             successUrl,
             cancelUrl
+        });
+    }
+
+    confirmPayment(builderId, sessionId) {
+        return this.http.post(`${subscriptionsEndpointPath}/payments/confirm`, {
+            builderId,
+            sessionId
         });
     }
 }

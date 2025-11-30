@@ -4,6 +4,7 @@ import { SubscriptionApi } from "../infrastructure/subscription-api.js";
 import { SubscriptionAssembler } from "../infrastructure/subscription.assembler.js";
 import { PlanApi } from "../infrastructure/plan-api.js";
 import { PlanAssembler } from "../infrastructure/plan.assembler.js";
+import { IamFacade } from "../infrastructure/iam.facade.js";
 
 const subscriptionApi = new SubscriptionApi();
 const planApi = new PlanApi();
@@ -16,8 +17,15 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
     const showPaymentModal = ref(false);
     const selectedPlan = ref(null);
 
-    // Get builderId from environment variables
-    const builderId = parseInt(import.meta.env.VITE_USER_ID);
+    // Helper function to get builderId from authenticated user using Facade (ACL)
+    const getBuilderId = () => {
+        try {
+            return IamFacade.getCurrentUserId();
+        } catch (error) {
+            console.error('[SubscriptionStore] Error getting user ID:', error);
+            throw error;
+        }
+    };
 
     // Fetch available plans from API
     function fetchAvailablePlans() {
@@ -50,6 +58,7 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
 
     function fetchCurrentSubscription() {
         isLoading.value = true;
+        const builderId = getBuilderId();
         return subscriptionApi
             .getSubscriptionByBuilderId(builderId)
             .then((response) => {

@@ -5,6 +5,7 @@ import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
 
 import useSubscriptionStore from "../../application/subscription.store.js";
+import { IamFacade } from "../../infrastructure/iam.facade.js";
 import PlanCard from "../components/plan-card.vue";
 import CurrentPlanCard from "../components/current-plan-card.vue";
 import PreviousInvoicesModal from "../components/previous-invoices-modal.vue";
@@ -28,27 +29,62 @@ const invoicesError = ref("");
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 const isProcessing = ref(false);
 
-onMounted(() => {
+// Helper function to get builderId from authenticated user using Facade (ACL)
+const getBuilderId = () => {
+  try {
+    return IamFacade.getCurrentUserId();
+  } catch (error) {
+    console.error('[Subscriptions] Error getting user ID:', error);
+    toast.add({
+      severity: "error",
+      summary: "Error de autenticación",
+      detail: error.message,
+      life: 5000
+    });
+    throw error;
+  }
+};
+
+onMounted(async () => {
   store.fetchAvailablePlans();
   store.fetchCurrentSubscription();
 
-  // Si volvemos del checkout de Stripe con success, refrescar datos
+  // Si volvemos del checkout de Stripe con success, confirmar y refrescar datos
   const urlParams = new URLSearchParams(window.location.search);
-  const hasCheckoutSignal = urlParams.get('session_id') || urlParams.get('success') === 'true';
+  const sessionId = urlParams.get('session_id');
+  const hasSuccess = urlParams.get('success') === 'true';
 
-  if (hasCheckoutSignal) {
-    // Mostrar mensaje de éxito
-    toast.add({
-      severity: "success",
-      summary: t("subscriptions.success"),
-      detail: t("subscriptions.payment-success") || "Pago realizado exitosamente",
-      life: 5000
-    });
+  if (sessionId || hasSuccess) {
+    try {
+      // Confirmar el pago en el backend si tenemos sessionId
+      if (sessionId) {
+        const builderId = getBuilderId();
+        await subscriptionApi.confirmPayment(builderId, sessionId);
+      }
 
-    // Refrescar subscription después de un momento
-    setTimeout(() => {
-      store.fetchCurrentSubscription();
-    }, 1000);
+      // Mostrar mensaje de éxito
+      toast.add({
+        severity: "success",
+        summary: t("subscriptions.success"),
+        detail: t("subscriptions.payment-success") || "Pago realizado exitosamente",
+        life: 5000
+      });
+
+      // Refrescar subscription
+      await store.fetchCurrentSubscription();
+    } catch (error) {
+      console.error('Error confirming payment:', error);
+      toast.add({
+        severity: "warn",
+        summary: t("subscriptions.warning") || "Advertencia",
+        detail: "El pago fue procesado pero hubo un problema al actualizar. Recarga la página.",
+        life: 5000
+      });
+    } finally {
+      // Limpiar los parámetros de la URL sin recargar la página
+      const cleanUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
   }
 });
 
@@ -94,7 +130,7 @@ const handlePayPlan = async (plan) => {
     }
 
     isProcessing.value = true;
-    const builderId = parseInt(import.meta.env.VITE_USER_ID || "1");
+    const builderId = getBuilderId();
 
     const { data } = await subscriptionApi.createCheckoutSession(builderId, plan.id);
 
