@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="main-content-grid">
+    <div class="profile-body">
       <div class="account-card">
         <h3 class="card-title">{{ $t('profile.accountInformation') }}</h3>
         <div class="info-group">
@@ -46,50 +46,22 @@
           <option value="en">English</option>
         </select>
       </div>
-
-      <div class="scenes-card">
-        <h3 class="card-title">{{ $t('profile.scenes') }}</h3>
-        <div v-if="isLoadingScenes" class="loading-text">{{ $t('profile.loadingScenes') }}</div>
-        <div v-else-if="scenes.length === 0" class="no-scenes">{{ $t('profile.noScenes') }}</div>
-        <div v-else class="scenes-list">
-          <div v-for="scene in scenes" :key="scene.id" class="scene-item">
-            <span class="scene-label">{{ sceneLabel(scene) }}</span>
-            <div class="toggle-container" :class="{ active: scene.active }" @click="toggleScene(scene)">
-              <div class="toggle-ball"></div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useProfileStore } from '../../application/profile.store.js'
-import { useIamStore } from '../../../iam/application/iam.store.js'
 import { ProfileApi } from '../../infrastructure/profile-api.js'
 import PvButton from 'primevue/button'
 
-const { t, te } = useI18n()
+const { t } = useI18n()
 const store = useProfileStore()
-const iamStore = useIamStore()
 const api = new ProfileApi()
 const profile = computed(() => store.profile)
 const isEditing = ref(false)
-const scenes = ref([])
-const isLoadingScenes = ref(true)
-
-onMounted(async () => {
-  // Profile is already loaded by profile-router.vue
-  // Just load scenes data
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
-  const res = await fetch(`${baseUrl}/scenes?unitId=201`)
-  const data = await res.json()
-  scenes.value = data.map(s => ({ ...s, active: false }))
-  isLoadingScenes.value = false
-})
 
 function toggleEdit() {
   if (isEditing.value) saveProfile()
@@ -98,15 +70,22 @@ function toggleEdit() {
 
 async function saveProfile() {
   try {
+    // Only send fields that belong to profiles bounded context
+    // Email and role are not part of profiles, they belong to IAM
     await api.updateProfile(profile.value.id, {
+      id: profile.value.id,
+      userId: profile.value.userId,
       name: profile.value.name,
+      username: profile.value.username,
       address: profile.value.address,
+      age: profile.value.age,
       phoneNumber: profile.value.phoneNumber,
-      photoUrl: profile.value.photoUrl
+      photoUrl: profile.value.photoUrl,
+      secondEmail: profile.value.secondEmail
     })
-    console.log('')
+    console.log('Profile updated successfully')
   } catch (error) {
-    console.error('', error)
+    console.error('Error updating profile:', error)
   }
 }
 
@@ -114,18 +93,6 @@ function cancelEdit() {
   isEditing.value = false
   // Use userId from profile, not profile.id
   store.fetchProfile(profile.value.userId)
-}
-
-function toggleScene(scene) {
-  scene.active = !scene.active
-}
-
-function sceneLabel(scene) {
-  const keyById = `profile.sceneNames.${scene.id}`
-  const keyByName = `profile.sceneNames.${scene.name}`
-  if (te(keyById)) return t(keyById)
-  if (te(keyByName)) return t(keyByName)
-  return scene.name
 }
 </script>
 
@@ -136,6 +103,7 @@ function sceneLabel(scene) {
 .profile-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
   padding: 2rem;
   background-color: #f8fafc;
@@ -146,10 +114,13 @@ function sceneLabel(scene) {
   font-weight: 700;
   color: #111827;
   margin-bottom: 1.2rem;
+  width: 100%;
+  max-width: 800px;
 }
 .profile-header {
   display: flex;
-  justify-content: left;
+  justify-content: center;
+  width: 100%;
 }
 .profile-card {
   display: flex;
@@ -209,17 +180,18 @@ function sceneLabel(scene) {
   border: none;
   font-weight: bold;
 }
-.main-content-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
+.profile-body {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
-.account-card,
-.scenes-card {
+.account-card {
   background: white;
   border-radius: 10px;
   border: 1px solid black;
   padding: 25px;
+  width: 100%;
+  max-width: 800px;
 }
 .card-title {
   font-size: 1.25rem;
@@ -254,50 +226,5 @@ function sceneLabel(scene) {
   border: 1px solid black;
   border-radius: 6px;
   width: 100%;
-}
-.loading-text,
-.no-scenes {
-  text-align: center;
-  font-style: italic;
-  color: #6b7280;
-}
-.scenes-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.scene-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.scene-label {
-  font-weight: 500;
-  color: #111827;
-}
-.toggle-container {
-  width: 45px;
-  height: 24px;
-  background-color: #d1d5db;
-  border-radius: 9999px;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.toggle-container.active {
-  background-color: #10b981;
-}
-.toggle-ball {
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  transition: transform 0.3s;
-}
-.toggle-container.active .toggle-ball {
-  transform: translateX(21px);
 }
 </style>
