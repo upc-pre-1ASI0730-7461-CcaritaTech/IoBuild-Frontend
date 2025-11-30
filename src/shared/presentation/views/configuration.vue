@@ -5,8 +5,10 @@ import ToggleSwitch from 'primevue/toggleswitch';
 import Button from 'primevue/button';
 import AlternateMailForm from '../components/alternate-mail.form.vue';
 import ChangePassword from '../components/change-password.vue';
+import { useProfileStore } from '../../../profiles/application/profile.store.js';
 
 const { t } = useI18n();
+const profileStore = useProfileStore();
 
 // Listas de claves (sin objetos)
 const notificationKeys = ['expiration', 'system', 'customer', 'push'];
@@ -28,8 +30,13 @@ const alternateEmail = ref(''); // podrías cargarlo desde una API o store
 // Estado para la modal de cambio de contraseña
 const showChangePasswordModal = ref(false);
 
-const handleSaveAlternateEmail = (email) => {
+const handleSaveAlternateEmail = async (email) => {
   alternateEmail.value = email;
+  try {
+    await profileStore.setSecondEmail(email);
+  } catch (error) {
+    console.error('Error saving alternate email:', error);
+  }
 };
 
 const supportUrls = {
