@@ -23,7 +23,8 @@ export class ProfileApi extends BaseApi {
 
     try {
       const response = await this.http.get(`${usersEndpoint}/${userId}/profiles`);
-      return response.data;
+      // Backend returns an array of profiles, get the first one
+      return Array.isArray(response.data) ? response.data[0] : response.data;
     } catch (error) {
       console.error('Error fetching profile:', error);
       throw error;

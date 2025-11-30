@@ -1,4 +1,5 @@
 import { Profile } from '../domain/model/profile.entity.js';
+import { IamFacade } from './iam.facade.js';
 
 export class ProfileAssembler {
   static toDomainFromResponse(response) {
@@ -6,13 +7,23 @@ export class ProfileAssembler {
       return { profileEntity: new Profile({}), configData: {} };
     }
 
+    // Get email and role from IAM bounded context through ACL (Anti-Corruption Layer)
+    // These fields belong to IAM, not to profiles
+    const emailFromIam = IamFacade.getCurrentUserEmail();
+    const roleFromIam = IamFacade.getCurrentUserRole();
+
     const profileData = {
       id: response.id,
+      userId: response.userId || 0,
       // Backend returns 'name' in the profile response
       name: response.name || response.fullName || '',
-      email: response.email || '',
+      // Email comes from IAM bounded context, not from profiles
+      email: emailFromIam || '',
+      secondEmail: response.secondEmail || '',
       username: response.username || '',
-      role: response.role || '',
+      // Role comes from IAM bounded context, not from profiles
+      role: roleFromIam || 'builder',
+      age: response.age || 0,
 
       photoUrl: response.photoUrl && response.photoUrl !== 'undefined'
         ? response.photoUrl

@@ -101,10 +101,22 @@ function toggleEdit() {
 
 async function saveProfile() {
   try {
-    await api.updateProfile(profile.value.id, profile.value)
-    console.log('')
+    // Only send fields that belong to profiles bounded context
+    // Email and role are not part of profiles, they belong to IAM
+    await api.updateProfile(profile.value.id, {
+      id: profile.value.id,
+      userId: profile.value.userId,
+      name: profile.value.name,
+      username: profile.value.username,
+      address: profile.value.address,
+      age: profile.value.age,
+      phoneNumber: profile.value.phoneNumber,
+      photoUrl: profile.value.photoUrl,
+      secondEmail: profile.value.secondEmail
+    })
+    console.log('Profile updated successfully')
   } catch (error) {
-    console.error('', error)
+    console.error('Error updating profile:', error)
   }
 }
 
