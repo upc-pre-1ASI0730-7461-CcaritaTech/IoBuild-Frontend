@@ -81,12 +81,6 @@ const handleSave = () => {
 const handleCancel = () => {
   localVisible.value = false;
 };
-
-const accountStatementOptions = [
-  { label: 'Active', value: 'Active' },
-  { label: 'Stand by', value: 'Stand by' },
-  { label: 'Suspended', value: 'Suspended' }
-];
 </script>
 
 <template>
@@ -150,18 +144,6 @@ const accountStatementOptions = [
           placeholder="Select a project"
           class="w-full"
           :disabled="projectOptions.length === 0"
-        />
-      </div>
-
-      <div class="col-12">
-        <label for="accountStatement" class="block mb-2 font-semibold">Account Statement</label>
-        <pv-select
-          id="accountStatement"
-          v-model="formData.accountStatement"
-          :options="accountStatementOptions"
-          optionLabel="label"
-          optionValue="value"
-          class="w-full"
         />
       </div>
     </div>
