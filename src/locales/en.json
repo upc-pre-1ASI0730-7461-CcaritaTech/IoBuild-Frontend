@@ -234,14 +234,24 @@
       "contact": "Contact Support",
       "tutorials": "Tutorials and Guides"
     },
-    "form": {
+    "email-form": {
       "title": "Add Alternate mail address",
+      "description": "Add an alternate email address so you can recover your account if you lose access to your primary one.",
       "placeholder": "example@domain.com",
       "emailRequired": "Email is required",
       "emailInvalid": "Please enter a valid email",
       "cancel": "Cancel",
       "save": "Save",
       "errorSaving": "Failed to save. Please try again."
+    },
+    "password-form": {
+      "title": "Change password",
+      "description": "Update your password to keep your account secure.",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
   "subscriptions": {
