@@ -101,12 +101,7 @@ function toggleEdit() {
 
 async function saveProfile() {
   try {
-    await api.updateProfile(profile.value.id, {
-      name: profile.value.name,
-      address: profile.value.address,
-      phoneNumber: profile.value.phoneNumber,
-      photoUrl: profile.value.photoUrl
-    })
+    await api.updateProfile(profile.value.id, profile.value)
     console.log('')
   } catch (error) {
     console.error('', error)
