@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import { Client } from '../../domain/model/client.entity.js';
+import { ProjectsFacade } from '../../infrastructure/projects.facade.js';
 
 const props = defineProps({
   visible: {
@@ -11,7 +12,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:visible', 'save']);
 
+const projectsFacade = new ProjectsFacade();
 const localVisible = ref(props.visible);
+const projects = ref([]);
 const formData = ref(new Client({
   fullName: '',
   email: '',
@@ -20,6 +23,20 @@ const formData = ref(new Client({
   projectName: '',
   accountStatement: 'Active'
 }));
+
+// Load projects on component mount
+onMounted(async () => {
+  await projectsFacade.fetchProjects();
+  projects.value = projectsFacade.getProjects();
+});
+
+// Computed property to format projects for dropdown
+const projectOptions = computed(() => {
+  return projects.value.map(project => ({
+    label: project.name,
+    value: project.id
+  }));
+});
 
 watch(() => props.visible, (newVal) => {
   localVisible.value = newVal;
@@ -39,6 +56,15 @@ watch(() => props.visible, (newVal) => {
 
 watch(localVisible, (newVal) => {
   emit('update:visible', newVal);
+});
+
+// Watch for project selection to update projectName
+watch(() => formData.value.projectId, (newProjectId) => {
+  if (newProjectId) {
+    formData.value.projectName = projectsFacade.getProjectNameById(newProjectId);
+  } else {
+    formData.value.projectName = '';
+  }
 });
 
 const handleSave = () => {
@@ -114,12 +140,16 @@ const accountStatementOptions = [
       </div>
 
       <div class="col-12 mb-3">
-        <label for="projectName" class="block mb-2 font-semibold">Project Name</label>
-        <pv-input-text
-          id="projectName"
-          v-model="formData.projectName"
+        <label for="projectId" class="block mb-2 font-semibold">Project</label>
+        <pv-select
+          id="projectId"
+          v-model="formData.projectId"
+          :options="projectOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select a project"
           class="w-full"
-          placeholder="Enter project name"
+          :disabled="projectOptions.length === 0"
         />
       </div>
 
