@@ -1,22 +1,25 @@
 <template>
-  <div class="flex align-items-center justify-content-center min-h-screen py-4">
-    <pv-card class="register-card">
-      <template #title>
-        <div class="text-center">
-          <h2>{{ $t('iam.registerOwner.title') }}</h2>
-        </div>
-      </template>
-      <template #content>
-        <pv-stepper v-model:value="currentStep" linear>
-          <pv-step-list>
-            <pv-step :value="1">{{ $t('iam.registerOwner.userInfoSection') }}</pv-step>
-            <pv-step :value="2">{{ $t('iam.registerOwner.profileInfoSection') }}</pv-step>
-          </pv-step-list>
+  <div class="auth-container">
+    <!-- Left Side - Form -->
+    <div class="auth-form-side">
+      <!-- Green Fragment Decoration -->
+      <div class="green-fragment"></div>
 
-          <pv-step-panels>
-            <!-- Step 1: Account Information -->
-            <pv-step-panel :value="1">
-              <div class="step-content">
+      <div class="form-content">
+        <div class="form-wrapper">
+          <h2 class="form-title">{{ $t('iam.registerOwner.title') }}</h2>
+          <p class="form-subtitle">{{ $t('iam.registerOwner.subtitle') || 'Create your owner account to manage your properties.' }}</p>
+
+          <pv-stepper v-model:value="currentStep" linear>
+            <pv-step-list>
+              <pv-step :value="1">{{ $t('iam.registerOwner.userInfoSection') }}</pv-step>
+              <pv-step :value="2">{{ $t('iam.registerOwner.profileInfoSection') }}</pv-step>
+            </pv-step-list>
+
+            <pv-step-panels>
+              <!-- Step 1: Account Information -->
+              <pv-step-panel :value="1">
+                <div class="step-content">
           <!-- Email -->
           <div class="mb-3">
             <label for="email" class="block mb-2">{{ $t('iam.registerOwner.email') }} *</label>
@@ -182,8 +185,12 @@
             </pv-step-panel>
           </pv-step-panels>
         </pv-stepper>
-      </template>
-    </pv-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Image -->
+    <div class="auth-image-side"></div>
   </div>
 </template>
 
@@ -269,25 +276,39 @@ async function handleRegister() {
 
   try {
     // 1. Create user with role "Owner"
+    console.log('Step 1: Creating user account...');
     await iamStore.signUp({
       email: registerForm.value.email,
       password: registerForm.value.password,
       role: 'Owner'
     });
+    console.log('Step 1: User account created successfully');
 
     // 2. Sign in to get the user ID
+    console.log('Step 2: Signing in to get user ID...');
     const authenticatedUser = await iamStore.signIn(registerForm.value.email, registerForm.value.password);
+    console.log('Step 2: Sign in successful, user ID:', authenticatedUser.id);
+
+    // Validate that we have a user ID
+    if (!authenticatedUser || !authenticatedUser.id) {
+      throw new Error('Failed to retrieve user ID after sign in');
+    }
 
     // 3. Create profile with user ID
-    await profileStore.createProfile({
+    console.log('Step 3: Creating profile for user ID:', authenticatedUser.id);
+    const profileData = {
       userId: authenticatedUser.id,
-      photoUrl: registerForm.value.photoUrl,
+      photoUrl: registerForm.value.photoUrl || '',
       name: registerForm.value.name,
       username: registerForm.value.username,
       address: registerForm.value.address,
       age: registerForm.value.age,
       phoneNumber: registerForm.value.phoneNumber
-    });
+    };
+    console.log('Profile data to be created:', profileData);
+    
+    await profileStore.createProfile(profileData);
+    console.log('Step 3: Profile created successfully');
 
     successMessage.value = 'Registration successful! Redirecting...';
     
@@ -297,7 +318,21 @@ async function handleRegister() {
     }, 2000);
 
   } catch (error) {
-    errorMessage.value = error.response?.data?.message || 'Registration failed. Please try again.';
+    console.error('Registration error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status
+    });
+    
+    // Provide more specific error messages
+    if (error.message.includes('user ID')) {
+      errorMessage.value = 'Failed to complete registration. Please try logging in manually.';
+    } else if (error.response?.status === 409) {
+      errorMessage.value = 'Email already exists. Please try logging in instead.';
+    } else {
+      errorMessage.value = error.response?.data?.message || error.message || 'Registration failed. Please try again.';
+    }
   } finally {
     isLoading.value = false;
   }
@@ -309,17 +344,116 @@ function goToLogin() {
 </script>
 
 <style scoped>
-.register-card {
+.auth-container {
+  display: flex;
+  min-height: 100vh;
   width: 100%;
-  max-width: 650px;
+  background-color: #262626;
+}
+
+/* Left Side - Form */
+.auth-form-side {
+  flex: 1;
+  background-color: #18181b;
+  background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow-y: auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* Green Fragment Decoration */
+.green-fragment {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 120px;
+  height: 300px;
+  background: linear-gradient(to top, #10b981, transparent);
+  clip-path: polygon(100% 0, 100% 100%, 0% 100%);
+  opacity: 0.6;
+  z-index: -1;
+}
+
+.form-content {
+  width: 100%;
+  max-width: 28rem;
+  position: relative;
+  z-index: 1;
+}
+
+.form-wrapper {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.form-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem 0;
+}
+
+.form-subtitle {
+  color: #6b7280;
+  margin: 0 0 1.5rem 0;
+  font-size: 0.95rem;
 }
 
 .step-content {
-  min-height: 400px;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
 }
 
 .mb-3 {
   margin-bottom: 1.25rem;
+}
+
+/* Right Side - Image */
+.auth-image-side {
+  flex: 1;
+  background-image: url('https://img.freepik.com/free-photo/modern-business-building-with-glass-wall-from-empty-floor_1127-3091.jpg?semt=ais_hybrid&w=740&q=80');
+  background-size: cover;
+  background-position: center;
+  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+  .auth-container {
+    flex-direction: column;
+  }
+
+  .auth-image-side {
+    min-height: 300px;
+    order: -1;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  }
+
+  .green-fragment {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-form-side {
+    padding: 1rem;
+  }
+
+  .form-wrapper {
+    padding: 1.5rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
 }
 </style>
