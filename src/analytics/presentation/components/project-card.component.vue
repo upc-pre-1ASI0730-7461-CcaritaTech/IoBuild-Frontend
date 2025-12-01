@@ -1,10 +1,18 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
 const props = defineProps({
   project: {
     type: Object,
     required: true
   }
 });
+
+const translateStatus = (status) => {
+  return t(`analytics.projectStatus.${status}`, status);
+};
 
 const statusColors = {
   'OnGoing': 'bg-green-100 text-green-800',
@@ -30,7 +38,7 @@ const getStatusColor = (status) => {
         </p>
       </div>
       <span class="project-status" :class="getStatusColor(project.status)">
-        {{ project.status }}
+        {{ translateStatus(project.status) }}
       </span>
     </div>
     
@@ -41,7 +49,7 @@ const getStatusColor = (status) => {
         </span>
         <div class="stat-details">
           <span class="stat-value-small">{{ project.occupiedUnits }}/{{ project.totalUnits }}</span>
-          <span class="stat-label-small">Units</span>
+          <span class="stat-label-small">{{ $t('analytics.common.units') }}</span>
         </div>
       </div>
       
@@ -51,14 +59,14 @@ const getStatusColor = (status) => {
         </span>
         <div class="stat-details">
           <span class="stat-value-small">{{ project.deviceCount }}</span>
-          <span class="stat-label-small">Devices</span>
+          <span class="stat-label-small">{{ $t('analytics.common.devices') }}</span>
         </div>
       </div>
     </div>
     
     <div class="progress-section">
       <div class="progress-header">
-        <span class="progress-label">Occupancy</span>
+        <span class="progress-label">{{ $t('analytics.common.occupancy') }}</span>
         <span class="progress-value">{{ project.occupancyRate.toFixed(1) }}%</span>
       </div>
       <div class="progress-bar">

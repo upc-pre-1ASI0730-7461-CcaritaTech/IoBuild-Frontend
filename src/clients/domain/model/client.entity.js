@@ -2,7 +2,7 @@ export class Client {
     constructor({
                     id = null,
                     fullName = "",
-                    projectId = null,
+                    projectId = 0,
                     projectName = "",
                     accountStatement = "Active",
                     email = "",

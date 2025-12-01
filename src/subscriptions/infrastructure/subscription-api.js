@@ -31,7 +31,7 @@ export class SubscriptionApi extends BaseApi {
     }
 
     renewSubscription(subscriptionId) {
-        // Simulate renew operation - in real app this would call a specific endpoint
+
         return this.updateSubscription({
             id: subscriptionId,
             status: 'active',
@@ -40,10 +40,37 @@ export class SubscriptionApi extends BaseApi {
     }
 
     cancelSubscription(subscriptionId) {
-        // Simulate cancel operation - in real app this would call a specific endpoint
+
         return this.updateSubscription({
             id: subscriptionId,
             status: 'cancelled'
+        });
+    }
+
+    async getPreviousInvoicesBySubscriptionId(subscriptionId) {
+
+        return this.http.get(`${subscriptionsEndpointPath}/${subscriptionId}/invoices`);
+    }
+
+    createCheckoutSession(builderId, planId) {
+        // El backend espera las URLs de success y cancel
+        // Stripe agrega automáticamente el session_id como query parameter
+        const baseUrl = window.location.origin;
+        const successUrl = `${baseUrl}/subscriptions/my-subscription?success=true`;
+        const cancelUrl = `${baseUrl}/subscriptions/my-subscription?canceled=true`;
+
+        return this.http.post(`${subscriptionsEndpointPath}/payments/create-session`, {
+            builderId,
+            planId,
+            successUrl,
+            cancelUrl
+        });
+    }
+
+    confirmPayment(builderId, sessionId) {
+        return this.http.post(`${subscriptionsEndpointPath}/payments/confirm`, {
+            builderId,
+            sessionId
         });
     }
 }

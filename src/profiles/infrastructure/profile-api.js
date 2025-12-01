@@ -20,10 +20,11 @@ export class ProfileApi extends BaseApi {
    */
   async getProfile(userId) {
     if (!userId) throw new Error('User ID is required for fetching profile.');
-    
+
     try {
       const response = await this.http.get(`${usersEndpoint}/${userId}/profiles`);
-      return response.data;
+      // Backend returns an array of profiles, get the first one
+      return Array.isArray(response.data) ? response.data[0] : response.data;
     } catch (error) {
       console.error('Error fetching profile:', error);
       throw error;
@@ -62,4 +63,27 @@ export class ProfileApi extends BaseApi {
       throw error;
     }
   }
+
+    /**
+     * Set second email by user ID
+     * @param {number} userId - User ID
+     * @param {string} secondEmail - Second email address
+     * @returns {Promise} Response with updated profile
+     */
+    async setSecondEmailByUserId(userId, secondEmail) {
+        if (!userId) throw new Error('User ID is required for setting second email.');
+
+        try {
+            // Enviar JSON puro en el body y el userId como query param, sin usar `data` dentro del config.
+            const response = await this.http.post(
+                `${profilesEndpoint}/second-email`,
+                { secondEmail },
+                { params: { userId } }
+            );
+            return response.data;
+        } catch (error) {
+            console.error('Error setting second email:', error);
+            throw error;
+        }
+    }
 }

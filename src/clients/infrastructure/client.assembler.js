@@ -19,12 +19,12 @@ export class ClientAssembler {
         return {
             id: entity.id,
             fullName: entity.fullName,
-            projectId: entity.projectId,
-            projectName: entity.projectName,
+            projectId: entity.projectId || 0,
+            projectName: entity.projectName || "",
             accountStatement: entity.accountStatement,
             email: entity.email,
-            phoneNumber: entity.phoneNumber,
-            address: entity.address
+            phoneNumber: entity.phoneNumber || "",
+            address: entity.address || ""
         };
     }
 }

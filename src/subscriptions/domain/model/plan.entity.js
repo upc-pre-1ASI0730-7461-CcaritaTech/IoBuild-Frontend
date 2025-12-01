@@ -4,6 +4,7 @@
  */
 export class Plan {
     constructor({
+        id = 0,
         name = '',
         price = 0,
         description = '',
@@ -14,6 +15,7 @@ export class Plan {
         hasAPI = false,
         hasAnalytics = false
     }) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;

@@ -60,7 +60,7 @@ const items = [
 
   { label: 'option.home', to: '/analytics/dashboard', use_role: 'builder', type: 'builder', icon: 'pi pi-home' },
   { label: 'option.profile', to: '/profiles/profile', use_role: 'builder', type: 'builder', icon: 'pi pi-user' },
-  { label: 'option.projects', to: '/projects/projects-management', use_role: 'builder', type: 'builder', icon: 'pi pi-folder' },
+  { label: 'option.projects', to: '/projects', use_role: 'builder', type: 'builder', icon: 'pi pi-folder' },
   { label: 'option.clients', to: '/clients', use_role: 'builder', type: 'builder', icon: 'pi pi-users' },
   { label: 'option.subscription', to: '/subscriptions/my-subscription', use_role: 'builder', type: 'builder', icon: 'pi pi-credit-card' },
   { label: 'option.configuration', to: '/configuration', use_role: 'builder', type: 'builder', icon: 'pi pi-cog' },
@@ -68,7 +68,7 @@ const items = [
 
   { label: 'option.home', to: '/analytics/dashboard', use_role: 'owner', type: 'owner', icon: 'pi pi-home' },
   { label: 'option.profile', to: '/profiles/profile', use_role: 'owner', type: 'owner', icon: 'pi pi-user' },
-  { label: 'option.device-management', to: '/automation/device-management', use_role: 'owner', type: 'owner', icon: 'pi pi-microchip' },
+  { label: 'option.device-management', to: '/devices/device-management', use_role: 'owner', type: 'owner', icon: 'pi pi-microchip' },
   { label: 'option.configuration', to: '/configuration', use_role: 'owner', type: 'owner', icon: 'pi pi-cog' },
 ];
 
