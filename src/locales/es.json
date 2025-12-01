@@ -344,6 +344,7 @@
     "logout": "Cerrar Sesión",
     "login": {
       "title": "Iniciar Sesión",
+      "subtitle": "¡Bienvenido de nuevo! Ingrese a su cuenta.",
       "email": "Correo Electrónico",
       "emailPlaceholder": "Ingrese su correo electrónico",
       "password": "Contraseña",
@@ -355,6 +356,7 @@
     },
     "registerBuilder": {
       "title": "Registro como Constructor",
+      "subtitle": "Cree su cuenta de constructor para empezar a gestionar proyectos.",
       "userInfoSection": "Información de Cuenta",
       "profileInfoSection": "Información de la Empresa",
       "email": "Correo Electrónico",
@@ -380,6 +382,7 @@
     },
     "registerOwner": {
       "title": "Registro como Propietario",
+      "subtitle": "Cree su cuenta de propietario para gestionar sus propiedades.",
       "userInfoSection": "Información de Cuenta",
       "profileInfoSection": "Información Personal",
       "email": "Correo Electrónico",

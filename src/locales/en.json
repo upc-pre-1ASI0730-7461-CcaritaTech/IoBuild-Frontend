@@ -344,6 +344,7 @@
     "logout": "Log Out",
     "login": {
       "title": "Sign In",
+      "subtitle": "Welcome back! Please login to your account.",
       "email": "Email",
       "emailPlaceholder": "Enter your email",
       "password": "Password",
@@ -355,6 +356,7 @@
     },
     "registerBuilder": {
       "title": "Register as Builder",
+      "subtitle": "Create your builder account to start managing projects.",
       "userInfoSection": "Account Information",
       "profileInfoSection": "Company Information",
       "email": "Email",
@@ -380,6 +382,7 @@
     },
     "registerOwner": {
       "title": "Register as Owner",
+      "subtitle": "Create your owner account to manage your properties.",
       "userInfoSection": "Account Information",
       "profileInfoSection": "Personal Information",
       "email": "Email",
