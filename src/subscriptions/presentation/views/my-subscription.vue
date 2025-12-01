@@ -8,7 +8,6 @@ import useSubscriptionStore from "../../application/subscription.store.js";
 import { IamFacade } from "../../infrastructure/iam.facade.js";
 import PlanCard from "../components/plan-card.vue";
 import CurrentPlanCard from "../components/current-plan-card.vue";
-import PreviousInvoicesModal from "../components/previous-invoices-modal.vue";
 import { SubscriptionApi } from "../../infrastructure/subscription-api.js";
 
 // Stripe
@@ -19,11 +18,6 @@ const confirm = useConfirm();
 const toast = useToast();
 const store = useSubscriptionStore();
 const subscriptionApi = new SubscriptionApi();
-
-const showInvoices = ref(false);
-const invoices = ref([]);
-const invoicesLoading = ref(false);
-const invoicesError = ref("");
 
 // Stripe setup - simplified like Profile.jsx
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -176,47 +170,6 @@ const handlePayPlan = async (plan) => {
   }
 };
 
-const openInvoices = async () => {
-  if (!store.currentSubscription) return;
-  invoices.value = [];
-  invoicesError.value = "";
-  invoicesLoading.value = true;
-  showInvoices.value = true;
-
-  try {
-    const resp = await subscriptionApi.getPreviousInvoicesBySubscriptionId(
-      store.currentSubscription.id
-    );
-
-    const rows = Array.isArray(resp.data)
-      ? resp.data
-      : resp.data?.data || [];
-
-    invoices.value = rows
-      .map((inv) => ({
-        id: inv.id,
-        period: inv.period || "",
-        date: inv.dueDate || inv.date || null,
-        dueDate: inv.dueDate || inv.date || null,
-        billingStart: inv.billingStart || null,
-        billingEnd: inv.billingEnd || null,
-        status: inv.status || "paid",
-        currency: inv.currency || "$",
-        amount: inv.amount || 0,
-        downloadUrl: inv.downloadUrl || "#",
-      }))
-      .filter((i) => i.id);
-  } catch (e) {
-    invoicesError.value = e?.message || t("subscriptions.change-failed");
-  } finally {
-    invoicesLoading.value = false;
-  }
-};
-
-const closeInvoices = () => {
-  showInvoices.value = false;
-};
-
 
 </script>
 
@@ -234,14 +187,6 @@ const closeInvoices = () => {
               {{ store.currentPlan?.name || "N/A" }}
             </span>
           </p>
-        </div>
-        <div class="header-right">
-          <pv-button
-            :label="t('subscriptions.previous-invoices-button')"
-            class="p-button-sm invoices-btn"
-            @click="openInvoices"
-            :disabled="!store.currentSubscription"
-          />
         </div>
       </div>
 
@@ -293,14 +238,6 @@ const closeInvoices = () => {
           />
         </div>
       </div>
-
-      <PreviousInvoicesModal
-        :visible="showInvoices"
-        :invoices="invoices"
-        :loading="invoicesLoading"
-        :error="invoicesError"
-        @close="closeInvoices"
-      />
     </div>
   </div>
 </template>
@@ -332,12 +269,8 @@ li {
   margin-bottom: 0.5rem;
 }
 
-.invoices-btn {
-  white-space: nowrap;
-}
-
-:deep(.invoices-btn .p-button-label) {
-  color: #ffffff !important;
+.header-row {
+  justify-content: flex-start;
 }
 
 .subscription-layout {

@@ -7,128 +7,151 @@
         </div>
       </template>
       <template #content>
-        <form @submit.prevent="handleRegister">
-          <!-- User Information Section -->
-          <pv-fieldset :legend="$t('iam.registerBuilder.userInfoSection')" class="mb-3">
-            <!-- Email -->
-            <div class="mb-3">
-              <label for="email" class="block mb-2">{{ $t('iam.registerBuilder.email') }} *</label>
-              <pv-input-text
-                id="email"
-                v-model="registerForm.email"
-                type="email"
-                :placeholder="$t('iam.registerBuilder.emailPlaceholder')"
-                class="w-full"
-                required
-              />
-            </div>
+        <pv-stepper v-model:value="currentStep" linear>
+          <pv-step-list>
+            <pv-step :value="1">{{ $t('iam.registerBuilder.userInfoSection') }}</pv-step>
+            <pv-step :value="2">{{ $t('iam.registerBuilder.profileInfoSection') }}</pv-step>
+          </pv-step-list>
 
-            <!-- Password -->
-            <div class="mb-3">
-              <label for="password" class="block mb-2">{{ $t('iam.registerBuilder.password') }} *</label>
-              <pv-password
-                id="password"
-                v-model="registerForm.password"
-                :placeholder="$t('iam.registerBuilder.passwordPlaceholder')"
-                toggleMask
-                class="w-full"
-                inputClass="w-full"
-                required
-              />
-            </div>
+          <pv-step-panels>
+            <!-- Step 1: Account Information -->
+            <pv-step-panel :value="1">
+              <div class="step-content">
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="block mb-2">{{ $t('iam.registerBuilder.email') }} *</label>
+            <pv-input-text
+              id="email"
+              v-model="registerForm.email"
+              type="email"
+              :placeholder="$t('iam.registerBuilder.emailPlaceholder')"
+              class="w-full"
+            />
+          </div>
 
-            <!-- Confirm Password -->
-            <div class="mb-3">
-              <label for="confirmPassword" class="block mb-2">{{ $t('iam.registerBuilder.confirmPassword') }} *</label>
-              <pv-password
-                id="confirmPassword"
-                v-model="registerForm.confirmPassword"
-                :placeholder="$t('iam.registerBuilder.confirmPasswordPlaceholder')"
-                :feedback="false"
-                toggleMask
-                class="w-full"
-                inputClass="w-full"
-                required
-              />
-            </div>
-          </pv-fieldset>
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="password" class="block mb-2">{{ $t('iam.registerBuilder.password') }} *</label>
+            <pv-password
+              id="password"
+              v-model="registerForm.password"
+              :placeholder="$t('iam.registerBuilder.passwordPlaceholder')"
+              toggleMask
+              class="w-full"
+              inputClass="w-full"
+            />
+          </div>
 
-          <!-- Profile Information Section -->
-          <pv-fieldset :legend="$t('iam.registerBuilder.profileInfoSection')" class="mb-3">
-            <!-- Photo URL -->
-            <div class="mb-3">
-              <label for="photoUrl" class="block mb-2">{{ $t('iam.registerBuilder.photoUrl') }}</label>
-              <pv-input-text
-                id="photoUrl"
-                v-model="registerForm.photoUrl"
-                type="url"
-                :placeholder="$t('iam.registerBuilder.photoUrlPlaceholder')"
-                class="w-full"
-              />
-            </div>
+          <!-- Confirm Password -->
+          <div class="mb-3">
+            <label for="confirmPassword" class="block mb-2">{{ $t('iam.registerBuilder.confirmPassword') }} *</label>
+            <pv-password
+              id="confirmPassword"
+              v-model="registerForm.confirmPassword"
+              :placeholder="$t('iam.registerBuilder.confirmPasswordPlaceholder')"
+              :feedback="false"
+              toggleMask
+              class="w-full"
+              inputClass="w-full"
+            />
+          </div>
 
-            <!-- Name -->
-            <div class="mb-3">
-              <label for="name" class="block mb-2">{{ $t('iam.registerBuilder.name') }} *</label>
-              <pv-input-text
-                id="name"
-                v-model="registerForm.name"
-                :placeholder="$t('iam.registerBuilder.namePlaceholder')"
-                class="w-full"
-                required
-              />
-            </div>
+          <!-- Error Message -->
+          <pv-message v-if="errorMessage" severity="error" :closable="false" class="mb-3">
+            {{ errorMessage }}
+          </pv-message>
 
-            <!-- Username -->
-            <div class="mb-3">
-              <label for="username" class="block mb-2">{{ $t('iam.registerBuilder.username') }} *</label>
-              <pv-input-text
-                id="username"
-                v-model="registerForm.username"
-                :placeholder="$t('iam.registerBuilder.usernamePlaceholder')"
-                class="w-full"
-                required
-              />
-            </div>
+                <div class="flex gap-2 pt-4">
+                  <pv-button
+                    type="button"
+                    :label="$t('iam.registerBuilder.cancelButton')"
+                    severity="secondary"
+                    outlined
+                    @click="goToLogin"
+                    class="flex-1"
+                  />
+                  <pv-button
+                    :label="'Next'"
+                    icon="pi pi-arrow-right"
+                    iconPos="right"
+                    @click="goToStep2"
+                    class="flex-1"
+                  />
+                </div>
+              </div>
+            </pv-step-panel>
 
-            <!-- Address -->
-            <div class="mb-3">
-              <label for="address" class="block mb-2">{{ $t('iam.registerBuilder.address') }} *</label>
-              <pv-input-text
-                id="address"
-                v-model="registerForm.address"
-                :placeholder="$t('iam.registerBuilder.addressPlaceholder')"
-                class="w-full"
-                required
-              />
-            </div>
+            <!-- Step 2: Company Information -->
+            <pv-step-panel :value="2">
+              <div class="step-content">
+          <!-- Photo URL -->
+          <div class="mb-3">
+            <label for="photoUrl" class="block mb-2">{{ $t('iam.registerBuilder.photoUrl') }}</label>
+            <pv-input-text
+              id="photoUrl"
+              v-model="registerForm.photoUrl"
+              type="url"
+              :placeholder="$t('iam.registerBuilder.photoUrlPlaceholder')"
+              class="w-full"
+            />
+          </div>
 
-            <!-- Age -->
-            <div class="mb-3">
-              <label for="age" class="block mb-2">{{ $t('iam.registerBuilder.age') }} *</label>
-              <pv-input-number
-                id="age"
-                v-model="registerForm.age"
-                :min="18"
-                :max="100"
-                :placeholder="$t('iam.registerBuilder.agePlaceholder')"
-                class="w-full"
-                required
-              />
-            </div>
+          <!-- Name -->
+          <div class="mb-3">
+            <label for="name" class="block mb-2">{{ $t('iam.registerBuilder.name') }} *</label>
+            <pv-input-text
+              id="name"
+              v-model="registerForm.name"
+              :placeholder="$t('iam.registerBuilder.namePlaceholder')"
+              class="w-full"
+            />
+          </div>
 
-            <!-- Phone Number -->
-            <div class="mb-3">
-              <label for="phoneNumber" class="block mb-2">{{ $t('iam.registerBuilder.phoneNumber') }} *</label>
-              <pv-input-text
-                id="phoneNumber"
-                v-model="registerForm.phoneNumber"
-                :placeholder="$t('iam.registerBuilder.phoneNumberPlaceholder')"
-                class="w-full"
-                required
-              />
-            </div>
-          </pv-fieldset>
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="username" class="block mb-2">{{ $t('iam.registerBuilder.username') }} *</label>
+            <pv-input-text
+              id="username"
+              v-model="registerForm.username"
+              :placeholder="$t('iam.registerBuilder.usernamePlaceholder')"
+              class="w-full"
+            />
+          </div>
+
+          <!-- Address -->
+          <div class="mb-3">
+            <label for="address" class="block mb-2">{{ $t('iam.registerBuilder.address') }} *</label>
+            <pv-input-text
+              id="address"
+              v-model="registerForm.address"
+              :placeholder="$t('iam.registerBuilder.addressPlaceholder')"
+              class="w-full"
+            />
+          </div>
+
+          <!-- Age -->
+          <div class="mb-3">
+            <label for="age" class="block mb-2">{{ $t('iam.registerBuilder.age') }} *</label>
+            <pv-input-number
+              id="age"
+              v-model="registerForm.age"
+              :min="1"
+              :max="100"
+              :placeholder="$t('iam.registerBuilder.agePlaceholder')"
+              class="w-full"
+            />
+          </div>
+
+          <!-- Phone Number -->
+          <div class="mb-3">
+            <label for="phoneNumber" class="block mb-2">{{ $t('iam.registerBuilder.phoneNumber') }} *</label>
+            <pv-input-text
+              id="phoneNumber"
+              v-model="registerForm.phoneNumber"
+              :placeholder="$t('iam.registerBuilder.phoneNumberPlaceholder')"
+              class="w-full"
+            />
+          </div>
 
           <!-- Error/Success Messages -->
           <pv-message v-if="errorMessage" severity="error" :closable="false" class="mb-3">
@@ -139,25 +162,26 @@
             {{ successMessage }}
           </pv-message>
 
-          <!-- Buttons -->
-          <div class="flex gap-2">
-            <pv-button
-              type="button"
-              :label="$t('iam.registerBuilder.cancelButton')"
-              severity="secondary"
-              outlined
-              @click="goToLogin"
-              class="flex-1"
-            />
-            <pv-button
-              type="submit"
-              :label="$t('iam.registerBuilder.submitButton')"
-              icon="pi pi-check"
-              :loading="isLoading"
-              class="flex-1"
-            />
-          </div>
-        </form>
+                <div class="flex gap-2 pt-4">
+                  <pv-button
+                    :label="'Back'"
+                    severity="secondary"
+                    icon="pi pi-arrow-left"
+                    @click="currentStep = 1"
+                    class="flex-1"
+                  />
+                  <pv-button
+                    :label="$t('iam.registerBuilder.submitButton')"
+                    icon="pi pi-check"
+                    :loading="isLoading"
+                    @click="handleRegister"
+                    class="flex-1"
+                  />
+                </div>
+              </div>
+            </pv-step-panel>
+          </pv-step-panels>
+        </pv-stepper>
       </template>
     </pv-card>
   </div>
@@ -172,6 +196,8 @@ import { useProfileStore } from '../../../profiles/application/profile.store.js'
 const router = useRouter();
 const iamStore = useIamStore();
 const profileStore = useProfileStore();
+
+const currentStep = ref(1);
 
 const registerForm = ref({
   email: '',
@@ -189,14 +215,47 @@ const isLoading = ref(false);
 const errorMessage = ref('');
 const successMessage = ref('');
 
+function goToStep2() {
+  errorMessage.value = '';
+
+  // Validate required fields
+  if (!registerForm.value.email || !registerForm.value.password || !registerForm.value.confirmPassword) {
+    errorMessage.value = 'Please fill in all required fields';
+    return;
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(registerForm.value.email)) {
+    errorMessage.value = 'Please enter a valid email address';
+    return;
+  }
+
+  // Validate passwords match
+  if (registerForm.value.password !== registerForm.value.confirmPassword) {
+    errorMessage.value = 'Passwords do not match';
+    return;
+  }
+
+  // Validate password strength
+  if (registerForm.value.password.length < 6) {
+    errorMessage.value = 'Password must be at least 6 characters long';
+    return;
+  }
+
+  // All validations passed, move to next step
+  currentStep.value = 2;
+}
+
 async function handleRegister() {
   isLoading.value = true;
   errorMessage.value = '';
   successMessage.value = '';
 
-  // Validate passwords match
-  if (registerForm.value.password !== registerForm.value.confirmPassword) {
-    errorMessage.value = 'Passwords do not match';
+  // Validate required fields for step 2
+  if (!registerForm.value.name || !registerForm.value.username || !registerForm.value.address ||
+      !registerForm.value.age || !registerForm.value.phoneNumber) {
+    errorMessage.value = 'Please fill in all required fields';
     isLoading.value = false;
     return;
   }
@@ -246,5 +305,14 @@ function goToLogin() {
 .register-card {
   width: 100%;
   max-width: 650px;
+}
+
+.step-content {
+  min-height: 400px;
+  padding: 1.5rem 0;
+}
+
+.mb-3 {
+  margin-bottom: 1.25rem;
 }
 </style>
