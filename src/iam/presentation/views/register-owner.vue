@@ -90,13 +90,23 @@
           <!-- Photo URL -->
           <div class="mb-3">
             <label for="photoUrl" class="block mb-2">{{ $t('iam.registerOwner.photoUrl') }}</label>
-            <pv-input-text
-              id="photoUrl"
-              v-model="registerForm.photoUrl"
-              type="url"
-              :placeholder="$t('iam.registerOwner.photoUrlPlaceholder')"
-              class="w-full"
+            <pv-button
+              type="button"
+              :label="$t('iam.registerOwner.uploadPhoto')"
+              icon="pi pi-cloud-upload"
+              @click="openUploadModal"
+              severity="secondary"
+              outlined
+              class="w-full mb-2"
             />
+            <div v-if="registerForm.photoUrl" class="mt-2 text-center">
+              <img
+                :src="registerForm.photoUrl"
+                alt="Profile photo preview"
+                class="uploaded-image"
+              />
+              <p class="text-sm text-gray-600 mt-2">✓ Imagen subida exitosamente</p>
+            </div>
           </div>
 
           <!-- Name -->
@@ -195,7 +205,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useIamStore } from '../../application/iam.store.js';
 import { useProfileStore } from '../../../profiles/application/profile.store.js';
@@ -205,6 +215,45 @@ const iamStore = useIamStore();
 const profileStore = useProfileStore();
 
 const currentStep = ref(1);
+
+// Cloudinary configuration
+const cloudinaryName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const cloudinaryPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+onMounted(() => {
+  loadCloudinaryScript();
+});
+
+const loadCloudinaryScript = () => {
+  if (!window.cloudinary) {
+    const script = document.createElement('script');
+    script.src = 'https://widget.cloudinary.com/v2.0/global/all.js';
+    script.type = 'text/javascript';
+    document.head.appendChild(script);
+  }
+};
+
+const openUploadModal = () => {
+  if (!window.cloudinary) {
+    console.error('Cloudinary widget not loaded');
+    return;
+  }
+
+  window.cloudinary.openUploadWidget(
+    {
+      cloud_name: cloudinaryName,
+      upload_preset: cloudinaryPreset,
+      sources: ['local', 'url', 'camera'],
+      multiple: false,
+      resourceType: 'image'
+    },
+    (error, result) => {
+      if (!error && result && result.event === "success") {
+        registerForm.value.photoUrl = result.info.secure_url || result.info.url;
+      }
+    }
+  ).open();
+};
 
 const registerForm = ref({
   email: '',
@@ -415,6 +464,16 @@ function goToLogin() {
 
 .mb-3 {
   margin-bottom: 1.25rem;
+}
+
+.uploaded-image {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 8px;
+  border: 2px solid #10b981;
+  object-fit: cover;
+  margin: 0 auto;
+  display: block;
 }
 
 /* Right Side - Image */
