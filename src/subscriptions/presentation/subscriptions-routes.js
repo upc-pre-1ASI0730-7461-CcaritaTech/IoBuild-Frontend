@@ -1,3 +1,12 @@
+/**
+ * Subscription routes.
+ * Routes for subscription-related pages (my-subscription).
+ */
+
+/**
+ * Array of subscription route records.
+ * @type {Array<Object>}
+ */
 const subscriptionsRoutes = [
     {
         path: "",
