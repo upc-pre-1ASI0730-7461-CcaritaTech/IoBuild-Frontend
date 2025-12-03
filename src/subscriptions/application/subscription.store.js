@@ -9,13 +9,23 @@ import { IamFacade } from "../infrastructure/iam.facade.js";
 const subscriptionApi = new SubscriptionApi();
 const planApi = new PlanApi();
 
+/**
+ * Pinia store for subscription functionality.
+ * Manages current subscription and available plans, including renew/cancel/change operations.
+ */
 export const useSubscriptionStore = defineStore("subscriptions", () => {
+    // State
     const currentSubscription = ref(null);
     const availablePlans = ref([]);
     const errors = ref([]);
     const isLoading = ref(false);
 
-    // Helper function to get builderId from authenticated user using Facade (ACL)
+    // Helper
+    /**
+     * Gets the builder id from the authenticated user via IamFacade.
+     * @returns {string|number} Builder user id.
+     * @throws Will throw if the facade cannot provide the id.
+     */
     const getBuilderId = () => {
         try {
             return IamFacade.getCurrentUserId();
@@ -25,7 +35,11 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
         }
     };
 
-    // Fetch available plans from API
+    // Actions
+    /**
+     * Fetches available plans from the API and maps them to entities.
+     * @returns {Promise<void>} Resolves when plans have been fetched.
+     */
     function fetchAvailablePlans() {
         isLoading.value = true;
         return planApi
@@ -42,11 +56,20 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
             });
     }
 
+    // Getters / Computed
+    /**
+     * Computed current plan from the current subscription.
+     * @returns {Object|null} The current plan or null.
+     */
     const currentPlan = computed(() => {
         if (!currentSubscription.value || !currentSubscription.value.plan) return null;
         return currentSubscription.value.plan;
     });
 
+    /**
+     * Computed list of other plans excluding the current plan.
+     * @returns {Array<Object>} Array of plan entities.
+     */
     const otherPlans = computed(() => {
         if (!currentSubscription.value || !currentSubscription.value.plan) return availablePlans.value;
         return availablePlans.value.filter(plan =>
@@ -54,6 +77,10 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
         );
     });
 
+    /**
+     * Fetches the current subscription for the builder from the API.
+     * @returns {Promise<void>} Resolves when the subscription has been fetched.
+     */
     function fetchCurrentSubscription() {
         isLoading.value = true;
         const builderId = getBuilderId();
@@ -71,6 +98,10 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
             });
     }
 
+    /**
+     * Renews the current subscription.
+     * @returns {Promise<void>} Resolves when renewal and refresh complete.
+     */
     function renewSubscription() {
         if (!currentSubscription.value) return Promise.reject('No current subscription');
 
@@ -88,6 +119,10 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
             });
     }
 
+    /**
+     * Cancels the current subscription.
+     * @returns {Promise<void>} Resolves when cancellation and refresh complete.
+     */
     function cancelSubscription() {
         if (!currentSubscription.value) return Promise.reject('No current subscription');
 
@@ -105,6 +140,11 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
             });
     }
 
+    /**
+     * Changes the plan on the current subscription.
+     * @param {Object} newPlan - New plan entity to set on the subscription.
+     * @returns {Promise<void>} Resolves when update and refresh complete.
+     */
     function changePlan(newPlan) {
         if (!currentSubscription.value) return Promise.reject('No current subscription');
 
@@ -145,4 +185,3 @@ export const useSubscriptionStore = defineStore("subscriptions", () => {
 });
 
 export default useSubscriptionStore;
-
