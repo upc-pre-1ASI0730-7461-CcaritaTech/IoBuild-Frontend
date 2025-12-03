@@ -1,4 +1,9 @@
 <script setup>
+/**
+ * Project grid view component.
+ * Displays all projects in a responsive grid layout.
+ * Provides functionality to view project details and create new projects.
+ */
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
@@ -14,13 +19,13 @@ onMounted(() => {
     store.fetchProjects();
   }
 });
-
 const navigateToNew = () => router.push({ name: "projects-management-new" });
 const navigateToDetails = (id) => router.push({ name: "projects-management-details", params: { id } });
 </script>
 
 <template>
   <div class="p-3 lg:p-4">
+    <!-- Header with title and create button -->
     <div class="flex items-center justify-between mb-3">
       <h1 class="text-xl font-semibold lg:text-2xl">{{ t("projects.title") }}</h1>
       <div class="ml-auto">
@@ -34,6 +39,7 @@ const navigateToDetails = (id) => router.push({ name: "projects-management-detai
       </div>
     </div>
 
+    <!-- Projects grid or empty state -->
     <div
       class="grid gap-[15px] grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 auto-rows-fr gap-4"
       v-if="store.projects.length"

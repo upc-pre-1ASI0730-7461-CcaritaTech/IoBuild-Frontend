@@ -1,4 +1,9 @@
 <script setup>
+/**
+ * Project details view component.
+ * Displays detailed information about a single project including image, status, units, and dates. Provides options to edit or delete the project.
+ */
+
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
@@ -38,12 +43,13 @@ const confirmDelete = () => {
 };
 
 function handleImageError(event) {
-  event.target.src = "https://via.placeholder.com/32/10B981/ffffff?text=P"; // tamaño acorde al ícono
+  event.target.src = "https://via.placeholder.com/32/10B981/ffffff?text=P";
 }
 </script>
 
 <template>
   <div v-if="project" class="p-6 max-w-3xl mx-auto bg-white rounded-lg shadow">
+    <!-- Header -->
     <div class="flex justify-between items-center mb-6">
       <pv-button
           icon="pi pi-arrow-left"
@@ -57,7 +63,10 @@ function handleImageError(event) {
         <pv-button icon="pi pi-trash" text rounded severity="danger" @click="confirmDelete" />
       </div>
     </div>
+
+    <!-- Content grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 justify-content-center">
+      <!-- Project image -->
       <div class="lg:col-span-2 order-1">
         <div class="w-full aspect-video overflow-hidden rounded-lg shadow-lg">
           <img
@@ -70,12 +79,15 @@ function handleImageError(event) {
         </div>
       </div>
 
+      <!-- Project details -->
       <div class="lg:col-span-1 space-y-4 text-gray-700 order-2">
+        <!-- Status -->
         <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg border-l-4 border-green-500 shadow-sm justify-content-center">
           <span class="font-semibold">{{ t("projects.fields.status") }}:</span>
           <span class="px-3 py-1 text-sm font-bold rounded-full bg-green-600 text-white">{{ project.status }}</span>
         </div>
 
+        <!-- Details -->
         <div class="space-y-3 p-3 bg-gray-50 rounded-lg shadow-sm">
           <p class="flex justify-between border-b pb-1">
             <span class="font-semibold">{{ t("projects.fields.total-units") }}:</span>

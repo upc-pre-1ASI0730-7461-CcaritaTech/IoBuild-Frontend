@@ -1,4 +1,9 @@
 <script setup>
+/**
+ * Project form component for creating and editing projects.
+ * Provides form interface for project creation and modification with Cloudinary image upload.
+ */
+
 import { ref, computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
@@ -27,7 +32,7 @@ onMounted(() => {
     else router.push({ name: "projects-management" });
   }
 
-  // Cargar Cloudinary widget
+  // Load Cloudinary widget
   loadCloudinaryScript();
 });
 

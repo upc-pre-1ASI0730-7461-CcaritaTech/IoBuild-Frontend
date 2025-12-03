@@ -2,6 +2,11 @@ const projectDetails = () => import("./views/project-details.vue");
 const projectForm = () => import("./views/project-form.vue");
 const projectGrid = () => import("./views/project-grid.vue");
 
+/**
+ * Array of routes for projects.
+ * @type {Object[]}
+ */
+
 const projectsRoutes=[
     {
         path: '',

@@ -1,4 +1,10 @@
 <script setup>
+/**
+ * Project card component for grid display.
+ * Displays a single project in card format with image, name, and key details.
+ * Emits event when user clicks to view details.
+ */
+
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -9,13 +15,14 @@ defineProps({
 defineEmits(["viewDetails"]);
 
 function handleImageError(event) {
-  event.target.src = "https://via.placeholder.com/32/10B981/ffffff?text=P"; // tamaño acorde al ícono
+  event.target.src = "https://via.placeholder.com/32/10B981/ffffff?text=P";
 }
 </script>
 
 <template>
   <pv-card class="bg-white text-gray-900 p-1 rounded-sm shadow hover:shadow-md transition flex flex-col items-center text-center justify-content-center">
     <template #content>
+      <!-- Project image -->
       <div class="w-24 h-24 mb-4 overflow-hidden rounded-sm mx-auto">
         <img
             :src="project.imageUrl"
@@ -26,13 +33,18 @@ function handleImageError(event) {
             loading="lazy"
         />
       </div>
+
+      <!-- Project name -->
       <h3 class="text-[9px] font-semibold mb-0.5 text-gray-800 truncate w-full mb-4" :title="project.name">{{ project.name }}</h3>
+
+      <!-- Project details -->
       <div class="text-[8px] text-gray-600 leading-tight space-y-0.5 mb-1 w-full flex-shrink-0">
         <p class="truncate mb-1"><strong>{{ t("projects.fields.status") }}:</strong> {{ project.status }}</p>
         <p class="truncate mb-1"><strong>{{ t("projects.fields.occupancy-rate") }}:</strong> {{ project.occupiedUnits }}/{{ project.totalUnits }}</p>
         <p class="truncate mb-1"><strong>{{ t("projects.fields.created-date") }}:</strong> {{ project.createdDate?.slice(0,10) }}</p>
       </div>
 
+      <!-- View details button -->
       <pv-button
         :label="t('projects.actions.view-details')"
         icon="pi pi-info-circle"
