@@ -6,13 +6,24 @@ import { Profile } from "../domain/model/profile.entity.js";
 
 const profileApi = new ProfileApi();
 
+/**
+ * Pinia store for profile functionality.
+ * Manages profile state and CRUD operations for profiles.
+ */
 export const useProfileStore = defineStore('profile', () => {
+    // State
     const profile = ref(new Profile({}));
     const viewType = ref('');
     const isLoading = ref(false);
     const profileLoaded = ref(false);
     const errors = ref([]);
 
+    // Actions
+    /**
+     * Fetches a profile by user ID from the API.
+     * @param {string|number} userId - The ID of the user to fetch.
+     * @returns {Promise<void>} Resolves when the profile is fetched or an error occurs.
+     */
     async function fetchProfile(userId) {
         isLoading.value = true;
         errors.value = [];
@@ -35,6 +46,11 @@ export const useProfileStore = defineStore('profile', () => {
         }
     }
 
+    /**
+     * Creates a new profile in the backend.
+     * @param {Object} profileData - Data used to create the profile.
+     * @returns {Promise<any>} A promise that resolves with the API response.
+     */
     async function createProfile(profileData) {
         isLoading.value = true;
         errors.value = [];
@@ -51,6 +67,12 @@ export const useProfileStore = defineStore('profile', () => {
         }
     }
 
+    /**
+     * Updates an existing profile by ID.
+     * @param {string|number} profileId - The ID of the profile to update.
+     * @param {Object} profileData - Data to update the profile with.
+     * @returns {Promise<any>} A promise that resolves with the API response.
+     */
     async function updateProfile(profileId, profileData) {
         isLoading.value = true;
         errors.value = [];
@@ -67,6 +89,11 @@ export const useProfileStore = defineStore('profile', () => {
         }
     }
 
+    /**
+     * Sets the second email for the currently logged-in user (reads userId from localStorage).
+     * @param {string} secondEmail - The secondary email to set.
+     * @returns {Promise<any>} A promise that resolves with the API response.
+     */
     async function setSecondEmail(secondEmail) {
         isLoading.value = true;
         errors.value = [];
